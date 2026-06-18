@@ -1715,7 +1715,7 @@ function Quantum:CreateWindow(data)
                     BackgroundColor3 = CurrentTheme.Background,
                     BorderSizePixel = 0,
                     LayoutOrder = #SectionItems:GetChildren(),
-                    ClipsDescendants = true,
+                    ClipsDescendants = false,
                     ZIndex = 18
                 })
                 Create("UICorner", {CornerRadius = UDim.new(0, 8), Parent = DropdownFrame})
@@ -1797,7 +1797,7 @@ function Quantum:CreateWindow(data)
                     Position = UDim2.new(0, -15, 0, 28),
                     BackgroundColor3 = CurrentTheme.Background,
                     BorderSizePixel = 0,
-                    ClipsDescendants = true,
+                    ClipsDescendants = false,
                     Visible = false,
                     ZIndex = 30
                 })
@@ -2006,7 +2006,7 @@ function Quantum:CreateWindow(data)
                     BackgroundColor3 = CurrentTheme.Background,
                     BorderSizePixel = 0,
                     LayoutOrder = #SectionItems:GetChildren(),
-                    ClipsDescendants = true,
+                    ClipsDescendants = false,
                     ZIndex = 18
                 })
                 Create("UICorner", {CornerRadius = UDim.new(0, 8), Parent = DropdownFrame})
@@ -2101,17 +2101,43 @@ function Quantum:CreateWindow(data)
                     Position = UDim2.new(0, -15, 0, 28),
                     BackgroundColor3 = CurrentTheme.Background,
                     BorderSizePixel = 0,
-                    ClipsDescendants = true,
+                    ClipsDescendants = false,
                     Visible = false,
                     ZIndex = 30
                 })
                 Create("UICorner", {CornerRadius = UDim.new(0, 8), Parent = MenuFrame})
                 Create("UIStroke", {Color = CurrentTheme.Border, Thickness = 1, Parent = MenuFrame})
 
+                local SearchBox = Create("TextBox", {
+                    Parent = MenuFrame,
+                    Size = UDim2.new(1, -12, 0, 26),
+                    Position = UDim2.new(0, 6, 0, 6),
+                    BackgroundColor3 = CurrentTheme.Element,
+                    Text = "",
+                    PlaceholderText = "Search...",
+                    TextColor3 = CurrentTheme.Text,
+                    PlaceholderColor3 = CurrentTheme.SubText,
+                    TextSize = 11,
+                    Font = Enum.Font.Gotham,
+                    ClearTextOnFocus = false,
+                    ZIndex = 31
+                })
+                Create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = SearchBox})
+
+                Create("ImageLabel", {
+                    Parent = SearchBox,
+                    Size = UDim2.new(0, 12, 0, 12),
+                    Position = UDim2.new(1, -22, 0.5, -6),
+                    BackgroundTransparency = 1,
+                    Image = GetIcon("Search"),
+                    ImageColor3 = CurrentTheme.SubText,
+                    ZIndex = 32
+                })
+
                 local OptionsScroll = Create("ScrollingFrame", {
                     Parent = MenuFrame,
                     Size = UDim2.new(1, -12, 0, 0),
-                    Position = UDim2.new(0, 6, 0, 6),
+                    Position = UDim2.new(0, 6, 0, 38),
                     BackgroundTransparency = 1,
                     BorderSizePixel = 0,
                     ScrollBarThickness = 2,
@@ -2137,7 +2163,7 @@ function Quantum:CreateWindow(data)
                     return false
                 end
 
-                local function BuildOptions()
+                local function BuildOptions(filterText)
                     for _, item in ipairs(optionItems) do
                         if item then item:Destroy() end
                     end
@@ -2146,6 +2172,7 @@ function Quantum:CreateWindow(data)
                     local count = 0
                     for _, opt in ipairs(options) do
                         local optText, optIcon = NormalizeOption(opt)
+                        if not filterText or filterText == "" or string.find(string.lower(optText), string.lower(filterText), 1, true) then
 
                         local row = Create("Frame", {
                             Parent = OptionsScroll,
@@ -2237,22 +2264,28 @@ function Quantum:CreateWindow(data)
 
                         table.insert(optionItems, row)
                         count = count + 1
+                        end
                     end
 
-                    local listHeight = math.min(count * 26 + 4, 140)
+                    local listHeight = math.min(count * 26 + 4, 120)
                     OptionsScroll.Size = UDim2.new(1, -12, 0, listHeight)
                     OptionsScroll.CanvasSize = UDim2.new(0, 0, 0, count * 26 + 4)
                 end
 
                 BuildOptions()
 
+                SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
+                    BuildOptions(SearchBox.Text)
+                end)
+
                 DropdownBtn.MouseButton1Click:Connect(function()
                     isOpen = not isOpen
                     if isOpen then
                         MenuFrame.Visible = true
-                        local menuHeight = math.min(#options * 26 + 16, 160)
+                        local menuHeight = math.min(#options * 26 + 50, 170)
                         Tween(MenuFrame, {Size = UDim2.new(0, 160, 0, menuHeight)}, 0.2)
                         Arrow.Rotation = 180
+                        SearchBox.Text = ""
                         BuildOptions()
                     else
                         Tween(MenuFrame, {Size = UDim2.new(0, 160, 0, 0)}, 0.2).Completed:Connect(function()
@@ -2268,6 +2301,9 @@ function Quantum:CreateWindow(data)
                     UpdateButtonText()
                     Arrow.ImageColor3 = theme.SubText
                     MenuFrame.BackgroundColor3 = theme.Background
+                    SearchBox.BackgroundColor3 = theme.Element
+                    SearchBox.TextColor3 = theme.Text
+                    SearchBox.PlaceholderColor3 = theme.SubText
                     OptionsScroll.ScrollBarImageColor3 = theme.Accent
                     for _, row in ipairs(optionItems) do
                         if row and row.Parent then
