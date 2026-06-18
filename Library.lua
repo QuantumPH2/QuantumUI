@@ -1792,14 +1792,14 @@ function Quantum:CreateWindow(data)
                 end
 
                 local MenuFrame = Create("Frame", {
-                    Parent = DropdownBtn,
-                    Size = UDim2.new(0, 160, 0, 0),
-                    Position = UDim2.new(0, -15, 0, 28),
+                    Parent = MainFrame,
+                    Size = UDim2.new(0, 0, 0, 0),
+                    Position = UDim2.new(0, 0, 0, 0),
                     BackgroundColor3 = CurrentTheme.Background,
                     BorderSizePixel = 0,
                     ClipsDescendants = false,
                     Visible = false,
-                    ZIndex = 30
+                    ZIndex = 100
                 })
                 Create("UICorner", {CornerRadius = UDim.new(0, 8), Parent = MenuFrame})
                 Create("UIStroke", {Color = CurrentTheme.Border, Thickness = 1, Parent = MenuFrame})
@@ -1934,17 +1934,29 @@ function Quantum:CreateWindow(data)
                     BuildOptions(SearchBox.Text)
                 end)
 
+                local function UpdateMenuPosition()
+                    if not DropdownBtn or not DropdownBtn.Parent then return end
+                    local btnPos = DropdownBtn.AbsolutePosition
+                    local mainPos = MainFrame.AbsolutePosition
+                    local x = btnPos.X - mainPos.X
+                    local y = btnPos.Y - mainPos.Y + DropdownBtn.AbsoluteSize.Y + 4
+                    local w = DropdownBtn.AbsoluteSize.X
+                    MenuFrame.Position = UDim2.new(0, x, 0, y)
+                    MenuFrame.Size = UDim2.new(0, w, 0, MenuFrame.Size.Y.Offset)
+                end
+
                 DropdownBtn.MouseButton1Click:Connect(function()
                     isOpen = not isOpen
                     if isOpen then
+                        UpdateMenuPosition()
                         MenuFrame.Visible = true
                         local menuHeight = math.min(#options * 26 + 50, 170)
-                        Tween(MenuFrame, {Size = UDim2.new(0, 160, 0, menuHeight)}, 0.2)
+                        Tween(MenuFrame, {Size = UDim2.new(0, DropdownBtn.AbsoluteSize.X, 0, menuHeight)}, 0.2)
                         Arrow.Rotation = 180
                         SearchBox.Text = ""
                         BuildOptions("")
                     else
-                        Tween(MenuFrame, {Size = UDim2.new(0, 160, 0, 0)}, 0.2).Completed:Connect(function()
+                        Tween(MenuFrame, {Size = UDim2.new(0, MenuFrame.Size.X.Offset, 0, 0)}, 0.2).Completed:Connect(function()
                             MenuFrame.Visible = false
                         end)
                         Arrow.Rotation = 0
@@ -2096,14 +2108,14 @@ function Quantum:CreateWindow(data)
                 UpdateButtonText()
 
                 local MenuFrame = Create("Frame", {
-                    Parent = DropdownBtn,
-                    Size = UDim2.new(0, 160, 0, 0),
-                    Position = UDim2.new(0, -15, 0, 28),
+                    Parent = MainFrame,
+                    Size = UDim2.new(0, 0, 0, 0),
+                    Position = UDim2.new(0, 0, 0, 0),
                     BackgroundColor3 = CurrentTheme.Background,
                     BorderSizePixel = 0,
                     ClipsDescendants = false,
                     Visible = false,
-                    ZIndex = 30
+                    ZIndex = 100
                 })
                 Create("UICorner", {CornerRadius = UDim.new(0, 8), Parent = MenuFrame})
                 Create("UIStroke", {Color = CurrentTheme.Border, Thickness = 1, Parent = MenuFrame})
@@ -2278,17 +2290,29 @@ function Quantum:CreateWindow(data)
                     BuildOptions(SearchBox.Text)
                 end)
 
+                local function UpdateMenuPosition()
+                    if not DropdownBtn or not DropdownBtn.Parent then return end
+                    local btnPos = DropdownBtn.AbsolutePosition
+                    local mainPos = MainFrame.AbsolutePosition
+                    local x = btnPos.X - mainPos.X
+                    local y = btnPos.Y - mainPos.Y + DropdownBtn.AbsoluteSize.Y + 4
+                    local w = DropdownBtn.AbsoluteSize.X
+                    MenuFrame.Position = UDim2.new(0, x, 0, y)
+                    MenuFrame.Size = UDim2.new(0, w, 0, MenuFrame.Size.Y.Offset)
+                end
+
                 DropdownBtn.MouseButton1Click:Connect(function()
                     isOpen = not isOpen
                     if isOpen then
+                        UpdateMenuPosition()
                         MenuFrame.Visible = true
                         local menuHeight = math.min(#options * 26 + 50, 170)
-                        Tween(MenuFrame, {Size = UDim2.new(0, 160, 0, menuHeight)}, 0.2)
+                        Tween(MenuFrame, {Size = UDim2.new(0, DropdownBtn.AbsoluteSize.X, 0, menuHeight)}, 0.2)
                         Arrow.Rotation = 180
                         SearchBox.Text = ""
                         BuildOptions()
                     else
-                        Tween(MenuFrame, {Size = UDim2.new(0, 160, 0, 0)}, 0.2).Completed:Connect(function()
+                        Tween(MenuFrame, {Size = UDim2.new(0, MenuFrame.Size.X.Offset, 0, 0)}, 0.2).Completed:Connect(function()
                             MenuFrame.Visible = false
                         end)
                         Arrow.Rotation = 0
@@ -2928,3 +2952,304 @@ function Quantum:CreateWindow(data)
 end
 
 return Quantum
+-- // ==========================================
+-- // YOUR SCRIPT STARTS HERE
+-- // ==========================================
+
+local Window = Quantum:CreateWindow({
+    Name = "Quantum Hub",
+    Icon = "Power",
+    Version = "5.1",
+    ToggleKey = Enum.KeyCode.RightShift
+})
+
+-- // Tab: Main
+local MainTab = Window:CreateTab({
+    Name = "Main",
+    Icon = "Home"
+})
+
+local PlayerSection = MainTab:CreateSection({
+    Name = "Player",
+    Icon = "User",
+    Collapsed = true
+})
+
+PlayerSection:CreateToggle({
+    Name = "Speed Hack",
+    Icon = "Zap",
+    Default = false,
+    Callback = function(v)
+        print("Speed:", v)
+    end
+})
+
+PlayerSection:CreateSlider({
+    Name = "WalkSpeed",
+    Icon = "Sliders",
+    Min = 16,
+    Max = 200,
+    Default = 16,
+    Increment = 1,
+    Callback = function(v)
+        print("Speed value:", v)
+    end
+})
+
+PlayerSection:CreateButton({
+    Name = "Reset Character",
+    Icon = "RefreshCw",
+    Callback = function()
+        print("Reset clicked")
+    end
+})
+
+local CombatSection = MainTab:CreateSection({
+    Name = "Combat",
+    Icon = "Sword",
+    Collapsed = true
+})
+
+CombatSection:CreateToggle({
+    Name = "Aimbot",
+    Icon = "Target",
+    Default = false,
+    Callback = function(v)
+        print("Aimbot:", v)
+    end
+})
+
+CombatSection:CreateToggle({
+    Name = "ESP",
+    Icon = "Eye",
+    Default = false,
+    Callback = function(v)
+        print("ESP:", v)
+    end
+})
+
+CombatSection:CreateDropdown({
+    Name = "Aim Part",
+    Icon = "Target",
+    Options = {"Head", "Torso", "HumanoidRootPart"},
+    Default = "Head",
+    Callback = function(v)
+        print("Aim part:", v)
+    end
+})
+
+local FarmSection = MainTab:CreateSection({
+    Name = "Auto Farm",
+    Icon = "Coins",
+    Collapsed = true
+})
+
+FarmSection:CreateToggle({
+    Name = "Auto Collect",
+    Icon = "Check",
+    Default = false,
+    Callback = function(v)
+        print("Auto collect:", v)
+    end
+})
+
+FarmSection:CreateSlider({
+    Name = "Collect Delay",
+    Icon = "Clock",
+    Min = 0.1,
+    Max = 5,
+    Default = 1,
+    Increment = 0.1,
+    Callback = function(v)
+        print("Delay:", v)
+    end
+})
+
+FarmSection:CreateMultiDropdown({
+    Name = "Items",
+    Icon = "Box",
+    Options = {"Coins", "Gems", "XP", "Loot"},
+    Default = {"Coins"},
+    Callback = function(v)
+        print("Selected:", table.concat(v, ", "))
+    end
+})
+
+-- // Tab: Visuals
+local VisualsTab = Window:CreateTab({
+    Name = "Visuals",
+    Icon = "Eye"
+})
+
+local WorldSection = VisualsTab:CreateSection({
+    Name = "World",
+    Icon = "Globe",
+    Collapsed = true
+})
+
+WorldSection:CreateColorPicker({
+    Name = "Ambient Color",
+    Icon = "Palette",
+    Default = Color3.fromRGB(128, 128, 128),
+    Callback = function(c)
+        print("Color:", c)
+    end
+})
+
+WorldSection:CreateToggle({
+    Name = "Full Bright",
+    Icon = "Sun",
+    Default = false,
+    Callback = function(v)
+        print("Full bright:", v)
+    end
+})
+
+local EspSection = VisualsTab:CreateSection({
+    Name = "ESP Settings",
+    Icon = "Layers",
+    Collapsed = true
+})
+
+EspSection:CreateDropdown({
+    Name = "ESP Type",
+    Icon = "Type",
+    Options = {"Box", "Skeleton", "Chams", "Outline"},
+    Default = "Box",
+    Callback = function(v)
+        print("ESP type:", v)
+    end
+})
+
+EspSection:CreateColorPicker({
+    Name = "ESP Color",
+    Icon = "Palette",
+    Default = Color3.fromRGB(255, 0, 0),
+    Callback = function(c)
+        print("ESP color:", c)
+    end
+})
+
+EspSection:CreateSlider({
+    Name = "Max Distance",
+    Icon = "Maximize",
+    Min = 100,
+    Max = 5000,
+    Default = 1000,
+    Increment = 100,
+    Callback = function(v)
+        print("Distance:", v)
+    end
+})
+
+-- // Tab: Settings
+local SettingsTab = Window:CreateTab({
+    Name = "Settings",
+    Icon = "Settings"
+})
+
+local ConfigSection = SettingsTab:CreateSection({
+    Name = "Config",
+    Icon = "Folder",
+    Collapsed = true
+})
+
+ConfigSection:CreateInput({
+    Name = "Config Name",
+    Icon = "Type",
+    Placeholder = "Enter config name...",
+    Default = "Default",
+    Callback = function(t, enter)
+        print("Config:", t)
+    end
+})
+
+ConfigSection:CreateButton({
+    Name = "Save Config",
+    Icon = "Check",
+    Callback = function()
+        Window:Notify({
+            Title = "Success",
+            Content = "Config saved successfully!",
+            Duration = 3,
+            Icon = "Check"
+        })
+    end
+})
+
+ConfigSection:CreateButton({
+    Name = "Load Config",
+    Icon = "RefreshCw",
+    Callback = function()
+        Window:Notify({
+            Title = "Loaded",
+            Content = "Config loaded!",
+            Duration = 3,
+            Icon = "Check"
+        })
+    end
+})
+
+local KeybindSection = SettingsTab:CreateSection({
+    Name = "Keybinds",
+    Icon = "Key",
+    Collapsed = true
+})
+
+KeybindSection:CreateKeybind({
+    Name = "Panic Key",
+    Icon = "AlertTriangle",
+    Default = Enum.KeyCode.P,
+    Callback = function(key)
+        print("Panic key pressed:", key)
+    end
+})
+
+KeybindSection:CreateKeybind({
+    Name = "UI Toggle",
+    Icon = "Command",
+    Default = Enum.KeyCode.RightShift,
+    Callback = function(key)
+        print("UI toggle:", key)
+    end
+})
+
+local InfoSection = SettingsTab:CreateSection({
+    Name = "Info",
+    Icon = "Info",
+    Collapsed = true
+})
+
+InfoSection:CreateParagraph({
+    Title = "Quantum UI v5.1",
+    Content = "Advanced Roblox UI library with collapsible sections, multi-dropdowns with search, color pickers, and full theme support.",
+    Icon = "Star"
+})
+
+InfoSection:CreateLabel({
+    Text = "Made by Quantum Team",
+    Icon = "User"
+})
+
+InfoSection:CreateStatus({
+    Text = "Status: Online",
+    Icon = "Wifi",
+    Color = Color3.fromRGB(90, 220, 140)
+})
+
+InfoSection:CreateDivider()
+
+InfoSection:CreateButton({
+    Name = "Discord",
+    Icon = "Globe",
+    Callback = function()
+        print("Discord button clicked")
+    end
+})
+
+Window:Notify({
+    Title = "Quantum Loaded",
+    Content = "Press RightShift to toggle UI. All sections collapsed by default. Dropdown search enabled.",
+    Duration = 5,
+    Icon = "Check"
+})
