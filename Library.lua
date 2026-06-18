@@ -1436,20 +1436,7 @@ function Quantum:CreateWindow(data)
                     end
                 end)
 
-                return {
-                    Set = function(v)
-                        state = v
-                        if state then
-                            ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOn
-                            ToggleCircle.Position = UDim2.new(0, 20, 0.5, -9)
-                        else
-                            ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOff
-                            ToggleCircle.Position = UDim2.new(0, 2, 0.5, -9)
-                        end
-                        callback(state)
-                    end,
-                    Get = function() return state end
-                }
+                return self
             end
 
             function SectionAPI:CreateSlider(sliderData)
@@ -1601,16 +1588,7 @@ function Quantum:CreateWindow(data)
                     ValueLabel.TextColor3 = theme.Accent
                 end)
 
-                return {
-                    Set = function(v)
-                        v = math.clamp(v, min, max)
-                        Fill.Size = UDim2.new((v - min) / (max - min), 0, 1, 0)
-                        Knob.Position = UDim2.new((v - min) / (max - min), -7, 0.5, -7)
-                        ValueLabel.Text = tostring(v)
-                        callback(v)
-                    end,
-                    Get = function() return tonumber(ValueLabel.Text) end
-                }
+                return self
             end
 
             function SectionAPI:CreateButton(buttonData)
@@ -1694,7 +1672,7 @@ function Quantum:CreateWindow(data)
                     Btn.BackgroundColor3 = theme.Accent
                 end)
 
-                return Btn
+                return self
             end
 
             function SectionAPI:CreateDropdown(dropdownData)
@@ -1984,20 +1962,11 @@ function Quantum:CreateWindow(data)
                     end
                 end)
 
-                return {
-                    Set = function(v)
-                        selected = v
-                        local selText, _ = NormalizeOption(selected)
-                        DropdownBtn.Text = selText
-                        DropdownBtn.TextColor3 = CurrentTheme.Text
-                        callback(v)
-                    end,
-                    Get = function() return selected end,
-                    Refresh = function(newOptions)
-                        options = newOptions
-                        BuildOptions(SearchBox.Text)
-                    end
-                }
+                ListenTheme(function(theme)
+                    Btn.BackgroundColor3 = theme.Accent
+                end)
+
+                return self
             end
 
             function SectionAPI:CreateMultiDropdown(dropdownData)
@@ -2336,22 +2305,11 @@ function Quantum:CreateWindow(data)
                     end
                 end)
 
-                return {
-                    Set = function(v)
-                        selected = {}
-                        if type(v) == "table" then
-                            for _, item in ipairs(v) do table.insert(selected, item) end
-                        end
-                        UpdateButtonText()
-                        BuildOptions()
-                        callback(selected)
-                    end,
-                    Get = function() return selected end,
-                    Refresh = function(newOptions)
-                        options = newOptions
-                        BuildOptions()
-                    end
-                }
+                ListenTheme(function(theme)
+                    Btn.BackgroundColor3 = theme.Accent
+                end)
+
+                return self
             end
 
             function SectionAPI:CreateInput(inputData)
@@ -2442,10 +2400,11 @@ function Quantum:CreateWindow(data)
                     InputBox.PlaceholderColor3 = theme.SubText
                 end)
 
-                return {
-                    Set = function(t) InputBox.Text = t end,
-                    Get = function() return InputBox.Text end
-                }
+                ListenTheme(function(theme)
+                    Btn.BackgroundColor3 = theme.Accent
+                end)
+
+                return self
             end
 
             function SectionAPI:CreateKeybind(bindData)
@@ -2548,13 +2507,11 @@ function Quantum:CreateWindow(data)
                     BindBtn.TextColor3 = theme.Text
                 end)
 
-                return {
-                    Set = function(key)
-                        default = key
-                        BindBtn.Text = key.Name
-                    end,
-                    Get = function() return default end
-                }
+                ListenTheme(function(theme)
+                    Btn.BackgroundColor3 = theme.Accent
+                end)
+
+                return self
             end
 
             function SectionAPI:CreateLabel(labelData)
@@ -2601,7 +2558,11 @@ function Quantum:CreateWindow(data)
                     Label.TextColor3 = theme.Text
                 end)
 
-                return {Set = function(t) Label.Text = t end}
+                ListenTheme(function(theme)
+                    Btn.BackgroundColor3 = theme.Accent
+                end)
+
+                return self
             end
 
             function SectionAPI:CreateParagraph(paraData)
@@ -2679,7 +2640,7 @@ function Quantum:CreateWindow(data)
                     SetContent = function(c) ContentLabel.Text = c end,
                     SetDesc = function(c) ContentLabel.Text = c end,
                 }
-                return API
+                return self
             end
 
             function SectionAPI:CreateColorPicker(pickerData)
@@ -2852,16 +2813,12 @@ function Quantum:CreateWindow(data)
                     ApplyBtn.BackgroundColor3 = theme.Accent
                 end)
 
-                return {
-                    Set = function(c)
-                        ColorPreview.BackgroundColor3 = c
-                        RInput.Text = tostring(math.round(c.R * 255))
-                        GInput.Text = tostring(math.round(c.G * 255))
-                        BInput.Text = tostring(math.round(c.B * 255))
-                        callback(c)
-                    end,
-                    Get = function() return ColorPreview.BackgroundColor3 end
+                local API = {
+                    SetTitle = function(t) TitleLabel.Text = t end,
+                    SetContent = function(c) ContentLabel.Text = c end,
+                    SetDesc = function(c) ContentLabel.Text = c end,
                 }
+                return self
             end
 
             function SectionAPI:CreateDivider()
@@ -2879,7 +2836,7 @@ function Quantum:CreateWindow(data)
                     Divider.BackgroundColor3 = theme.Border
                 end)
 
-                return Divider
+                return self
             end
 
             function SectionAPI:CreateStatus(statusData)
@@ -2936,10 +2893,11 @@ function Quantum:CreateWindow(data)
                     StatusLabel.TextColor3 = theme.Text
                 end)
 
-                return {
-                    SetText = function(t) StatusLabel.Text = t end,
-                    SetColor = function(c) Dot.BackgroundColor3 = c end
-                }
+                ListenTheme(function(theme)
+                    Divider.BackgroundColor3 = theme.Border
+                end)
+
+                return self
             end
 
             return SectionAPI
