@@ -30,61 +30,61 @@ local Config = {
             Success = Color3.fromRGB(90, 220, 140)
         },
         Light = {
-            Background = Color3.fromRGB(248, 248, 252),
-            Sidebar = Color3.fromRGB(238, 238, 244),
+            Background = Color3.fromRGB(16, 16, 20),
+            Sidebar = Color3.fromRGB(22, 22, 28),
             Accent = Color3.fromRGB(100, 80, 220),
-            Text = Color3.fromRGB(30, 30, 35),
-            SubText = Color3.fromRGB(110, 110, 120),
-            Element = Color3.fromRGB(228, 228, 234),
-            ElementHover = Color3.fromRGB(218, 218, 224),
+            Text = Color3.fromRGB(240, 240, 245),
+            SubText = Color3.fromRGB(150, 150, 160),
+            Element = Color3.fromRGB(30, 30, 38),
+            ElementHover = Color3.fromRGB(38, 38, 48),
             ToggleOn = Color3.fromRGB(100, 80, 220),
-            ToggleOff = Color3.fromRGB(190, 190, 200),
-            Border = Color3.fromRGB(210, 210, 220),
-            Shadow = Color3.fromRGB(180, 180, 190),
-            Overlay = Color3.fromRGB(200, 200, 200),
+            ToggleOff = Color3.fromRGB(45, 45, 55),
+            Border = Color3.fromRGB(45, 45, 55),
+            Shadow = Color3.fromRGB(0, 0, 0),
+            Overlay = Color3.fromRGB(0, 0, 0),
             Success = Color3.fromRGB(60, 200, 120)
         },
         Ocean = {
-            Background = Color3.fromRGB(12, 22, 32),
-            Sidebar = Color3.fromRGB(18, 32, 48),
+            Background = Color3.fromRGB(16, 16, 20),
+            Sidebar = Color3.fromRGB(22, 22, 28),
             Accent = Color3.fromRGB(60, 180, 220),
-            Text = Color3.fromRGB(230, 240, 250),
-            SubText = Color3.fromRGB(140, 160, 180),
-            Element = Color3.fromRGB(22, 42, 62),
-            ElementHover = Color3.fromRGB(32, 58, 85),
+            Text = Color3.fromRGB(240, 240, 245),
+            SubText = Color3.fromRGB(150, 150, 160),
+            Element = Color3.fromRGB(30, 30, 38),
+            ElementHover = Color3.fromRGB(38, 38, 48),
             ToggleOn = Color3.fromRGB(60, 180, 220),
-            ToggleOff = Color3.fromRGB(40, 60, 80),
-            Border = Color3.fromRGB(40, 70, 100),
+            ToggleOff = Color3.fromRGB(45, 45, 55),
+            Border = Color3.fromRGB(45, 45, 55),
             Shadow = Color3.fromRGB(0, 0, 0),
             Overlay = Color3.fromRGB(0, 0, 0),
             Success = Color3.fromRGB(80, 220, 160)
         },
         Midnight = {
-            Background = Color3.fromRGB(8, 8, 12),
-            Sidebar = Color3.fromRGB(12, 12, 18),
+            Background = Color3.fromRGB(16, 16, 20),
+            Sidebar = Color3.fromRGB(22, 22, 28),
             Accent = Color3.fromRGB(220, 60, 120),
-            Text = Color3.fromRGB(245, 245, 250),
+            Text = Color3.fromRGB(240, 240, 245),
             SubText = Color3.fromRGB(150, 150, 160),
-            Element = Color3.fromRGB(20, 20, 28),
-            ElementHover = Color3.fromRGB(28, 28, 40),
+            Element = Color3.fromRGB(30, 30, 38),
+            ElementHover = Color3.fromRGB(38, 38, 48),
             ToggleOn = Color3.fromRGB(220, 60, 120),
-            ToggleOff = Color3.fromRGB(50, 50, 60),
-            Border = Color3.fromRGB(40, 40, 50),
+            ToggleOff = Color3.fromRGB(45, 45, 55),
+            Border = Color3.fromRGB(45, 45, 55),
             Shadow = Color3.fromRGB(0, 0, 0),
             Overlay = Color3.fromRGB(0, 0, 0),
             Success = Color3.fromRGB(220, 60, 120)
         },
         Forest = {
-            Background = Color3.fromRGB(14, 22, 14),
-            Sidebar = Color3.fromRGB(20, 32, 20),
+            Background = Color3.fromRGB(16, 16, 20),
+            Sidebar = Color3.fromRGB(22, 22, 28),
             Accent = Color3.fromRGB(80, 200, 120),
-            Text = Color3.fromRGB(230, 245, 235),
-            SubText = Color3.fromRGB(140, 160, 145),
-            Element = Color3.fromRGB(26, 40, 26),
-            ElementHover = Color3.fromRGB(34, 52, 34),
+            Text = Color3.fromRGB(240, 240, 245),
+            SubText = Color3.fromRGB(150, 150, 160),
+            Element = Color3.fromRGB(30, 30, 38),
+            ElementHover = Color3.fromRGB(38, 38, 48),
             ToggleOn = Color3.fromRGB(80, 200, 120),
-            ToggleOff = Color3.fromRGB(45, 60, 45),
-            Border = Color3.fromRGB(45, 65, 45),
+            ToggleOff = Color3.fromRGB(45, 45, 55),
+            Border = Color3.fromRGB(45, 45, 55),
             Shadow = Color3.fromRGB(0, 0, 0),
             Overlay = Color3.fromRGB(0, 0, 0),
             Success = Color3.fromRGB(100, 220, 100)
@@ -247,6 +247,7 @@ end
 
 local CurrentTheme = Config.Themes[Config.DefaultTheme]
 local ThemeListeners = {}
+local OpenDropdowns = {}
 
 local function ApplyTheme(themeName)
     if not Config.Themes[themeName] then return end
@@ -259,6 +260,16 @@ end
 local function ListenTheme(callback)
     table.insert(ThemeListeners, callback)
     callback(CurrentTheme)
+end
+
+local function CloseAllDropdowns()
+    for _, dropdown in ipairs(OpenDropdowns) do
+        if dropdown and dropdown.Parent then
+            dropdown.Visible = false
+            dropdown.Size = UDim2.new(0, dropdown.Size.X.Offset, 0, 0)
+        end
+    end
+    OpenDropdowns = {}
 end
 
 local NotifyScreen = nil
@@ -627,7 +638,7 @@ function Quantum:CreateWindow(data)
         Position = UDim2.new(0, 40, 0, 6),
         BackgroundTransparency = 1,
         Text = windowName,
-        TextColor3 = CurrentTheme.Text,
+        TextColor3 = CurrentTheme.Accent,
         TextSize = 15,
         Font = Enum.Font.GothamBold,
         TextXAlignment = Enum.TextXAlignment.Left,
@@ -647,6 +658,29 @@ function Quantum:CreateWindow(data)
         TextXAlignment = Enum.TextXAlignment.Left,
         ZIndex = 21
     })
+
+    -- Profile Avatar in Topbar
+    local ProfileFrame = Create("Frame", {
+        Name = "Profile",
+        Parent = Topbar,
+        Size = UDim2.new(0, 32, 0, 32),
+        Position = UDim2.new(1, -155, 0.5, -16),
+        BackgroundColor3 = CurrentTheme.Element,
+        BorderSizePixel = 0,
+        ZIndex = 21
+    })
+    Create("UICorner", {CornerRadius = UDim.new(0, 8), Parent = ProfileFrame})
+    Create("UIStroke", {Color = CurrentTheme.Border, Thickness = 1, Parent = ProfileFrame})
+
+    local ProfileImg = Create("ImageLabel", {
+        Parent = ProfileFrame,
+        Size = UDim2.new(1, -4, 1, -4),
+        Position = UDim2.new(0, 2, 0, 2),
+        BackgroundTransparency = 1,
+        Image = "rbxthumb://type=AvatarHeadShot&id=" .. LocalPlayer.UserId .. "&w=48&h=48",
+        ZIndex = 22
+    })
+    Create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = ProfileImg})
 
     local ConfirmOverlay = Create("Frame", {
         Name = "ConfirmOverlay",
@@ -798,8 +832,10 @@ function Quantum:CreateWindow(data)
         Position = UDim2.new(0, 0, 0, Config.TopbarHeight),
         BackgroundColor3 = CurrentTheme.Sidebar,
         BorderSizePixel = 0,
+        ClipsDescendants = true,
         ZIndex = 15
     })
+    Create("UICorner", {CornerRadius = UDim.new(0, Config.CornerRadius), Parent = Sidebar})
 
     Create("Frame", {
         Name = "Fix",
@@ -937,12 +973,14 @@ function Quantum:CreateWindow(data)
     local Content = Create("Frame", {
         Name = "Content",
         Parent = MainFrame,
-        Size = UDim2.new(1, -Config.SidebarWidth, 1, -Config.TopbarHeight),
-        Position = UDim2.new(0, Config.SidebarWidth, 0, Config.TopbarHeight),
+        Size = UDim2.new(1, -Config.SidebarWidth + 4, 1, -Config.TopbarHeight),
+        Position = UDim2.new(0, Config.SidebarWidth - 4, 0, Config.TopbarHeight),
         BackgroundColor3 = CurrentTheme.Background,
         BorderSizePixel = 0,
+        ClipsDescendants = true,
         ZIndex = 14
     })
+    Create("UICorner", {CornerRadius = UDim.new(0, Config.CornerRadius), Parent = Content})
 
     Create("Frame", {
         Name = "Fix",
@@ -1048,7 +1086,7 @@ function Quantum:CreateWindow(data)
         TopbarFix.BackgroundColor3 = theme.Sidebar
         Sidebar.BackgroundColor3 = theme.Sidebar
         Content.BackgroundColor3 = theme.Background
-        Title.TextColor3 = theme.Text
+        Title.TextColor3 = theme.Accent
         Version.TextColor3 = theme.SubText
         TitleIcon.ImageColor3 = theme.Accent
         TabList.ScrollBarImageColor3 = theme.Accent
@@ -1061,6 +1099,8 @@ function Quantum:CreateWindow(data)
         ConfirmNo.BackgroundColor3 = theme.Element
         ConfirmNo.TextColor3 = theme.Text
         ResizeHandle.ImageColor3 = theme.SubText
+        ProfileFrame.BackgroundColor3 = theme.Element
+        ProfileFrame.UIStroke.Color = theme.Border
         for _, child in ipairs(ThemeMenu:GetChildren()) do
             if child:IsA("TextButton") then
                 child.BackgroundColor3 = theme.Background
@@ -1150,6 +1190,7 @@ function Quantum:CreateWindow(data)
         })
 
         local function Activate()
+            CloseAllDropdowns()
             if ActiveTab then
                 ActiveTab.Content.Visible = false
                 ActiveTab.Indicator.Visible = false
@@ -1781,6 +1822,8 @@ function Quantum:CreateWindow(data)
                 Create("UICorner", {CornerRadius = UDim.new(0, 8), Parent = MenuFrame})
                 Create("UIStroke", {Color = CurrentTheme.Border, Thickness = 1, Parent = MenuFrame})
 
+                table.insert(OpenDropdowns, MenuFrame)
+
                 local SearchBox = Create("TextBox", {
                     Parent = MenuFrame,
                     Size = UDim2.new(1, -12, 0, 26),
@@ -2083,6 +2126,8 @@ function Quantum:CreateWindow(data)
                 })
                 Create("UICorner", {CornerRadius = UDim.new(0, 8), Parent = MenuFrame})
                 Create("UIStroke", {Color = CurrentTheme.Border, Thickness = 1, Parent = MenuFrame})
+
+                table.insert(OpenDropdowns, MenuFrame)
 
                 local SearchBox = Create("TextBox", {
                     Parent = MenuFrame,
