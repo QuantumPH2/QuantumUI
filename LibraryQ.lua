@@ -465,8 +465,6 @@ function Quantum:Notify(data)
         ZIndex = 201,
     })
     Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = notifFrame})
-    Create("UIStroke", {Color = CurrentTheme.Border, Thickness = 1, Parent = notifFrame})
-
     local IconImg = Create("ImageLabel", {
         Parent = notifFrame,
         Size = UDim2.new(0, 22, 0, 22),
@@ -503,15 +501,6 @@ function Quantum:Notify(data)
         TextXAlignment = Enum.TextXAlignment.Left,
         TextWrapped = true,
         AutomaticSize = Enum.AutomaticSize.Y,
-        ZIndex = 202,
-    })
-
-    local ProgressBar = Create("Frame", {
-        Parent = notifFrame,
-        Size = UDim2.new(1, 0, 0, 2),
-        Position = UDim2.new(0, 0, 1, -2),
-        BackgroundColor3 = CurrentTheme.Accent,
-        BorderSizePixel = 0,
         ZIndex = 202,
     })
 
@@ -568,7 +557,7 @@ local function CreateFloatingIcon(customIcon)
         Size = UDim2.new(0, 44, 0, 44),
         Position = UDim2.new(0, 20, 0.5, -22),
         BackgroundColor3 = CurrentTheme.Accent,
-        BackgroundTransparency = 0.15,
+        BackgroundTransparency = 1,
         BorderSizePixel = 0,
         Active = true,
         ClipsDescendants = true,
@@ -577,13 +566,6 @@ local function CreateFloatingIcon(customIcon)
 
     Create("UICorner", {
         CornerRadius = UDim.new(0, 12),
-        Parent = Backdrop
-    })
-
-    Create("UIStroke", {
-        Color = CurrentTheme.Text,
-        Transparency = 0.4,
-        Thickness = 1,
         Parent = Backdrop
     })
 
@@ -882,7 +864,6 @@ function Quantum:CreateWindow(data)
         ZIndex = 101
     })
     Create("UICorner", {CornerRadius = UDim.new(0, 12), Parent = ConfirmBox})
-    Create("UIStroke", {Color = CurrentTheme.Border, Thickness = 1, Parent = ConfirmBox})
 
     Create("TextLabel", {
         Parent = ConfirmBox,
