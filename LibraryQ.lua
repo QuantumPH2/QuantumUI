@@ -277,6 +277,9 @@ end
 local function GetIcon(name)
     if not name then return Icons.Info end
     if Icons[name] then return Icons[name] end
+    if type(name) == "string" and (name:sub(1, 13) == "rbxassetid://" or name:sub(1, 4) == "http") then
+        return name
+    end
     return Icons.Info
 end
 
@@ -583,15 +586,17 @@ local function CreateFloatingIcon(customIcon)
         Parent = Backdrop
     })
 
+    local isCustomImage = customIcon ~= nil
     local Icon = Create("ImageLabel", {
         Name = "Icon",
         Parent = Backdrop,
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.new(0.5, 0, 0.5, 0),
-        Size = UDim2.new(0, 20, 0, 20),
+        Size = UDim2.new(1, -10, 1, -10),
         BackgroundTransparency = 1,
         Image = iconToUse,
-        ImageColor3 = CurrentTheme.Text,
+        ImageColor3 = isCustomImage and Color3.fromRGB(255, 255, 255) or CurrentTheme.Text,
+        ScaleType = Enum.ScaleType.Fit,
         ZIndex = 1001
     })
 
@@ -665,7 +670,9 @@ local function CreateFloatingIcon(customIcon)
     ListenTheme(function(theme)
         if Backdrop and Backdrop.Parent then
             Backdrop.BackgroundColor3 = theme.Accent
-            Icon.ImageColor3 = theme.Text
+            if not isCustomImage then
+                Icon.ImageColor3 = theme.Text
+            end
         end
     end)
 
@@ -753,11 +760,12 @@ function Quantum:CreateWindow(data)
     local TitleIcon = Create("ImageLabel", {
         Name = "TitleIcon",
         Parent = Topbar,
-        Size = UDim2.new(0, 18, 0, 18),
-        Position = UDim2.new(0, 12, 0, 10),
+        Size = UDim2.new(0, 22, 0, 22),
+        Position = UDim2.new(0, 12, 0, 8),
         BackgroundTransparency = 1,
-        Image = Icons.Custom,
+        Image = GetIcon(windowIcon),
         ImageColor3 = CurrentTheme.Accent,
+        ScaleType = Enum.ScaleType.Fit,
         ZIndex = 21
     })
 
