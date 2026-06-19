@@ -4,12 +4,13 @@ local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local HttpService = game:GetService("HttpService")
+local TextService = game:GetService("TextService")
 local RunService = game:GetService("RunService")
 
 local Config = {
     Name = "Quantum",
     DefaultVersion = "5.1",
-    DefaultTheme = "Dark",
+    DefaultTheme = "Forest",
     CornerRadius = 16,
     ElementCorner = 10,
     SidebarWidth = 180,
@@ -95,6 +96,7 @@ local Config = {
 }
 
 local Icons = {
+    Custom = "rbxassetid://109647740279101",
     Home = "rbxassetid://7733960981",
     Settings = "rbxassetid://7734053495",
     User = "rbxassetid://7743875962",
@@ -462,15 +464,6 @@ function Quantum:Notify(data)
     Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = notifFrame})
     Create("UIStroke", {Color = CurrentTheme.Border, Thickness = 1, Parent = notifFrame})
 
-    local AccentBar = Create("Frame", {
-        Parent = notifFrame,
-        Size = UDim2.new(0, 3, 1, 0),
-        Position = UDim2.new(0, 0, 0, 0),
-        BackgroundColor3 = CurrentTheme.Accent,
-        BorderSizePixel = 0,
-        ZIndex = 202,
-    })
-
     local IconImg = Create("ImageLabel", {
         Parent = notifFrame,
         Size = UDim2.new(0, 22, 0, 22),
@@ -556,7 +549,7 @@ local function CreateFloatingIcon(customIcon)
         FloatingIconScreen:Destroy()
     end
 
-    local iconToUse = customIcon or Icons.Power
+    local iconToUse = customIcon or Icons.Custom
 
     FloatingIconScreen = Create("ScreenGui", {
         Name = "QuantumFloatingIcon",
@@ -637,6 +630,7 @@ local function CreateFloatingIcon(customIcon)
     local conn3 = UserInputService.InputEnded:Connect(function(input)
         if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
             if mouseDownOnIcon and not hasMoved then
+                CloseAllDropdowns()
                 if IsClosed then
                     IsClosed = false
                     if MainWindowScreen then
@@ -762,7 +756,7 @@ function Quantum:CreateWindow(data)
         Size = UDim2.new(0, 18, 0, 18),
         Position = UDim2.new(0, 12, 0, 10),
         BackgroundTransparency = 1,
-        Image = GetIcon(windowIcon),
+        Image = Icons.Custom,
         ImageColor3 = CurrentTheme.Accent,
         ZIndex = 21
     })
@@ -964,6 +958,7 @@ function Quantum:CreateWindow(data)
     end
 
     MakeControl("Minimize", "Minus", UDim2.new(0, 0, 0.5, -13), function()
+        CloseAllDropdowns()
         IsMinimized = true
         MainFrame.Visible = false
     end)
@@ -979,10 +974,12 @@ function Quantum:CreateWindow(data)
     end)
 
     MakeControl("Close", "X", UDim2.new(0, 60, 0.5, -13), function()
+        CloseAllDropdowns()
         ConfirmOverlay.Visible = true
     end)
 
     ConfirmYes.MouseButton1Click:Connect(function()
+        CloseAllDropdowns()
         IsClosed = true
         MainWindowScreen.Enabled = false
         ConfirmOverlay.Visible = false
@@ -1165,6 +1162,9 @@ function Quantum:CreateWindow(data)
         UserInputService.InputBegan:Connect(function(input, gpe)
             if not gpe and input.KeyCode == toggleKey then
                 if MainFrame then
+                    if MainFrame.Visible then
+                        CloseAllDropdowns()
+                    end
                     MainFrame.Visible = not MainFrame.Visible
                     IsMinimized = not MainFrame.Visible
                 end
@@ -2889,11 +2889,10 @@ function Quantum:CreateWindow(data)
 
                 local ParaFrame = Create("Frame", {
                     Parent = SectionItems,
-                    Size = UDim2.new(1, 0, 0, 0),
+                    Size = UDim2.new(1, 0, 0, 60),
                     BackgroundColor3 = CurrentTheme.Background,
                     BorderSizePixel = 0,
                     LayoutOrder = #SectionItems:GetChildren(),
-                    AutomaticSize = Enum.AutomaticSize.Y,
                     ZIndex = 18
                 })
                 Create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = ParaFrame})
@@ -2937,13 +2936,24 @@ function Quantum:CreateWindow(data)
                     ZIndex = 19
                 })
 
-                Create("Frame", {
-                    Parent = ParaFrame,
-                    Size = UDim2.new(1, 0, 0, 6),
-                    Position = UDim2.new(0, 0, 1, 0),
-                    BackgroundTransparency = 1,
-                    ZIndex = 19
-                })
+                local function RefreshSize()
+                    local width = ParaFrame.AbsoluteSize.X - 18
+                    if width > 0 then
+                        local bounds = TextService:GetTextSize(ContentLabel.Text, ContentLabel.TextSize, ContentLabel.Font, Vector2.new(width, math.huge))
+                        ParaFrame.Size = UDim2.new(1, 0, 0, 26 + bounds.Y + 10)
+                    end
+                    if self._UpdateSize then
+                        self._UpdateSize()
+                    end
+                end
+
+                task.defer(RefreshSize)
+                ContentLabel:GetPropertyChangedSignal("Text"):Connect(RefreshSize)
+                ParaFrame:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
+                    if ParaFrame.AbsoluteSize.X > 0 then
+                        RefreshSize()
+                    end
+                end)
 
                 ListenTheme(function(theme)
                     ParaFrame.BackgroundColor3 = theme.Background
