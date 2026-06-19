@@ -571,6 +571,7 @@ local function CreateFloatingIcon(customIcon)
         BackgroundTransparency = 0.15,
         BorderSizePixel = 0,
         Active = true,
+        ClipsDescendants = true,
         ZIndex = 1000
     })
 
@@ -592,11 +593,11 @@ local function CreateFloatingIcon(customIcon)
         Parent = Backdrop,
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.new(0.5, 0, 0.5, 0),
-        Size = UDim2.new(1, -10, 1, -10),
+        Size = UDim2.new(1, 0, 1, 0),
         BackgroundTransparency = 1,
         Image = iconToUse,
         ImageColor3 = isCustomImage and Color3.fromRGB(255, 255, 255) or CurrentTheme.Text,
-        ScaleType = Enum.ScaleType.Fit,
+        ScaleType = Enum.ScaleType.Crop,
         ZIndex = 1001
     })
 
@@ -757,15 +758,16 @@ function Quantum:CreateWindow(data)
         ZIndex = 20
     })
 
+    local isCustomWindowIcon = type(windowIcon) == "string" and (windowIcon:sub(1, 13) == "rbxassetid://" or windowIcon:sub(1, 4) == "http")
     local TitleIcon = Create("ImageLabel", {
         Name = "TitleIcon",
         Parent = Topbar,
-        Size = UDim2.new(0, 22, 0, 22),
-        Position = UDim2.new(0, 12, 0, 8),
+        Size = UDim2.new(0, 24, 0, 24),
+        Position = UDim2.new(0, 10, 0, 7),
         BackgroundTransparency = 1,
         Image = GetIcon(windowIcon),
-        ImageColor3 = CurrentTheme.Accent,
-        ScaleType = Enum.ScaleType.Fit,
+        ImageColor3 = isCustomWindowIcon and Color3.fromRGB(255, 255, 255) or CurrentTheme.Accent,
+        ScaleType = Enum.ScaleType.Crop,
         ZIndex = 21
     })
 
