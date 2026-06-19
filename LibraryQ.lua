@@ -1,4 +1,3 @@
-
 local Quantum = {}
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
@@ -1962,10 +1961,6 @@ function Quantum:CreateWindow(data)
                     end
                 end)
 
-                ListenTheme(function(theme)
-                    Btn.BackgroundColor3 = theme.Accent
-                end)
-
                 return self
             end
 
@@ -2305,10 +2300,6 @@ function Quantum:CreateWindow(data)
                     end
                 end)
 
-                ListenTheme(function(theme)
-                    Btn.BackgroundColor3 = theme.Accent
-                end)
-
                 return self
             end
 
@@ -2398,10 +2389,6 @@ function Quantum:CreateWindow(data)
                     InputBox.BackgroundColor3 = theme.Element
                     InputBox.TextColor3 = theme.Text
                     InputBox.PlaceholderColor3 = theme.SubText
-                end)
-
-                ListenTheme(function(theme)
-                    Btn.BackgroundColor3 = theme.Accent
                 end)
 
                 return self
@@ -2507,10 +2494,6 @@ function Quantum:CreateWindow(data)
                     BindBtn.TextColor3 = theme.Text
                 end)
 
-                ListenTheme(function(theme)
-                    Btn.BackgroundColor3 = theme.Accent
-                end)
-
                 return self
             end
 
@@ -2556,10 +2539,6 @@ function Quantum:CreateWindow(data)
                 ListenTheme(function(theme)
                     LabelFrame.BackgroundColor3 = theme.Background
                     Label.TextColor3 = theme.Text
-                end)
-
-                ListenTheme(function(theme)
-                    Btn.BackgroundColor3 = theme.Accent
                 end)
 
                 return self
@@ -2640,7 +2619,7 @@ function Quantum:CreateWindow(data)
                     SetContent = function(c) ContentLabel.Text = c end,
                     SetDesc = function(c) ContentLabel.Text = c end,
                 }
-                return self
+                return API
             end
 
             function SectionAPI:CreateColorPicker(pickerData)
@@ -2813,11 +2792,6 @@ function Quantum:CreateWindow(data)
                     ApplyBtn.BackgroundColor3 = theme.Accent
                 end)
 
-                local API = {
-                    SetTitle = function(t) TitleLabel.Text = t end,
-                    SetContent = function(c) ContentLabel.Text = c end,
-                    SetDesc = function(c) ContentLabel.Text = c end,
-                }
                 return self
             end
 
@@ -2891,10 +2865,6 @@ function Quantum:CreateWindow(data)
                 ListenTheme(function(theme)
                     StatusFrame.BackgroundColor3 = theme.Background
                     StatusLabel.TextColor3 = theme.Text
-                end)
-
-                ListenTheme(function(theme)
-                    Divider.BackgroundColor3 = theme.Border
                 end)
 
                 return self
