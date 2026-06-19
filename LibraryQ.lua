@@ -3,6 +3,8 @@ local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
+local HttpService = game:GetService("HttpService")
+local RunService = game:GetService("RunService")
 
 local Config = {
     Name = "Quantum",
@@ -30,28 +32,28 @@ local Config = {
             Success = Color3.fromRGB(90, 220, 140)
         },
         Light = {
-            Background = Color3.fromRGB(18, 18, 22),
-            Sidebar = Color3.fromRGB(24, 24, 30),
+            Background = Color3.fromRGB(245, 245, 250),
+            Sidebar = Color3.fromRGB(235, 235, 240),
             Accent = Color3.fromRGB(100, 80, 220),
-            Text = Color3.fromRGB(240, 240, 245),
-            SubText = Color3.fromRGB(150, 150, 160),
-            Element = Color3.fromRGB(32, 32, 40),
-            ElementHover = Color3.fromRGB(42, 42, 52),
+            Text = Color3.fromRGB(30, 30, 35),
+            SubText = Color3.fromRGB(100, 100, 110),
+            Element = Color3.fromRGB(220, 220, 230),
+            ElementHover = Color3.fromRGB(210, 210, 220),
             ToggleOn = Color3.fromRGB(100, 80, 220),
-            ToggleOff = Color3.fromRGB(50, 50, 60),
-            Border = Color3.fromRGB(50, 50, 60),
+            ToggleOff = Color3.fromRGB(180, 180, 190),
+            Border = Color3.fromRGB(200, 200, 210),
             Shadow = Color3.fromRGB(0, 0, 0),
             Overlay = Color3.fromRGB(0, 0, 0),
             Success = Color3.fromRGB(60, 200, 120)
         },
         Ocean = {
-            Background = Color3.fromRGB(18, 18, 22),
-            Sidebar = Color3.fromRGB(24, 24, 30),
+            Background = Color3.fromRGB(18, 22, 28),
+            Sidebar = Color3.fromRGB(24, 28, 36),
             Accent = Color3.fromRGB(60, 180, 220),
             Text = Color3.fromRGB(240, 240, 245),
             SubText = Color3.fromRGB(150, 150, 160),
-            Element = Color3.fromRGB(32, 32, 40),
-            ElementHover = Color3.fromRGB(42, 42, 52),
+            Element = Color3.fromRGB(32, 38, 48),
+            ElementHover = Color3.fromRGB(42, 50, 62),
             ToggleOn = Color3.fromRGB(60, 180, 220),
             ToggleOff = Color3.fromRGB(50, 50, 60),
             Border = Color3.fromRGB(50, 50, 60),
@@ -75,13 +77,13 @@ local Config = {
             Success = Color3.fromRGB(220, 60, 120)
         },
         Forest = {
-            Background = Color3.fromRGB(18, 18, 22),
-            Sidebar = Color3.fromRGB(24, 24, 30),
+            Background = Color3.fromRGB(18, 22, 18),
+            Sidebar = Color3.fromRGB(24, 30, 24),
             Accent = Color3.fromRGB(80, 200, 120),
             Text = Color3.fromRGB(240, 240, 245),
             SubText = Color3.fromRGB(150, 150, 160),
-            Element = Color3.fromRGB(32, 32, 40),
-            ElementHover = Color3.fromRGB(42, 42, 52),
+            Element = Color3.fromRGB(32, 40, 32),
+            ElementHover = Color3.fromRGB(42, 52, 42),
             ToggleOn = Color3.fromRGB(80, 200, 120),
             ToggleOff = Color3.fromRGB(50, 50, 60),
             Border = Color3.fromRGB(50, 50, 60),
@@ -152,6 +154,7 @@ local Icons = {
     ["map-pin"] = "rbxassetid://7743872758",
     ["shopping-cart"] = "rbxassetid://7733799185",
     ["calendar"] = "rbxassetid://7733911828",
+    ["settings"] = "rbxassetid://7734053495",
     ["repeat"] = "rbxassetid://7734051052",
     ["scroll"] = "rbxassetid://7743874740",
     ["check"] = "rbxassetid://7733715400",
@@ -206,6 +209,43 @@ local Icons = {
     ["wifi"] = "rbxassetid://7743878148",
     ["wrench"] = "rbxassetid://7743878358",
     ["alert-circle"] = "rbxassetid://7733911490",
+    ["shrub"] = "rbxassetid://7733924216",
+    ["droplet"] = "rbxassetid://7733924216",
+    ["plus"] = "rbxassetid://7734042493",
+    ["eye"] = "rbxassetid://7733774602",
+    ["eye-off"] = "rbxassetid://7733774495",
+    ["shield-check"] = "rbxassetid://7734056411",
+    ["toggle-left"] = "rbxassetid://7734091286",
+    ["toggle-right"] = "rbxassetid://7743873539",
+    ["mouse-pointer"] = "rbxassetid://7743870392",
+    ["globe"] = "rbxassetid://7733954760",
+    ["compass"] = "rbxassetid://7733924216",
+    ["activity"] = "rbxassetid://7733655755",
+    ["command"] = "rbxassetid://7733924046",
+    ["terminal"] = "rbxassetid://7743872929",
+    ["folder"] = "rbxassetid://7733799185",
+    ["bell"] = "rbxassetid://7733911828",
+    ["trash-2"] = "rbxassetid://7743873772",
+    ["unlock"] = "rbxassetid://7743875263",
+    ["minimize-2"] = "rbxassetid://7733997870",
+    ["maximize-2"] = "rbxassetid://7733992901",
+    ["chevron-left"] = "rbxassetid://7733717651",
+    ["chevron-right"] = "rbxassetid://7733717755",
+    ["chevron-up"] = "rbxassetid://7733919605",
+    ["chevron-down"] = "rbxassetid://7733717447",
+    ["search"] = "rbxassetid://7734052925",
+    ["minus"] = "rbxassetid://7734000129",
+    ["power"] = "rbxassetid://7734042493",
+    ["refreshCw"] = "rbxassetid://7734051052",
+    ["alertTriangle"] = "rbxassetid://7733911490",
+    ["alertCircle"] = "rbxassetid://7733911490",
+    ["barChart2"] = "rbxassetid://7734058803",
+    ["userX"] = "rbxassetid://7743875962",
+    ["mapPin"] = "rbxassetid://7743872758",
+    ["shoppingCart"] = "rbxassetid://7733799185",
+    ["rotateCcw"] = "rbxassetid://7734051052",
+    ["cloudLightning"] = "rbxassetid://7733911490",
+    ["trendingUp"] = "rbxassetid://7734058803",
 }
 
 local function Create(className, properties)
@@ -282,6 +322,92 @@ local function RegisterDropdown(menu, arrow, btnRef)
     return data
 end
 
+-- Config Manager
+local ConfigManager = {}
+ConfigManager.__index = ConfigManager
+
+function ConfigManager.new(windowName)
+    local self = setmetatable({}, ConfigManager)
+    self.WindowName = windowName or "Quantum"
+    self.Data = {}
+    self.Path = self.WindowName .. "_QuantumConfig.json"
+    self.AutoSave = false
+    self.AutoSaveInterval = 3
+    self.Thread = nil
+    self.Elements = {}
+    return self
+end
+
+function ConfigManager:Load()
+    if typeof(readfile) == "function" then
+        local ok, content = pcall(readfile, self.Path)
+        if ok and content and content ~= "" then
+            local ok2, data = pcall(function()
+                return HttpService:JSONDecode(content)
+            end)
+            if ok2 and type(data) == "table" then
+                self.Data = data
+                return true
+            end
+        end
+    end
+    return false
+end
+
+function ConfigManager:Save()
+    if typeof(writefile) == "function" then
+        local ok, content = pcall(function()
+            return HttpService:JSONEncode(self.Data)
+        end)
+        if ok then
+            pcall(writefile, self.Path, content)
+        end
+    end
+end
+
+function ConfigManager:StartAutoSave()
+    if self.AutoSave then return end
+    self.AutoSave = true
+    self.Thread = task.spawn(function()
+        while self.AutoSave do
+            task.wait(self.AutoSaveInterval)
+            self:Save()
+        end
+    end)
+end
+
+function ConfigManager:StopAutoSave()
+    self.AutoSave = false
+    if self.Thread then
+        pcall(function() task.cancel(self.Thread) end)
+        self.Thread = nil
+    end
+end
+
+function ConfigManager:Set(key, value)
+    self.Data[key] = value
+end
+
+function ConfigManager:Get(key, defaultValue)
+    if self.Data[key] ~= nil then
+        return self.Data[key]
+    end
+    return defaultValue
+end
+
+function ConfigManager:BindElement(key, elementType, getValueFunc, setValueFunc)
+    self.Elements[key] = {
+        Type = elementType,
+        Get = getValueFunc,
+        Set = setValueFunc
+    }
+    local saved = self:Get(key)
+    if saved ~= nil and setValueFunc then
+        pcall(function() setValueFunc(saved) end)
+    end
+end
+
+-- Notify System (Instant, no animation)
 local NotifyScreen = nil
 local NotifyLayout = nil
 local ActiveNotifications = {}
@@ -393,20 +519,18 @@ function Quantum:Notify(data)
 
     task.wait()
     local contentHeight = math.max(60, 26 + ContentLbl.AbsoluteSize.Y + 10)
-    Tween(notifFrame, {Size = UDim2.new(0, 280, 0, contentHeight)}, 0.3, Enum.EasingStyle.Back)
-
-    Tween(ProgressBar, {Size = UDim2.new(0, 0, 0, 2)}, duration, Enum.EasingStyle.Linear)
+    notifFrame.Size = UDim2.new(0, 280, 0, contentHeight)
 
     task.delay(duration, function()
-        Tween(notifFrame, {Size = UDim2.new(0, 0, 0, contentHeight)}, 0.25, Enum.EasingStyle.Quart).Completed:Connect(function()
-            notifFrame:Destroy()
-            for i, n in ipairs(ActiveNotifications) do
-                if n == notifFrame then
-                    table.remove(ActiveNotifications, i)
-                    break
-                end
+        notifFrame.Size = UDim2.new(0, 0, 0, contentHeight)
+        task.wait(0.1)
+        notifFrame:Destroy()
+        for i, n in ipairs(ActiveNotifications) do
+            if n == notifFrame then
+                table.remove(ActiveNotifications, i)
+                break
             end
-        end)
+        end
     end)
 end
 
@@ -516,9 +640,7 @@ local function CreateFloatingIcon(customIcon)
                     end
                     if MainFrame then
                         MainFrame.Visible = true
-                        MainFrame.Size = UDim2.new(0, 0, 0, 0)
-                        MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
-                        Tween(MainFrame, {Size = UDim2.new(0, 520, 0, 340)}, 0.4, Enum.EasingStyle.Back)
+                        MainFrame.Size = UDim2.new(0, 520, 0, 340)
                         MainFrame.Position = UDim2.new(0.5, -260, 0.5, -170)
                     end
                 elseif IsMinimized then
@@ -578,8 +700,8 @@ function Quantum:CreateWindow(data)
     MainFrame = Create("Frame", {
         Name = "Main",
         Parent = MainWindowScreen,
-        Size = UDim2.new(0, 0, 0, 0),
-        Position = UDim2.new(0.5, 0, 0.5, 0),
+        Size = UDim2.new(0, 520, 0, 340),
+        Position = UDim2.new(0.5, -260, 0.5, -170),
         AnchorPoint = Vector2.new(0, 0),
         BackgroundColor3 = CurrentTheme.Background,
         BorderSizePixel = 0,
@@ -669,7 +791,6 @@ function Quantum:CreateWindow(data)
         ZIndex = 21
     })
 
-    -- Profile Section in Topbar (Avatar + Name)
     local ProfileSection = Create("Frame", {
         Name = "ProfileSection",
         Parent = Topbar,
@@ -829,10 +950,10 @@ function Quantum:CreateWindow(data)
         })
         Create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = btn})
         btn.MouseEnter:Connect(function()
-            Tween(btn, {BackgroundColor3 = CurrentTheme.ElementHover}, 0.15)
+            btn.BackgroundColor3 = CurrentTheme.ElementHover
         end)
         btn.MouseLeave:Connect(function()
-            Tween(btn, {BackgroundColor3 = CurrentTheme.Element}, 0.15)
+            btn.BackgroundColor3 = CurrentTheme.Element
         end)
         btn.MouseButton1Click:Connect(callback)
         return btn
@@ -847,19 +968,14 @@ function Quantum:CreateWindow(data)
     MakeControl("Resize", "Maximize2", UDim2.new(0, 30, 0.5, -13), function()
         IsMaximized = not IsMaximized
         if IsMaximized then
-            Tween(MainFrame, {Size = UDim2.new(0, 620, 0, 400)}, 0.3)
+            MainFrame.Size = UDim2.new(0, 620, 0, 400)
         else
-            Tween(MainFrame, {Size = UDim2.new(0, 520, 0, 340)}, 0.3)
+            MainFrame.Size = UDim2.new(0, 520, 0, 340)
         end
     end)
 
     MakeControl("Close", "X", UDim2.new(0, 60, 0.5, -13), function()
         ConfirmOverlay.Visible = true
-        ConfirmOverlay.BackgroundTransparency = 1
-        ConfirmBox.Size = UDim2.new(0, 220, 0, 110)
-        ConfirmBox.Position = UDim2.new(0.5, -110, 0.5, -55)
-        Tween(ConfirmOverlay, {BackgroundTransparency = 0.4}, 0.2)
-        Tween(ConfirmBox, {Size = UDim2.new(0, 260, 0, 130), Position = UDim2.new(0.5, -130, 0.5, -65)}, 0.2)
     end)
 
     ConfirmYes.MouseButton1Click:Connect(function()
@@ -869,9 +985,7 @@ function Quantum:CreateWindow(data)
     end)
 
     ConfirmNo.MouseButton1Click:Connect(function()
-        Tween(ConfirmOverlay, {BackgroundTransparency = 1}, 0.2).Completed:Connect(function()
-            ConfirmOverlay.Visible = false
-        end)
+        ConfirmOverlay.Visible = false
     end)
 
     local Sidebar = Create("Frame", {
@@ -896,11 +1010,47 @@ function Quantum:CreateWindow(data)
         ZIndex = 15
     })
 
+    -- Search Box in Sidebar
+    local SearchFrame = Create("Frame", {
+        Parent = Sidebar,
+        Size = UDim2.new(1, -10, 0, 30),
+        Position = UDim2.new(0, 5, 0, 8),
+        BackgroundColor3 = CurrentTheme.Element,
+        BorderSizePixel = 0,
+        ZIndex = 16
+    })
+    Create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = SearchFrame})
+
+    local SearchIcon = Create("ImageLabel", {
+        Parent = SearchFrame,
+        Size = UDim2.new(0, 14, 0, 14),
+        Position = UDim2.new(0, 8, 0.5, -7),
+        BackgroundTransparency = 1,
+        Image = GetIcon("Search"),
+        ImageColor3 = CurrentTheme.SubText,
+        ZIndex = 17
+    })
+
+    local SearchBox = Create("TextBox", {
+        Parent = SearchFrame,
+        Size = UDim2.new(1, -30, 1, 0),
+        Position = UDim2.new(0, 26, 0, 0),
+        BackgroundTransparency = 1,
+        Text = "",
+        PlaceholderText = "Search tabs...",
+        TextColor3 = CurrentTheme.Text,
+        PlaceholderColor3 = CurrentTheme.SubText,
+        TextSize = 11,
+        Font = Enum.Font.Gotham,
+        ClearTextOnFocus = false,
+        ZIndex = 17
+    })
+
     local TabList = Create("ScrollingFrame", {
         Name = "TabList",
         Parent = Sidebar,
-        Size = UDim2.new(1, -10, 1, -65),
-        Position = UDim2.new(0, 5, 0, 8),
+        Size = UDim2.new(1, -10, 1, -110),
+        Position = UDim2.new(0, 5, 0, 44),
         BackgroundTransparency = 1,
         BorderSizePixel = 0,
         ScrollBarThickness = 2,
@@ -915,109 +1065,6 @@ function Quantum:CreateWindow(data)
         Padding = UDim.new(0, 4),
         SortOrder = Enum.SortOrder.LayoutOrder
     })
-
-    local ThemeFrame = Create("Frame", {
-        Name = "ThemeFrame",
-        Parent = Sidebar,
-        Size = UDim2.new(1, -10, 0, 36),
-        Position = UDim2.new(0, 5, 1, -44),
-        BackgroundColor3 = CurrentTheme.Element,
-        BorderSizePixel = 0,
-        ZIndex = 16
-    })
-    Create("UICorner", {CornerRadius = UDim.new(0, 8), Parent = ThemeFrame})
-
-    Create("ImageLabel", {
-        Parent = ThemeFrame,
-        Size = UDim2.new(0, 14, 0, 14),
-        Position = UDim2.new(0, 10, 0.5, -7),
-        BackgroundTransparency = 1,
-        Image = GetIcon("Palette"),
-        ImageColor3 = CurrentTheme.SubText,
-        ZIndex = 17
-    })
-
-    Create("TextLabel", {
-        Parent = ThemeFrame,
-        Size = UDim2.new(0, 70, 0, 36),
-        Position = UDim2.new(0, 28, 0, 0),
-        BackgroundTransparency = 1,
-        Text = "Theme",
-        TextColor3 = CurrentTheme.SubText,
-        TextSize = 11,
-        Font = Enum.Font.Gotham,
-        TextXAlignment = Enum.TextXAlignment.Left,
-        ZIndex = 17
-    })
-
-    local ThemeDropdown = Create("TextButton", {
-        Parent = ThemeFrame,
-        Size = UDim2.new(0, 70, 0, 24),
-        Position = UDim2.new(1, -75, 0.5, -12),
-        BackgroundColor3 = CurrentTheme.Background,
-        Text = Config.DefaultTheme,
-        TextColor3 = CurrentTheme.Text,
-        TextSize = 10,
-        Font = Enum.Font.Gotham,
-        ZIndex = 17
-    })
-    Create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = ThemeDropdown})
-
-    local ThemeMenu = Create("Frame", {
-        Parent = ThemeFrame,
-        Size = UDim2.new(0, 70, 0, 0),
-        Position = UDim2.new(1, -75, 0, -90),
-        BackgroundColor3 = CurrentTheme.Background,
-        BorderSizePixel = 0,
-        ClipsDescendants = true,
-        Visible = false,
-        ZIndex = 25
-    })
-    Create("UICorner", {CornerRadius = UDim.new(0, 8), Parent = ThemeMenu})
-    Create("UIStroke", {Color = CurrentTheme.Border, Thickness = 1, Parent = ThemeMenu})
-
-    Create("UIListLayout", {
-        Parent = ThemeMenu,
-        Padding = UDim.new(0, 2)
-    })
-
-    local themeOpen = false
-    for themeName, _ in pairs(Config.Themes) do
-        local btn = Create("TextButton", {
-            Parent = ThemeMenu,
-            Size = UDim2.new(1, 0, 0, 24),
-            BackgroundColor3 = CurrentTheme.Background,
-            Text = themeName,
-            TextColor3 = CurrentTheme.Text,
-            TextSize = 10,
-            Font = Enum.Font.Gotham,
-            ZIndex = 26
-        })
-        btn.MouseButton1Click:Connect(function()
-            ApplyTheme(themeName)
-            ThemeDropdown.Text = themeName
-            themeOpen = false
-            ThemeMenu.Visible = false
-        end)
-        btn.MouseEnter:Connect(function()
-            Tween(btn, {BackgroundColor3 = CurrentTheme.ElementHover}, 0.15)
-        end)
-        btn.MouseLeave:Connect(function()
-            Tween(btn, {BackgroundColor3 = CurrentTheme.Background}, 0.15)
-        end)
-    end
-
-    ThemeDropdown.MouseButton1Click:Connect(function()
-        themeOpen = not themeOpen
-        ThemeMenu.Visible = true
-        if themeOpen then
-            Tween(ThemeMenu, {Size = UDim2.new(0, 70, 0, 110)}, 0.2)
-        else
-            Tween(ThemeMenu, {Size = UDim2.new(0, 70, 0, 0)}, 0.2).Completed:Connect(function()
-                ThemeMenu.Visible = false
-            end)
-        end
-    end)
 
     local Content = Create("Frame", {
         Name = "Content",
@@ -1082,13 +1129,6 @@ function Quantum:CreateWindow(data)
         end
     end)
 
-    ResizeHandle.MouseEnter:Connect(function()
-        Tween(ResizeHandle, {ImageTransparency = 0.1}, 0.15)
-    end)
-    ResizeHandle.MouseLeave:Connect(function()
-        Tween(ResizeHandle, {ImageTransparency = 0.4}, 0.15)
-    end)
-
     local dragging = false
     local dragStart = nil
     local startPos = nil
@@ -1139,10 +1179,6 @@ function Quantum:CreateWindow(data)
         Version.TextColor3 = theme.SubText
         TitleIcon.ImageColor3 = theme.Accent
         TabList.ScrollBarImageColor3 = theme.Accent
-        ThemeFrame.BackgroundColor3 = theme.Element
-        ThemeDropdown.BackgroundColor3 = theme.Background
-        ThemeDropdown.TextColor3 = theme.Text
-        ThemeMenu.BackgroundColor3 = theme.Background
         ConfirmOverlay.BackgroundColor3 = theme.Overlay
         ConfirmBox.BackgroundColor3 = theme.Background
         ConfirmNo.BackgroundColor3 = theme.Element
@@ -1152,23 +1188,22 @@ function Quantum:CreateWindow(data)
         ProfileFrame.UIStroke.Color = theme.Border
         ProfileName.TextColor3 = theme.Text
         ProfileUser.TextColor3 = theme.SubText
-        for _, child in ipairs(ThemeMenu:GetChildren()) do
-            if child:IsA("TextButton") then
-                child.BackgroundColor3 = theme.Background
-                child.TextColor3 = theme.Text
-            end
-        end
+        SearchFrame.BackgroundColor3 = theme.Element
+        SearchIcon.ImageColor3 = theme.SubText
+        SearchBox.TextColor3 = theme.Text
+        SearchBox.PlaceholderColor3 = theme.SubText
     end)
-
-    Tween(MainFrame, {Size = UDim2.new(0, 520, 0, 340)}, 0.4, Enum.EasingStyle.Back)
-    MainFrame.Position = UDim2.new(0.5, -260, 0.5, -170)
 
     local WindowAPI = {}
     WindowAPI.Notify = function(_, d) Quantum:Notify(d) end
     WindowAPI.SetTheme = function(_, name) ApplyTheme(name) end
+    WindowAPI.Config = ConfigManager.new(windowName)
+    WindowAPI.Config:Load()
+    WindowAPI.Config:StartAutoSave()
 
     local Tabs = {}
     local ActiveTab = nil
+    local TabButtons = {}
 
     function WindowAPI:CreateTab(tabData)
         tabData = tabData or {}
@@ -1245,9 +1280,9 @@ function Quantum:CreateWindow(data)
             if ActiveTab then
                 ActiveTab.Content.Visible = false
                 ActiveTab.Indicator.Visible = false
-                Tween(ActiveTab.Button, {BackgroundColor3 = CurrentTheme.Element}, 0.2)
-                Tween(ActiveTab.Icon, {ImageColor3 = CurrentTheme.SubText}, 0.2)
-                Tween(ActiveTab.Label, {TextColor3 = CurrentTheme.SubText}, 0.2)
+                ActiveTab.Button.BackgroundColor3 = CurrentTheme.Element
+                ActiveTab.Icon.ImageColor3 = CurrentTheme.SubText
+                ActiveTab.Label.TextColor3 = CurrentTheme.SubText
             end
 
             ActiveTab = {
@@ -1260,22 +1295,23 @@ function Quantum:CreateWindow(data)
 
             TabContent.Visible = true
             TabIndicator.Visible = true
-            Tween(TabBtn, {BackgroundColor3 = CurrentTheme.ElementHover}, 0.2)
-            Tween(TabBtnIcon, {ImageColor3 = CurrentTheme.Accent}, 0.2)
-            Tween(TabBtnText, {TextColor3 = CurrentTheme.Text}, 0.2)
+            TabBtn.BackgroundColor3 = CurrentTheme.ElementHover
+            TabBtnIcon.ImageColor3 = CurrentTheme.Accent
+            TabBtnText.TextColor3 = CurrentTheme.Text
         end
 
         TabBtn.MouseButton1Click:Connect(Activate)
         TabBtn.MouseEnter:Connect(function()
             if ActiveTab and ActiveTab.Button == TabBtn then return end
-            Tween(TabBtn, {BackgroundColor3 = CurrentTheme.ElementHover}, 0.15)
+            TabBtn.BackgroundColor3 = CurrentTheme.ElementHover
         end)
         TabBtn.MouseLeave:Connect(function()
             if ActiveTab and ActiveTab.Button == TabBtn then return end
-            Tween(TabBtn, {BackgroundColor3 = CurrentTheme.Element}, 0.15)
+            TabBtn.BackgroundColor3 = CurrentTheme.Element
         end)
 
-        table.insert(Tabs, {Activate = Activate})
+        table.insert(Tabs, {Activate = Activate, Name = tabName, Button = TabBtn})
+        table.insert(TabButtons, {Btn = TabBtn, Name = tabName:lower()})
         if #Tabs == 1 then Activate() end
 
         ListenTheme(function(theme)
@@ -1293,12 +1329,18 @@ function Quantum:CreateWindow(data)
         end)
 
         local TabAPI = {}
+        TabAPI._CurrentSection = nil
+        TabAPI._Sections = {}
+        TabAPI._TabContent = TabContent
 
         function TabAPI:CreateSection(sectionData)
             sectionData = sectionData or {}
             local sectionName = sectionData.Name or "Section"
             local sectionIcon = sectionData.Icon or "Folder"
             local collapsed = sectionData.Collapsed or false
+            local opened = sectionData.Opened
+            if opened == nil then opened = not collapsed end
+            if opened == false then collapsed = true end
 
             local SectionFrame = Create("Frame", {
                 Parent = TabContent,
@@ -1371,18 +1413,27 @@ function Quantum:CreateWindow(data)
 
             local isCollapsed = collapsed
             local targetHeight = 40
+            local sectionDropdowns = {}
 
             local function UpdateSize()
                 local itemsHeight = SectionItems.UIListLayout.AbsoluteContentSize.Y
                 targetHeight = 40 + itemsHeight + 8
                 if isCollapsed then
-                    Tween(SectionFrame, {Size = UDim2.new(1, 0, 0, 40)}, 0.25)
-                    Tween(Arrow, {Rotation = 0}, 0.25)
+                    SectionFrame.Size = UDim2.new(1, 0, 0, 40)
+                    Arrow.Rotation = 0
+                    -- Close all dropdowns in this section
+                    for _, dd in ipairs(sectionDropdowns) do
+                        if dd and dd.Menu and dd.Menu.Parent then
+                            dd.Menu.Visible = false
+                            dd.Menu.Size = UDim2.new(0, dd.Menu.Size.X.Offset, 0, 0)
+                            if dd.Arrow then dd.Arrow.Rotation = 0 end
+                            dd.IsOpen = false
+                        end
+                    end
                 else
-                    Tween(SectionFrame, {Size = UDim2.new(1, 0, 0, targetHeight)}, 0.25)
-                    Tween(Arrow, {Rotation = 180}, 0.25)
+                    SectionFrame.Size = UDim2.new(1, 0, 0, targetHeight)
+                    Arrow.Rotation = 180
                 end
-                task.wait(0.3)
                 TabContent.CanvasSize = UDim2.new(0, 0, 0, TabContent.UIListLayout.AbsoluteContentSize.Y + 16)
             end
 
@@ -1411,6 +1462,9 @@ function Quantum:CreateWindow(data)
             end)
 
             local SectionAPI = {}
+            SectionAPI._SectionItems = SectionItems
+            SectionAPI._SectionDropdowns = sectionDropdowns
+            SectionAPI._UpdateSize = UpdateSize
 
             function SectionAPI:CreateToggle(toggleData)
                 toggleData = toggleData or {}
@@ -1508,11 +1562,11 @@ function Quantum:CreateWindow(data)
                 ToggleClick.MouseButton1Click:Connect(function()
                     state = not state
                     if state then
-                        Tween(ToggleBtn, {BackgroundColor3 = CurrentTheme.ToggleOn}, 0.2)
-                        Tween(ToggleCircle, {Position = UDim2.new(0, 18, 0.5, -8)}, 0.2)
+                        ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOn
+                        ToggleCircle.Position = UDim2.new(0, 18, 0.5, -8)
                     else
-                        Tween(ToggleBtn, {BackgroundColor3 = CurrentTheme.ToggleOff}, 0.2)
-                        Tween(ToggleCircle, {Position = UDim2.new(0, 2, 0.5, -8)}, 0.2)
+                        ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOff
+                        ToggleCircle.Position = UDim2.new(0, 2, 0.5, -8)
                     end
                     callback(state)
                 end)
@@ -1527,7 +1581,21 @@ function Quantum:CreateWindow(data)
                     end
                 end)
 
-                return self
+                local API = {
+                    Set = function(val)
+                        state = val
+                        if state then
+                            ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOn
+                            ToggleCircle.Position = UDim2.new(0, 18, 0.5, -8)
+                        else
+                            ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOff
+                            ToggleCircle.Position = UDim2.new(0, 2, 0.5, -8)
+                        end
+                        callback(state)
+                    end,
+                    Get = function() return state end
+                }
+                return API
             end
 
             function SectionAPI:CreateSlider(sliderData)
@@ -1679,7 +1747,18 @@ function Quantum:CreateWindow(data)
                     ValueLabel.TextColor3 = theme.Accent
                 end)
 
-                return self
+                local API = {
+                    Set = function(val)
+                        val = math.clamp(val, min, max)
+                        val = math.floor(val / increment + 0.5) * increment
+                        Fill.Size = UDim2.new((val - min) / (max - min), 0, 1, 0)
+                        Knob.Position = UDim2.new((val - min) / (max - min), -6, 0.5, -6)
+                        ValueLabel.Text = tostring(val)
+                        callback(val)
+                    end,
+                    Get = function() return tonumber(ValueLabel.Text) or default end
+                }
+                return API
             end
 
             function SectionAPI:CreateButton(buttonData)
@@ -1743,19 +1822,16 @@ function Quantum:CreateWindow(data)
                 end
 
                 Btn.MouseEnter:Connect(function()
-                    Tween(Btn, {BackgroundColor3 = Color3.fromRGB(
+                    Btn.BackgroundColor3 = Color3.fromRGB(
                         math.clamp(CurrentTheme.Accent.R * 255 + 20, 0, 255),
                         math.clamp(CurrentTheme.Accent.G * 255 + 20, 0, 255),
                         math.clamp(CurrentTheme.Accent.B * 255 + 20, 0, 255)
-                    )}, 0.15)
+                    )
                 end)
                 Btn.MouseLeave:Connect(function()
-                    Tween(Btn, {BackgroundColor3 = CurrentTheme.Accent}, 0.15)
+                    Btn.BackgroundColor3 = CurrentTheme.Accent
                 end)
                 Btn.MouseButton1Click:Connect(function()
-                    Tween(Btn, {Size = UDim2.new(0.98, 0, 0, frameHeight - 2)}, 0.05).Completed:Connect(function()
-                        Tween(Btn, {Size = UDim2.new(1, 0, 0, frameHeight)}, 0.1)
-                    end)
                     callback()
                 end)
 
@@ -1763,7 +1839,7 @@ function Quantum:CreateWindow(data)
                     Btn.BackgroundColor3 = theme.Accent
                 end)
 
-                return self
+                return {Click = callback}
             end
 
             function SectionAPI:CreateDropdown(dropdownData)
@@ -1833,7 +1909,7 @@ function Quantum:CreateWindow(data)
                     Position = UDim2.new(1, -130, 0, hasDesc and 10 or 4),
                     BackgroundColor3 = CurrentTheme.Element,
                     Text = "",
-                    TextColor3 = CurrentTheme.Text,
+                    TextColor3 = CurrentTheme.SubText,
                     TextSize = 10,
                     Font = Enum.Font.Gotham,
                     TextTruncate = Enum.TextTruncate.AtEnd,
@@ -1860,7 +1936,6 @@ function Quantum:CreateWindow(data)
                     DropdownBtn.TextColor3 = CurrentTheme.SubText
                 end
 
-                -- Parent menu to ScreenGui (NOT MainFrame) to prevent following
                 local MenuFrame = Create("Frame", {
                     Parent = MainWindowScreen,
                     Size = UDim2.new(0, 120, 0, 0),
@@ -1875,6 +1950,7 @@ function Quantum:CreateWindow(data)
                 Create("UIStroke", {Color = CurrentTheme.Border, Thickness = 1, Parent = MenuFrame})
 
                 local ddData = RegisterDropdown(MenuFrame, Arrow, DropdownBtn)
+                table.insert(sectionDropdowns, ddData)
 
                 local SearchBox = Create("TextBox", {
                     Parent = MenuFrame,
@@ -1978,15 +2054,15 @@ function Quantum:CreateWindow(data)
                                 callback(selected)
                                 ddData.IsOpen = false
                                 MenuFrame.Visible = false
-                                MenuFrame.Size = UDim2.new(0, 120, 0, 0)
+                                MenuFrame.Size = UDim2.new(0, MenuFrame.Size.X.Offset, 0, 0)
                                 Arrow.Rotation = 0
                             end)
 
                             optBtn.MouseEnter:Connect(function()
-                                Tween(optBtn, {BackgroundColor3 = CurrentTheme.Accent}, 0.1)
+                                optBtn.BackgroundColor3 = CurrentTheme.Accent
                             end)
                             optBtn.MouseLeave:Connect(function()
-                                Tween(optBtn, {BackgroundColor3 = CurrentTheme.Element}, 0.1)
+                                optBtn.BackgroundColor3 = CurrentTheme.Element
                             end)
 
                             table.insert(optionButtons, optBtn)
@@ -2007,7 +2083,6 @@ function Quantum:CreateWindow(data)
 
                 local function UpdateMenuPosition()
                     if not DropdownBtn or not DropdownBtn.Parent then return end
-                    -- Use absolute screen position, not relative to MainFrame
                     local btnPos = DropdownBtn.AbsolutePosition
                     local btnSize = DropdownBtn.AbsoluteSize
                     MenuFrame.Position = UDim2.new(0, btnPos.X, 0, btnPos.Y + btnSize.Y + 3)
@@ -2026,15 +2101,13 @@ function Quantum:CreateWindow(data)
                         UpdateMenuPosition()
                         MenuFrame.Visible = true
                         local menuHeight = math.min(#options * 22 + 42, 150)
-                        MenuFrame.Size = UDim2.new(0, DropdownBtn.AbsoluteSize.X, 0, 0)
-                        Tween(MenuFrame, {Size = UDim2.new(0, DropdownBtn.AbsoluteSize.X, 0, menuHeight)}, 0.15)
+                        MenuFrame.Size = UDim2.new(0, DropdownBtn.AbsoluteSize.X, 0, menuHeight)
                         Arrow.Rotation = 180
                         SearchBox.Text = ""
                         BuildOptions("")
                     end
                 end)
 
-                -- Click outside to close
                 local clickConn = UserInputService.InputBegan:Connect(function(input, gpe)
                     if not gpe and input.UserInputType == Enum.UserInputType.MouseButton1 then
                         if ddData.IsOpen then
@@ -2079,7 +2152,28 @@ function Quantum:CreateWindow(data)
                     end
                 end)
 
-                return self
+                local DropdownAPI = {}
+                function DropdownAPI:Refresh(newOptions, newDefault)
+                    options = newOptions or {}
+                    if newDefault ~= nil then
+                        selected = newDefault
+                        local selText, _ = NormalizeOption(selected)
+                        DropdownBtn.Text = selText
+                        DropdownBtn.TextColor3 = CurrentTheme.Text
+                    end
+                    BuildOptions("")
+                end
+                function DropdownAPI:Set(value)
+                    selected = value
+                    local selText, _ = NormalizeOption(selected)
+                    DropdownBtn.Text = selText
+                    DropdownBtn.TextColor3 = CurrentTheme.Text
+                    callback(selected)
+                end
+                function DropdownAPI:Get()
+                    return selected
+                end
+                return DropdownAPI
             end
 
             function SectionAPI:CreateMultiDropdown(dropdownData)
@@ -2203,6 +2297,7 @@ function Quantum:CreateWindow(data)
                 Create("UIStroke", {Color = CurrentTheme.Border, Thickness = 1, Parent = MenuFrame})
 
                 local ddData = RegisterDropdown(MenuFrame, Arrow, DropdownBtn)
+                table.insert(sectionDropdowns, ddData)
 
                 local SearchBox = Create("TextBox", {
                     Parent = MenuFrame,
@@ -2351,10 +2446,10 @@ function Quantum:CreateWindow(data)
                         end)
 
                         row.MouseEnter:Connect(function()
-                            Tween(row, {BackgroundColor3 = CurrentTheme.ElementHover}, 0.1)
+                            row.BackgroundColor3 = CurrentTheme.ElementHover
                         end)
                         row.MouseLeave:Connect(function()
-                            Tween(row, {BackgroundColor3 = CurrentTheme.Element}, 0.1)
+                            row.BackgroundColor3 = CurrentTheme.Element
                         end)
 
                         table.insert(optionItems, row)
@@ -2393,8 +2488,7 @@ function Quantum:CreateWindow(data)
                         UpdateMenuPosition()
                         MenuFrame.Visible = true
                         local menuHeight = math.min(#options * 22 + 42, 150)
-                        MenuFrame.Size = UDim2.new(0, DropdownBtn.AbsoluteSize.X, 0, 0)
-                        Tween(MenuFrame, {Size = UDim2.new(0, DropdownBtn.AbsoluteSize.X, 0, menuHeight)}, 0.15)
+                        MenuFrame.Size = UDim2.new(0, DropdownBtn.AbsoluteSize.X, 0, menuHeight)
                         Arrow.Rotation = 180
                         SearchBox.Text = ""
                         BuildOptions()
@@ -2441,7 +2535,28 @@ function Quantum:CreateWindow(data)
                     end
                 end)
 
-                return self
+                local MultiDropdownAPI = {}
+                function MultiDropdownAPI:Refresh(newOptions, newDefault)
+                    options = newOptions or {}
+                    if type(newDefault) == "table" then
+                        selected = {}
+                        for _, v in ipairs(newDefault) do table.insert(selected, v) end
+                        UpdateButtonText()
+                    end
+                    BuildOptions()
+                end
+                function MultiDropdownAPI:Set(values)
+                    selected = {}
+                    if type(values) == "table" then
+                        for _, v in ipairs(values) do table.insert(selected, v) end
+                    end
+                    UpdateButtonText()
+                    callback(selected)
+                end
+                function MultiDropdownAPI:Get()
+                    return selected
+                end
+                return MultiDropdownAPI
             end
 
             function SectionAPI:CreateInput(inputData)
@@ -2532,7 +2647,11 @@ function Quantum:CreateWindow(data)
                     InputBox.PlaceholderColor3 = theme.SubText
                 end)
 
-                return self
+                local API = {
+                    Set = function(text) InputBox.Text = text end,
+                    Get = function() return InputBox.Text end
+                }
+                return API
             end
 
             function SectionAPI:CreateKeybind(bindData)
@@ -2635,7 +2754,7 @@ function Quantum:CreateWindow(data)
                     BindBtn.TextColor3 = theme.Text
                 end)
 
-                return self
+                return {Set = function(key) default = key; BindBtn.Text = key.Name end, Get = function() return default end}
             end
 
             function SectionAPI:CreateLabel(labelData)
@@ -2682,7 +2801,7 @@ function Quantum:CreateWindow(data)
                     Label.TextColor3 = theme.Text
                 end)
 
-                return self
+                return {Set = function(text) Label.Text = text end, Get = function() return Label.Text end}
             end
 
             function SectionAPI:CreateParagraph(paraData)
@@ -2759,6 +2878,7 @@ function Quantum:CreateWindow(data)
                     SetTitle = function(t) TitleLabel.Text = t end,
                     SetContent = function(c) ContentLabel.Text = c end,
                     SetDesc = function(c) ContentLabel.Text = c end,
+                    GetContent = function() return ContentLabel.Text end,
                 }
                 return API
             end
@@ -2903,11 +3023,10 @@ function Quantum:CreateWindow(data)
                     colorOpen = not colorOpen
                     if colorOpen then
                         ColorMenu.Visible = true
-                        Tween(ColorMenu, {Size = UDim2.new(0, 130, 0, 54)}, 0.2)
+                        ColorMenu.Size = UDim2.new(0, 130, 0, 54)
                     else
-                        Tween(ColorMenu, {Size = UDim2.new(0, 130, 0, 0)}, 0.2).Completed:Connect(function()
-                            ColorMenu.Visible = false
-                        end)
+                        ColorMenu.Visible = false
+                        ColorMenu.Size = UDim2.new(0, 130, 0, 0)
                     end
                 end)
 
@@ -2919,9 +3038,8 @@ function Quantum:CreateWindow(data)
                     ColorPreview.BackgroundColor3 = newColor
                     callback(newColor)
                     colorOpen = false
-                    Tween(ColorMenu, {Size = UDim2.new(0, 130, 0, 0)}, 0.2).Completed:Connect(function()
-                        ColorMenu.Visible = false
-                    end)
+                    ColorMenu.Visible = false
+                    ColorMenu.Size = UDim2.new(0, 130, 0, 0)
                 end)
 
                 ListenTheme(function(theme)
@@ -2933,7 +3051,7 @@ function Quantum:CreateWindow(data)
                     ApplyBtn.BackgroundColor3 = theme.Accent
                 end)
 
-                return self
+                return {Set = function(c) ColorPreview.BackgroundColor3 = c; callback(c) end, Get = function() return ColorPreview.BackgroundColor3 end}
             end
 
             function SectionAPI:CreateDivider()
@@ -3008,14 +3126,93 @@ function Quantum:CreateWindow(data)
                     StatusLabel.TextColor3 = theme.Text
                 end)
 
-                return self
+                return {Set = function(t) StatusLabel.Text = t end, Get = function() return StatusLabel.Text end}
             end
 
             return SectionAPI
         end
 
+        -- TabAPI convenience methods (WindUI-style compatibility)
+        function TabAPI:Section(data)
+            local sec = self:CreateSection(data)
+            self._CurrentSection = sec
+            return sec
+        end
+
+        function TabAPI:Paragraph(data)
+            if not self._CurrentSection then self:Section({Name = "Default", Opened = true}) end
+            return self._CurrentSection:CreateParagraph(data)
+        end
+
+        function TabAPI:Button(data)
+            if not self._CurrentSection then self:Section({Name = "Default", Opened = true}) end
+            return self._CurrentSection:CreateButton(data)
+        end
+
+        function TabAPI:Toggle(data)
+            if not self._CurrentSection then self:Section({Name = "Default", Opened = true}) end
+            return self._CurrentSection:CreateToggle(data)
+        end
+
+        function TabAPI:Slider(data)
+            if not self._CurrentSection then self:Section({Name = "Default", Opened = true}) end
+            return self._CurrentSection:CreateSlider(data)
+        end
+
+        function TabAPI:Dropdown(data)
+            if not self._CurrentSection then self:Section({Name = "Default", Opened = true}) end
+            return self._CurrentSection:CreateDropdown(data)
+        end
+
+        function TabAPI:MultiDropdown(data)
+            if not self._CurrentSection then self:Section({Name = "Default", Opened = true}) end
+            return self._CurrentSection:CreateMultiDropdown(data)
+        end
+
+        function TabAPI:Input(data)
+            if not self._CurrentSection then self:Section({Name = "Default", Opened = true}) end
+            return self._CurrentSection:CreateInput(data)
+        end
+
+        function TabAPI:Keybind(data)
+            if not self._CurrentSection then self:Section({Name = "Default", Opened = true}) end
+            return self._CurrentSection:CreateKeybind(data)
+        end
+
+        function TabAPI:Label(data)
+            if not self._CurrentSection then self:Section({Name = "Default", Opened = true}) end
+            return self._CurrentSection:CreateLabel(data)
+        end
+
+        function TabAPI:ColorPicker(data)
+            if not self._CurrentSection then self:Section({Name = "Default", Opened = true}) end
+            return self._CurrentSection:CreateColorPicker(data)
+        end
+
+        function TabAPI:Divider()
+            if not self._CurrentSection then self:Section({Name = "Default", Opened = true}) end
+            return self._CurrentSection:CreateDivider()
+        end
+
+        function TabAPI:Status(data)
+            if not self._CurrentSection then self:Section({Name = "Default", Opened = true}) end
+            return self._CurrentSection:CreateStatus(data)
+        end
+
         return TabAPI
     end
+
+    -- Search functionality
+    SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
+        local text = SearchBox.Text:lower()
+        for _, tab in ipairs(TabButtons) do
+            if text == "" or tab.Name:find(text, 1, true) then
+                tab.Btn.Visible = true
+            else
+                tab.Btn.Visible = false
+            end
+        end
+    end)
 
     return WindowAPI
 end
