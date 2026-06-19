@@ -312,12 +312,16 @@ local function CloseAllDropdowns()
                 data.Arrow.Rotation = 0
             end
             data.IsOpen = false
+            if data.HeartbeatConn then
+                pcall(function() data.HeartbeatConn:Disconnect() end)
+                data.HeartbeatConn = nil
+            end
         end
     end
 end
 
 local function RegisterDropdown(menu, arrow, btnRef)
-    local data = {Menu = menu, Arrow = arrow, Button = btnRef, IsOpen = false}
+    local data = {Menu = menu, Arrow = arrow, Button = btnRef, IsOpen = false, HeartbeatConn = nil}
     table.insert(OpenDropdowns, data)
     return data
 end
@@ -1049,7 +1053,7 @@ function Quantum:CreateWindow(data)
     local TabList = Create("ScrollingFrame", {
         Name = "TabList",
         Parent = Sidebar,
-        Size = UDim2.new(1, -10, 1, -110),
+        Size = UDim2.new(1, -10, 1, -50),
         Position = UDim2.new(0, 5, 0, 44),
         BackgroundTransparency = 1,
         BorderSizePixel = 0,
@@ -1421,13 +1425,16 @@ function Quantum:CreateWindow(data)
                 if isCollapsed then
                     SectionFrame.Size = UDim2.new(1, 0, 0, 40)
                     Arrow.Rotation = 0
-                    -- Close all dropdowns in this section
                     for _, dd in ipairs(sectionDropdowns) do
                         if dd and dd.Menu and dd.Menu.Parent then
                             dd.Menu.Visible = false
                             dd.Menu.Size = UDim2.new(0, dd.Menu.Size.X.Offset, 0, 0)
                             if dd.Arrow then dd.Arrow.Rotation = 0 end
                             dd.IsOpen = false
+                            if dd.HeartbeatConn then
+                                pcall(function() dd.HeartbeatConn:Disconnect() end)
+                                dd.HeartbeatConn = nil
+                            end
                         end
                     end
                 else
@@ -2056,6 +2063,10 @@ function Quantum:CreateWindow(data)
                                 MenuFrame.Visible = false
                                 MenuFrame.Size = UDim2.new(0, MenuFrame.Size.X.Offset, 0, 0)
                                 Arrow.Rotation = 0
+                                if ddData.HeartbeatConn then
+                                    pcall(function() ddData.HeartbeatConn:Disconnect() end)
+                                    ddData.HeartbeatConn = nil
+                                end
                             end)
 
                             optBtn.MouseEnter:Connect(function()
@@ -2095,6 +2106,10 @@ function Quantum:CreateWindow(data)
                         MenuFrame.Visible = false
                         MenuFrame.Size = UDim2.new(0, MenuFrame.Size.X.Offset, 0, 0)
                         Arrow.Rotation = 0
+                        if ddData.HeartbeatConn then
+                            pcall(function() ddData.HeartbeatConn:Disconnect() end)
+                            ddData.HeartbeatConn = nil
+                        end
                     else
                         CloseAllDropdowns()
                         ddData.IsOpen = true
@@ -2105,6 +2120,31 @@ function Quantum:CreateWindow(data)
                         Arrow.Rotation = 180
                         SearchBox.Text = ""
                         BuildOptions("")
+                        -- Start heartbeat to track button position while scrolling
+                        ddData.HeartbeatConn = RunService.Heartbeat:Connect(function()
+                            if ddData.IsOpen and DropdownBtn and DropdownBtn.Parent then
+                                UpdateMenuPosition()
+                            else
+                                if ddData.HeartbeatConn then
+                                    pcall(function() ddData.HeartbeatConn:Disconnect() end)
+                                    ddData.HeartbeatConn = nil
+                                end
+                            end
+                        end)
+                    end
+                end)
+
+                -- Close dropdown when scrolling the content area
+                TabContent:GetPropertyChangedSignal("CanvasPosition"):Connect(function()
+                    if ddData.IsOpen then
+                        ddData.IsOpen = false
+                        MenuFrame.Visible = false
+                        MenuFrame.Size = UDim2.new(0, MenuFrame.Size.X.Offset, 0, 0)
+                        Arrow.Rotation = 0
+                        if ddData.HeartbeatConn then
+                            pcall(function() ddData.HeartbeatConn:Disconnect() end)
+                            ddData.HeartbeatConn = nil
+                        end
                     end
                 end)
 
@@ -2124,6 +2164,10 @@ function Quantum:CreateWindow(data)
                                     MenuFrame.Visible = false
                                     MenuFrame.Size = UDim2.new(0, MenuFrame.Size.X.Offset, 0, 0)
                                     Arrow.Rotation = 0
+                                    if ddData.HeartbeatConn then
+                                        pcall(function() ddData.HeartbeatConn:Disconnect() end)
+                                        ddData.HeartbeatConn = nil
+                                    end
                                 end
                             end
                         end
@@ -2482,6 +2526,10 @@ function Quantum:CreateWindow(data)
                         MenuFrame.Visible = false
                         MenuFrame.Size = UDim2.new(0, MenuFrame.Size.X.Offset, 0, 0)
                         Arrow.Rotation = 0
+                        if ddData.HeartbeatConn then
+                            pcall(function() ddData.HeartbeatConn:Disconnect() end)
+                            ddData.HeartbeatConn = nil
+                        end
                     else
                         CloseAllDropdowns()
                         ddData.IsOpen = true
@@ -2492,6 +2540,31 @@ function Quantum:CreateWindow(data)
                         Arrow.Rotation = 180
                         SearchBox.Text = ""
                         BuildOptions()
+                        -- Start heartbeat to track button position while scrolling
+                        ddData.HeartbeatConn = RunService.Heartbeat:Connect(function()
+                            if ddData.IsOpen and DropdownBtn and DropdownBtn.Parent then
+                                UpdateMenuPosition()
+                            else
+                                if ddData.HeartbeatConn then
+                                    pcall(function() ddData.HeartbeatConn:Disconnect() end)
+                                    ddData.HeartbeatConn = nil
+                                end
+                            end
+                        end)
+                    end
+                end)
+
+                -- Close dropdown when scrolling the content area
+                TabContent:GetPropertyChangedSignal("CanvasPosition"):Connect(function()
+                    if ddData.IsOpen then
+                        ddData.IsOpen = false
+                        MenuFrame.Visible = false
+                        MenuFrame.Size = UDim2.new(0, MenuFrame.Size.X.Offset, 0, 0)
+                        Arrow.Rotation = 0
+                        if ddData.HeartbeatConn then
+                            pcall(function() ddData.HeartbeatConn:Disconnect() end)
+                            ddData.HeartbeatConn = nil
+                        end
                     end
                 end)
 
@@ -2511,6 +2584,10 @@ function Quantum:CreateWindow(data)
                                     MenuFrame.Visible = false
                                     MenuFrame.Size = UDim2.new(0, MenuFrame.Size.X.Offset, 0, 0)
                                     Arrow.Rotation = 0
+                                    if ddData.HeartbeatConn then
+                                        pcall(function() ddData.HeartbeatConn:Disconnect() end)
+                                        ddData.HeartbeatConn = nil
+                                    end
                                 end
                             end
                         end
