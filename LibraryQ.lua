@@ -554,8 +554,8 @@ local function CreateFloatingIcon(customIcon)
     local Backdrop = Create("Frame", {
         Name = "Backdrop",
         Parent = FloatingIconScreen,
-        Size = UDim2.new(0, 44, 0, 44),
-        Position = UDim2.new(0, 20, 0.5, -22),
+        Size = UDim2.new(0, 60, 0, 60),
+        Position = UDim2.new(0, 20, 0.5, -30),
         BackgroundColor3 = CurrentTheme.Accent,
         BackgroundTransparency = 1,
         BorderSizePixel = 0,
@@ -565,7 +565,7 @@ local function CreateFloatingIcon(customIcon)
     })
 
     Create("UICorner", {
-        CornerRadius = UDim.new(0, 12),
+        CornerRadius = UDim.new(1, 0),
         Parent = Backdrop
     })
 
@@ -575,12 +575,16 @@ local function CreateFloatingIcon(customIcon)
         Parent = Backdrop,
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.new(0.5, 0, 0.5, 0),
-        Size = UDim2.new(1, 0, 1, 0),
+        Size = UDim2.new(1, -4, 1, -4),
         BackgroundTransparency = 1,
         Image = iconToUse,
         ImageColor3 = isCustomImage and Color3.fromRGB(255, 255, 255) or CurrentTheme.Text,
-        ScaleType = Enum.ScaleType.Crop,
+        ScaleType = Enum.ScaleType.Fit,
         ZIndex = 1001
+    })
+    Create("UICorner", {
+        CornerRadius = UDim.new(1, 0),
+        Parent = Icon
     })
 
     local mouseDownOnIcon = false
@@ -1481,7 +1485,6 @@ function Quantum:CreateWindow(data)
                     BackgroundColor3 = CurrentTheme.Background,
                     BorderSizePixel = 0,
                     LayoutOrder = #SectionItems:GetChildren(),
-                    ClipsDescendants = true,
                     ZIndex = 18
                 })
                 Create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = ToggleFrame})
@@ -1512,7 +1515,7 @@ function Quantum:CreateWindow(data)
                 if hasDesc then
                     Create("TextLabel", {
                         Parent = ToggleFrame,
-                        Size = UDim2.new(1, -84, 0, 14),
+                        Size = UDim2.new(0, 200, 0, 14),
                         Position = UDim2.new(0, 28, 0, 20),
                         BackgroundTransparency = 1,
                         Text = desc,
@@ -1520,8 +1523,6 @@ function Quantum:CreateWindow(data)
                         TextSize = 9,
                         Font = Enum.Font.Gotham,
                         TextXAlignment = Enum.TextXAlignment.Left,
-                        TextWrapped = true,
-                        AutomaticSize = Enum.AutomaticSize.Y,
                         ZIndex = 19
                     })
                 end
@@ -1619,7 +1620,6 @@ function Quantum:CreateWindow(data)
                     BackgroundColor3 = CurrentTheme.Background,
                     BorderSizePixel = 0,
                     LayoutOrder = #SectionItems:GetChildren(),
-                    ClipsDescendants = true,
                     ZIndex = 18
                 })
                 Create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = SliderFrame})
@@ -1650,7 +1650,7 @@ function Quantum:CreateWindow(data)
                 if hasDesc then
                     Create("TextLabel", {
                         Parent = SliderFrame,
-                        Size = UDim2.new(1, -18, 0, 14),
+                        Size = UDim2.new(0, 200, 0, 14),
                         Position = UDim2.new(0, 28, 0, 20),
                         BackgroundTransparency = 1,
                         Text = desc,
@@ -1658,8 +1658,6 @@ function Quantum:CreateWindow(data)
                         TextSize = 9,
                         Font = Enum.Font.Gotham,
                         TextXAlignment = Enum.TextXAlignment.Left,
-                        TextWrapped = true,
-                        AutomaticSize = Enum.AutomaticSize.Y,
                         ZIndex = 19
                     })
                 end
@@ -1782,7 +1780,6 @@ function Quantum:CreateWindow(data)
                     Text = "",
                     AutoButtonColor = false,
                     LayoutOrder = #SectionItems:GetChildren(),
-                    ClipsDescendants = true,
                     ZIndex = 18
                 })
                 Create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = Btn})
@@ -1813,7 +1810,7 @@ function Quantum:CreateWindow(data)
                 if hasDesc then
                     Create("TextLabel", {
                         Parent = Btn,
-                        Size = UDim2.new(1, -36, 0, 14),
+                        Size = UDim2.new(0, 200, 0, 14),
                         Position = UDim2.new(0, 28, 0, 20),
                         BackgroundTransparency = 1,
                         Text = desc,
@@ -1822,8 +1819,6 @@ function Quantum:CreateWindow(data)
                         TextSize = 9,
                         Font = Enum.Font.Gotham,
                         TextXAlignment = Enum.TextXAlignment.Left,
-                        TextWrapped = true,
-                        AutomaticSize = Enum.AutomaticSize.Y,
                         ZIndex = 19
                     })
                 end
@@ -1867,7 +1862,7 @@ function Quantum:CreateWindow(data)
                     BackgroundColor3 = CurrentTheme.Background,
                     BorderSizePixel = 0,
                     LayoutOrder = #SectionItems:GetChildren(),
-                    ClipsDescendants = true,
+                    ClipsDescendants = false,
                     ZIndex = 18
                 })
                 Create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = DropdownFrame})
@@ -1898,7 +1893,7 @@ function Quantum:CreateWindow(data)
                 if hasDesc then
                     Create("TextLabel", {
                         Parent = DropdownFrame,
-                        Size = UDim2.new(1, -168, 0, 14),
+                        Size = UDim2.new(0, 200, 0, 14),
                         Position = UDim2.new(0, 28, 0, 20),
                         BackgroundTransparency = 1,
                         Text = desc,
@@ -1906,8 +1901,6 @@ function Quantum:CreateWindow(data)
                         TextSize = 9,
                         Font = Enum.Font.Gotham,
                         TextXAlignment = Enum.TextXAlignment.Left,
-                        TextWrapped = true,
-                        AutomaticSize = Enum.AutomaticSize.Y,
                         ZIndex = 19
                     })
                 end
@@ -2240,7 +2233,7 @@ function Quantum:CreateWindow(data)
                     BackgroundColor3 = CurrentTheme.Background,
                     BorderSizePixel = 0,
                     LayoutOrder = #SectionItems:GetChildren(),
-                    ClipsDescendants = true,
+                    ClipsDescendants = false,
                     ZIndex = 18
                 })
                 Create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = DropdownFrame})
@@ -2271,7 +2264,7 @@ function Quantum:CreateWindow(data)
                 if hasDesc then
                     Create("TextLabel", {
                         Parent = DropdownFrame,
-                        Size = UDim2.new(1, -168, 0, 14),
+                        Size = UDim2.new(0, 200, 0, 14),
                         Position = UDim2.new(0, 28, 0, 20),
                         BackgroundTransparency = 1,
                         Text = desc,
@@ -2279,8 +2272,6 @@ function Quantum:CreateWindow(data)
                         TextSize = 9,
                         Font = Enum.Font.Gotham,
                         TextXAlignment = Enum.TextXAlignment.Left,
-                        TextWrapped = true,
-                        AutomaticSize = Enum.AutomaticSize.Y,
                         ZIndex = 19
                     })
                 end
@@ -2658,7 +2649,6 @@ function Quantum:CreateWindow(data)
                     BackgroundColor3 = CurrentTheme.Background,
                     BorderSizePixel = 0,
                     LayoutOrder = #SectionItems:GetChildren(),
-                    ClipsDescendants = true,
                     ZIndex = 18
                 })
                 Create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = InputFrame})
@@ -2689,7 +2679,7 @@ function Quantum:CreateWindow(data)
                 if hasDesc then
                     Create("TextLabel", {
                         Parent = InputFrame,
-                        Size = UDim2.new(1, -168, 0, 14),
+                        Size = UDim2.new(0, 200, 0, 14),
                         Position = UDim2.new(0, 28, 0, 20),
                         BackgroundTransparency = 1,
                         Text = desc,
@@ -2697,8 +2687,6 @@ function Quantum:CreateWindow(data)
                         TextSize = 9,
                         Font = Enum.Font.Gotham,
                         TextXAlignment = Enum.TextXAlignment.Left,
-                        TextWrapped = true,
-                        AutomaticSize = Enum.AutomaticSize.Y,
                         ZIndex = 19
                     })
                 end
@@ -2755,7 +2743,6 @@ function Quantum:CreateWindow(data)
                     BackgroundColor3 = CurrentTheme.Background,
                     BorderSizePixel = 0,
                     LayoutOrder = #SectionItems:GetChildren(),
-                    ClipsDescendants = true,
                     ZIndex = 18
                 })
                 Create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = BindFrame})
@@ -2786,7 +2773,7 @@ function Quantum:CreateWindow(data)
                 if hasDesc then
                     Create("TextLabel", {
                         Parent = BindFrame,
-                        Size = UDim2.new(1, -108, 0, 14),
+                        Size = UDim2.new(0, 200, 0, 14),
                         Position = UDim2.new(0, 28, 0, 20),
                         BackgroundTransparency = 1,
                         Text = desc,
@@ -2794,8 +2781,6 @@ function Quantum:CreateWindow(data)
                         TextSize = 9,
                         Font = Enum.Font.Gotham,
                         TextXAlignment = Enum.TextXAlignment.Left,
-                        TextWrapped = true,
-                        AutomaticSize = Enum.AutomaticSize.Y,
                         ZIndex = 19
                     })
                 end
@@ -2855,7 +2840,6 @@ function Quantum:CreateWindow(data)
                     BackgroundColor3 = CurrentTheme.Background,
                     BorderSizePixel = 0,
                     LayoutOrder = #SectionItems:GetChildren(),
-                    ClipsDescendants = true,
                     ZIndex = 18
                 })
                 Create("UICorner", {CornerRadius = UDim.new(0, 4), Parent = LabelFrame})
@@ -2900,12 +2884,10 @@ function Quantum:CreateWindow(data)
 
                 local ParaFrame = Create("Frame", {
                     Parent = SectionItems,
-                    Size = UDim2.new(1, 0, 0, 0),
-                    AutomaticSize = Enum.AutomaticSize.Y,
+                    Size = UDim2.new(1, 0, 0, 60),
                     BackgroundColor3 = CurrentTheme.Background,
                     BorderSizePixel = 0,
                     LayoutOrder = #SectionItems:GetChildren(),
-                    ClipsDescendants = true,
                     ZIndex = 18
                 })
                 Create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = ParaFrame})
@@ -2922,7 +2904,7 @@ function Quantum:CreateWindow(data)
 
                 local TitleLabel = Create("TextLabel", {
                     Parent = ParaFrame,
-                    Size = UDim2.new(1, -40, 0, 18),
+                    Size = UDim2.new(0, 300, 0, 18),
                     Position = UDim2.new(0, 28, 0, 6),
                     BackgroundTransparency = 1,
                     Text = title,
@@ -2930,8 +2912,6 @@ function Quantum:CreateWindow(data)
                     TextSize = 11,
                     Font = Enum.Font.GothamBold,
                     TextXAlignment = Enum.TextXAlignment.Left,
-                    TextWrapped = true,
-                    ClipsDescendants = true,
                     ZIndex = 19
                 })
 
@@ -2952,13 +2932,10 @@ function Quantum:CreateWindow(data)
                 })
 
                 local function RefreshSize()
-                    task.wait()
-                    if not ParaFrame or not ParaFrame.Parent then return end
-                    local width = math.max(ParaFrame.AbsoluteSize.X - 18, 50)
+                    local width = ParaFrame.AbsoluteSize.X - 18
                     if width > 0 then
                         local bounds = TextService:GetTextSize(ContentLabel.Text, ContentLabel.TextSize, ContentLabel.Font, Vector2.new(width, math.huge))
-                        local newHeight = 26 + bounds.Y + 14
-                        ParaFrame.Size = UDim2.new(1, 0, 0, newHeight)
+                        ParaFrame.Size = UDim2.new(1, 0, 0, 26 + bounds.Y + 10)
                     end
                     if self._UpdateSize then
                         self._UpdateSize()
@@ -2969,15 +2946,6 @@ function Quantum:CreateWindow(data)
                 ContentLabel:GetPropertyChangedSignal("Text"):Connect(RefreshSize)
                 ParaFrame:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
                     if ParaFrame.AbsoluteSize.X > 0 then
-                        RefreshSize()
-                    end
-                end)
-
-                -- Ensure size is correct after layout
-                task.spawn(function()
-                    for i = 1, 5 do
-                        task.wait(0.1)
-                        if not ParaFrame or not ParaFrame.Parent then break end
                         RefreshSize()
                     end
                 end)
@@ -3044,7 +3012,7 @@ function Quantum:CreateWindow(data)
                 if hasDesc then
                     Create("TextLabel", {
                         Parent = PickerFrame,
-                        Size = UDim2.new(1, -108, 0, 14),
+                        Size = UDim2.new(0, 200, 0, 14),
                         Position = UDim2.new(0, 28, 0, 20),
                         BackgroundTransparency = 1,
                         Text = desc,
@@ -3052,8 +3020,6 @@ function Quantum:CreateWindow(data)
                         TextSize = 9,
                         Font = Enum.Font.Gotham,
                         TextXAlignment = Enum.TextXAlignment.Left,
-                        TextWrapped = true,
-                        AutomaticSize = Enum.AutomaticSize.Y,
                         ZIndex = 19
                     })
                 end
@@ -3200,7 +3166,6 @@ function Quantum:CreateWindow(data)
                     BackgroundColor3 = CurrentTheme.Background,
                     BorderSizePixel = 0,
                     LayoutOrder = #SectionItems:GetChildren(),
-                    ClipsDescendants = true,
                     ZIndex = 18
                 })
                 Create("UICorner", {CornerRadius = UDim.new(0, 4), Parent = StatusFrame})
