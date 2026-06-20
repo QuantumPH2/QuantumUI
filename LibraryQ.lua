@@ -15,7 +15,7 @@ local Config = {
     ElementCorner = 5,
     SidebarWidth = 100,
     TopbarHeight = 26,
-    MinWindowSize = Vector2.new(280, 180),
+    MinWindowSize = Vector2.new(340, 220),
     Themes = {
         Dark = {
             Background = Color3.fromRGB(18, 18, 22),
@@ -554,8 +554,8 @@ local function CreateFloatingIcon(customIcon)
     local Backdrop = Create("Frame", {
         Name = "Backdrop",
         Parent = FloatingIconScreen,
-        Size = UDim2.new(0, 32, 0, 32),
-        Position = UDim2.new(0, 16, 0.5, -16),
+        Size = UDim2.new(0, 36, 0, 36),
+        Position = UDim2.new(0, 16, 0.5, -18),
         BackgroundColor3 = CurrentTheme.Accent,
         BackgroundTransparency = 1,
         BorderSizePixel = 0,
@@ -565,7 +565,7 @@ local function CreateFloatingIcon(customIcon)
     })
 
     Create("UICorner", {
-        CornerRadius = UDim.new(0, 6),
+        CornerRadius = UDim.new(0, 10),
         Parent = Backdrop
     })
 
@@ -666,7 +666,7 @@ end
 function Quantum:CreateWindow(data)
     data = data or {}
     local windowName = data.Name or "Quantum"
-    local windowIcon = data.Icon or "Power"
+    local windowIcon = data.Icon or data.FloatingIcon or Icons.Custom
     local floatingIcon = data.FloatingIcon or nil
     local customVersion = data.Version or Config.DefaultVersion
     local toggleKey = data.ToggleKey
@@ -688,7 +688,7 @@ function Quantum:CreateWindow(data)
     MainFrame = Create("Frame", {
         Name = "Main",
         Parent = MainWindowScreen,
-        Size = UDim2.new(0, 320, 0, 200),
+        Size = UDim2.new(0, 400, 0, 260),
         Position = UDim2.new(0.5, -160, 0.5, -100),
         AnchorPoint = Vector2.new(0, 0),
         BackgroundColor3 = CurrentTheme.Background,
@@ -745,8 +745,8 @@ function Quantum:CreateWindow(data)
     local TitleIcon = Create("ImageLabel", {
         Name = "TitleIcon",
         Parent = Topbar,
-        Size = UDim2.new(0, 14, 0, 14),
-        Position = UDim2.new(0, 7, 0, 6),
+        Size = UDim2.new(0, 18, 0, 18),
+        Position = UDim2.new(0, 6, 0, 4),
         BackgroundTransparency = 1,
         Image = GetIcon(windowIcon),
         ImageColor3 = isCustomWindowIcon and Color3.fromRGB(255, 255, 255) or CurrentTheme.Accent,
@@ -758,7 +758,7 @@ function Quantum:CreateWindow(data)
         Name = "Title",
         Parent = Topbar,
         Size = UDim2.new(0, 130, 0, 14),
-        Position = UDim2.new(0, 24, 0, 3),
+        Position = UDim2.new(0, 28, 0, 2),
         BackgroundTransparency = 1,
         Text = windowName,
         TextColor3 = CurrentTheme.Accent,
@@ -772,7 +772,7 @@ function Quantum:CreateWindow(data)
         Name = "Version",
         Parent = Topbar,
         Size = UDim2.new(0, 130, 0, 10),
-        Position = UDim2.new(0, 21, 0, 13),
+        Position = UDim2.new(0, 28, 0, 12),
         BackgroundTransparency = 1,
         Text = "v" .. customVersion,
         TextColor3 = CurrentTheme.SubText,
@@ -786,7 +786,7 @@ function Quantum:CreateWindow(data)
         Name = "ProfileSection",
         Parent = Topbar,
         Size = UDim2.new(0, 95, 0, 22),
-        Position = UDim2.new(1, -170, 0.5, -11),
+        Position = UDim2.new(1, -210, 0.5, -11),
         BackgroundTransparency = 1,
         ZIndex = 21
     })
@@ -961,7 +961,7 @@ function Quantum:CreateWindow(data)
         if IsMaximized then
             MainFrame.Size = UDim2.new(0, 400, 0, 260)
         else
-            MainFrame.Size = UDim2.new(0, 320, 0, 200)
+            MainFrame.Size = UDim2.new(0, 400, 0, 260)
         end
     end)
 
@@ -1481,7 +1481,7 @@ function Quantum:CreateWindow(data)
                 local desc = toggleData.Desc
 
                 local hasDesc = desc and desc ~= ""
-                local frameHeight = hasDesc and 34 or 22
+                local frameHeight = hasDesc and 38 or 26
 
                 local ToggleFrame = Create("Frame", {
                     Parent = SectionItems,
@@ -1536,8 +1536,8 @@ function Quantum:CreateWindow(data)
 
                 local ToggleBtn = Create("Frame", {
                     Parent = ToggleFrame,
-                    Size = UDim2.new(0, 26, 0, 15),
-                    Position = UDim2.new(1, -34, 0.5, -7),
+                    Size = UDim2.new(0, 34, 0, 18),
+                    Position = UDim2.new(1, -42, 0.5, -9),
                     BackgroundColor3 = CurrentTheme.ToggleOff,
                     BorderSizePixel = 0,
                     ZIndex = 19
@@ -1546,8 +1546,8 @@ function Quantum:CreateWindow(data)
 
                 local ToggleCircle = Create("Frame", {
                     Parent = ToggleBtn,
-                    Size = UDim2.new(0, 5, 0, 5),
-                    Position = UDim2.new(0, 2, 0.5, -5),
+                    Size = UDim2.new(0, 8, 0, 8),
+                    Position = UDim2.new(0, 3, 0.5, -8),
                     BackgroundColor3 = CurrentTheme.Text,
                     BorderSizePixel = 0,
                     ZIndex = 20
@@ -1565,17 +1565,17 @@ function Quantum:CreateWindow(data)
                 local state = default
                 if default then
                     ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOn
-                    ToggleCircle.Position = UDim2.new(0, 13, 0.5, -5)
+                    ToggleCircle.Position = UDim2.new(0, 23, 0.5, -8)
                 end
 
                 ToggleClick.MouseButton1Click:Connect(function()
                     state = not state
                     if state then
                         ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOn
-                        ToggleCircle.Position = UDim2.new(0, 13, 0.5, -5)
+                        ToggleCircle.Position = UDim2.new(0, 23, 0.5, -8)
                     else
                         ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOff
-                        ToggleCircle.Position = UDim2.new(0, 2, 0.5, -5)
+                        ToggleCircle.Position = UDim2.new(0, 3, 0.5, -8)
                     end
                     callback(state)
                 end)
@@ -1595,10 +1595,10 @@ function Quantum:CreateWindow(data)
                         state = val
                         if state then
                             ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOn
-                            ToggleCircle.Position = UDim2.new(0, 13, 0.5, -5)
+                            ToggleCircle.Position = UDim2.new(0, 23, 0.5, -8)
                         else
                             ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOff
-                            ToggleCircle.Position = UDim2.new(0, 2, 0.5, -5)
+                            ToggleCircle.Position = UDim2.new(0, 3, 0.5, -8)
                         end
                         callback(state)
                     end,
