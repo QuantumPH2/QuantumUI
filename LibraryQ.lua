@@ -1399,8 +1399,8 @@ function Quantum:CreateWindow(data)
 
             Create("ImageLabel", {
                 Parent = SectionHeader,
-                Size = UDim2.new(0, 10, 0, 10),
-                Position = UDim2.new(0, 8, 0.5, -8),
+                Size = UDim2.new(0, 16, 0, 16),
+                Position = UDim2.new(0, 10, 0.5, -8),
                 BackgroundTransparency = 1,
                 Image = GetIcon(sectionIcon),
                 ImageColor3 = CurrentTheme.Accent,
@@ -1409,12 +1409,12 @@ function Quantum:CreateWindow(data)
 
             Create("TextLabel", {
                 Parent = SectionHeader,
-                Size = UDim2.new(0, 140, 0, 28),
-                Position = UDim2.new(0, 20, 0, 0),
+                Size = UDim2.new(1, -60, 0, 20),
+                Position = UDim2.new(0, 32, 0.5, -10),
                 BackgroundTransparency = 1,
                 Text = sectionName,
                 TextColor3 = CurrentTheme.Text,
-                TextSize = 9,
+                TextSize = 11,
                 Font = Enum.Font.GothamBold,
                 TextXAlignment = Enum.TextXAlignment.Left,
                 ZIndex = 18
@@ -1422,8 +1422,8 @@ function Quantum:CreateWindow(data)
 
             local Arrow = Create("ImageLabel", {
                 Parent = SectionHeader,
-                Size = UDim2.new(0, 10, 0, 10),
-                Position = UDim2.new(1, -20, 0.5, -6),
+                Size = UDim2.new(0, 12, 0, 12),
+                Position = UDim2.new(1, -28, 0.5, -6),
                 BackgroundTransparency = 1,
                 Image = GetIcon("ChevronDown"),
                 ImageColor3 = CurrentTheme.SubText,
@@ -1457,6 +1457,7 @@ function Quantum:CreateWindow(data)
                 if isCollapsed then
                     SectionFrame.Size = UDim2.new(1, 0, 0, 40)
                     SectionItems.Visible = false
+                    SectionItems.Size = UDim2.new(1, -12, 0, 0)
                     Arrow.Rotation = 0
                     for _, dd in ipairs(sectionDropdowns) do
                         if dd and dd.Menu and dd.Menu.Parent then
@@ -1473,6 +1474,7 @@ function Quantum:CreateWindow(data)
                 else
                     SectionFrame.Size = UDim2.new(1, 0, 0, targetHeight)
                     SectionItems.Visible = true
+                    SectionItems.Size = UDim2.new(1, -12, 0, itemsHeight + 6)
                     Arrow.Rotation = 180
                 end
                 TabContent.CanvasSize = UDim2.new(0, 0, 0, TabContent.UIListLayout.AbsoluteContentSize.Y + 16)
@@ -1486,7 +1488,7 @@ function Quantum:CreateWindow(data)
             if not collapsed then
                 Arrow.Rotation = 180
                 task.wait(0.05)
-                SectionFrame.Size = UDim2.new(1, 0, 0, targetHeight)
+                UpdateSize()
             end
 
             ListenTheme(function(theme)
