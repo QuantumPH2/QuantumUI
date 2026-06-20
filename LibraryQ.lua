@@ -10,13 +10,28 @@ local RunService = game:GetService("RunService")
 local Config = {
     Name = "Quantum",
     DefaultVersion = "5.1",
-    DefaultTheme = "Forest",
-    CornerRadius = 8,
-    ElementCorner = 5,
-    SidebarWidth = 120,
-    TopbarHeight = 32,
-    MinWindowSize = Vector2.new(280, 180),
+    DefaultTheme = "QuantumDark",
+    CornerRadius = 10,
+    ElementCorner = 6,
+    SidebarWidth = 170,
+    TopbarHeight = 44,
+    MinWindowSize = Vector2.new(380, 260),
     Themes = {
+        QuantumDark = {
+            Background = Color3.fromRGB(0, 0, 0),
+            Sidebar = Color3.fromRGB(5, 5, 5),
+            Accent = Color3.fromRGB(80, 220, 120),
+            Text = Color3.fromRGB(240, 240, 245),
+            SubText = Color3.fromRGB(120, 120, 130),
+            Element = Color3.fromRGB(12, 12, 12),
+            ElementHover = Color3.fromRGB(20, 20, 20),
+            ToggleOn = Color3.fromRGB(80, 220, 120),
+            ToggleOff = Color3.fromRGB(40, 40, 45),
+            Border = Color3.fromRGB(30, 30, 35),
+            Shadow = Color3.fromRGB(0, 0, 0),
+            Overlay = Color3.fromRGB(0, 0, 0),
+            Success = Color3.fromRGB(80, 220, 120)
+        },
         Dark = {
             Background = Color3.fromRGB(18, 18, 22),
             Sidebar = Color3.fromRGB(24, 24, 30),
@@ -432,8 +447,8 @@ local function InitNotify()
     })
     NotifyLayout = Create("Frame", {
         Parent = NotifyScreen,
-        Size = UDim2.new(0, 300, 1, -30),
-        Position = UDim2.new(1, -316, 0, 16),
+        Size = UDim2.new(0, 380, 1, -30),
+        Position = UDim2.new(1, -396, 0, 16),
         BackgroundTransparency = 1,
         ZIndex = 200,
     })
@@ -458,7 +473,7 @@ function Quantum:Notify(data)
 
     local notifFrame = Create("Frame", {
         Parent = NotifyLayout,
-        Size = UDim2.new(0, 280, 0, 0),
+        Size = UDim2.new(0, 340, 0, 0),
         BackgroundColor3 = CurrentTheme.Background,
         BorderSizePixel = 0,
         ClipsDescendants = true,
@@ -468,8 +483,8 @@ function Quantum:Notify(data)
     Create("UICorner", {CornerRadius = UDim.new(0, 8), Parent = notifFrame})
     local IconImg = Create("ImageLabel", {
         Parent = notifFrame,
-        Size = UDim2.new(0, 22, 0, 22),
-        Position = UDim2.new(0, 8, 0, 8),
+        Size = UDim2.new(0, 28, 0, 28),
+        Position = UDim2.new(0, 10, 0, 10),
         BackgroundTransparency = 1,
         Image = iconId,
         ImageColor3 = CurrentTheme.Accent,
@@ -478,8 +493,8 @@ function Quantum:Notify(data)
 
     local TitleLbl = Create("TextLabel", {
         Parent = notifFrame,
-        Size = UDim2.new(1, -40, 0, 18),
-        Position = UDim2.new(0, 32, 0, 8),
+        Size = UDim2.new(1, -48, 0, 22),
+        Position = UDim2.new(0, 42, 0, 10),
         BackgroundTransparency = 1,
         Text = title,
         TextColor3 = CurrentTheme.Text,
@@ -492,8 +507,8 @@ function Quantum:Notify(data)
 
     local ContentLbl = Create("TextLabel", {
         Parent = notifFrame,
-        Size = UDim2.new(1, -40, 0, 0),
-        Position = UDim2.new(0, 32, 0, 26),
+        Size = UDim2.new(1, -48, 0, 0),
+        Position = UDim2.new(0, 42, 0, 32),
         BackgroundTransparency = 1,
         Text = content,
         TextColor3 = CurrentTheme.SubText,
@@ -508,8 +523,8 @@ function Quantum:Notify(data)
     table.insert(ActiveNotifications, notifFrame)
 
     task.wait()
-    local contentHeight = math.max(48, 22 + ContentLbl.AbsoluteSize.Y + 8)
-    notifFrame.Size = UDim2.new(0, 280, 0, contentHeight)
+    local contentHeight = math.max(56, 28 + ContentLbl.AbsoluteSize.Y + 10)
+    notifFrame.Size = UDim2.new(0, 340, 0, contentHeight)
 
     task.delay(duration, function()
         notifFrame.Size = UDim2.new(0, 0, 0, contentHeight)
@@ -556,9 +571,9 @@ local function CreateFloatingIcon(customIcon)
     local Backdrop = Create("Frame", {
         Name = "Backdrop",
         Parent = FloatingIconScreen,
-        Size = UDim2.new(0, 48, 0, 48),
+        Size = UDim2.new(0, 56, 0, 56),
         Position = UDim2.new(0, 16, 0.5, -24),
-        BackgroundColor3 = Color3.fromRGB(12, 12, 16),
+        BackgroundColor3 = Color3.fromRGB(0, 0, 0),
         BackgroundTransparency = 0.05,
         BorderSizePixel = 0,
         Active = true,
@@ -584,7 +599,7 @@ local function CreateFloatingIcon(customIcon)
         Parent = Backdrop,
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.new(0.5, 0, 0.5, 0),
-        Size = UDim2.new(0, 32, 0, 32),
+        Size = UDim2.new(0, 36, 0, 36),
         BackgroundTransparency = 1,
         Image = iconToUse,
         ImageColor3 = isCustomImage and Color3.fromRGB(255, 255, 255) or CurrentTheme.Text,
@@ -676,7 +691,7 @@ end
 function Quantum:CreateWindow(data)
     data = data or {}
     local windowName = data.Name or "Quantum"
-    local windowIcon = data.Icon or "Power"
+    local windowIcon = data.Icon or "atom"
     local floatingIcon = data.FloatingIcon or nil
     local customVersion = data.Version or Config.DefaultVersion
     local toggleKey = data.ToggleKey
@@ -698,8 +713,8 @@ function Quantum:CreateWindow(data)
     MainFrame = Create("Frame", {
         Name = "Main",
         Parent = MainWindowScreen,
-        Size = UDim2.new(0, 320, 0, 200),
-        Position = UDim2.new(0.5, -160, 0.5, -100),
+        Size = UDim2.new(0, 480, 0, 300),
+        Position = UDim2.new(0.5, -240, 0.5, -150),
         AnchorPoint = Vector2.new(0, 0),
         BackgroundColor3 = CurrentTheme.Background,
         BorderSizePixel = 0,
@@ -755,8 +770,8 @@ function Quantum:CreateWindow(data)
     local TitleIcon = Create("ImageLabel", {
         Name = "TitleIcon",
         Parent = Topbar,
-        Size = UDim2.new(0, 14, 0, 14),
-        Position = UDim2.new(0, 7, 0, 6),
+        Size = UDim2.new(0, 20, 0, 20),
+        Position = UDim2.new(0, 10, 0, 8),
         BackgroundTransparency = 1,
         Image = GetIcon(windowIcon),
         ImageColor3 = isCustomWindowIcon and Color3.fromRGB(255, 255, 255) or CurrentTheme.Accent,
@@ -767,12 +782,12 @@ function Quantum:CreateWindow(data)
     local Title = Create("TextLabel", {
         Name = "Title",
         Parent = Topbar,
-        Size = UDim2.new(0, 130, 0, 14),
-        Position = UDim2.new(0, 24, 0, 3),
+        Size = UDim2.new(0, 180, 0, 20),
+        Position = UDim2.new(0, 34, 0, 6),
         BackgroundTransparency = 1,
         Text = windowName,
         TextColor3 = CurrentTheme.Accent,
-        TextSize = 10,
+        TextSize = 14,
         Font = Enum.Font.GothamBold,
         TextXAlignment = Enum.TextXAlignment.Left,
         ZIndex = 21
@@ -781,12 +796,12 @@ function Quantum:CreateWindow(data)
     local Version = Create("TextLabel", {
         Name = "Version",
         Parent = Topbar,
-        Size = UDim2.new(0, 130, 0, 10),
-        Position = UDim2.new(0, 21, 0, 13),
+        Size = UDim2.new(0, 180, 0, 14),
+        Position = UDim2.new(0, 32, 0, 24),
         BackgroundTransparency = 1,
         Text = "v" .. customVersion,
         TextColor3 = CurrentTheme.SubText,
-        TextSize = 9,
+        TextSize = 11,
         Font = Enum.Font.Gotham,
         TextXAlignment = Enum.TextXAlignment.Left,
         ZIndex = 21
@@ -795,8 +810,8 @@ function Quantum:CreateWindow(data)
     local ProfileSection = Create("Frame", {
         Name = "ProfileSection",
         Parent = Topbar,
-        Size = UDim2.new(0, 110, 0, 28),
-        Position = UDim2.new(1, -170, 0.5, -11),
+        Size = UDim2.new(0, 140, 0, 36),
+        Position = UDim2.new(1, -210, 0.5, -14),
         BackgroundTransparency = 1,
         ZIndex = 21
     })
@@ -804,7 +819,7 @@ function Quantum:CreateWindow(data)
     local ProfileFrame = Create("Frame", {
         Name = "ProfileFrame",
         Parent = ProfileSection,
-        Size = UDim2.new(0, 26, 0, 26),
+        Size = UDim2.new(0, 34, 0, 34),
         Position = UDim2.new(0, 0, 0, 0),
         BackgroundColor3 = CurrentTheme.Element,
         BorderSizePixel = 0,
@@ -826,12 +841,12 @@ function Quantum:CreateWindow(data)
     local ProfileName = Create("TextLabel", {
         Name = "ProfileName",
         Parent = ProfileSection,
-        Size = UDim2.new(0, 70, 0, 12),
-        Position = UDim2.new(0, 25, 0, 0),
+        Size = UDim2.new(0, 90, 0, 16),
+        Position = UDim2.new(0, 32, 0, 0),
         BackgroundTransparency = 1,
         Text = LocalPlayer.DisplayName or LocalPlayer.Name,
         TextColor3 = CurrentTheme.Text,
-        TextSize = 9,
+        TextSize = 11,
         Font = Enum.Font.GothamBold,
         TextXAlignment = Enum.TextXAlignment.Left,
         TextTruncate = Enum.TextTruncate.AtEnd,
@@ -841,8 +856,8 @@ function Quantum:CreateWindow(data)
     local ProfileUser = Create("TextLabel", {
         Name = "ProfileUser",
         Parent = ProfileSection,
-        Size = UDim2.new(0, 70, 0, 10),
-        Position = UDim2.new(0, 25, 0, 11),
+        Size = UDim2.new(0, 90, 0, 14),
+        Position = UDim2.new(0, 32, 0, 14),
         BackgroundTransparency = 1,
         Text = "@" .. LocalPlayer.Name,
         TextColor3 = CurrentTheme.SubText,
@@ -868,8 +883,8 @@ function Quantum:CreateWindow(data)
     local ConfirmBox = Create("Frame", {
         Name = "ConfirmBox",
         Parent = ConfirmOverlay,
-        Size = UDim2.new(0, 200, 0, 110),
-        Position = UDim2.new(0.5, -90, 0.5, -45),
+        Size = UDim2.new(0, 260, 0, 140),
+        Position = UDim2.new(0.5, -120, 0.5, -60),
         BackgroundColor3 = CurrentTheme.Background,
         BorderSizePixel = 0,
         ZIndex = 101
@@ -878,12 +893,12 @@ function Quantum:CreateWindow(data)
 
     Create("TextLabel", {
         Parent = ConfirmBox,
-        Size = UDim2.new(1, 0, 0, 24),
+        Size = UDim2.new(1, 0, 0, 34),
         Position = UDim2.new(0, 0, 0, 8),
         BackgroundTransparency = 1,
         Text = "Close Quantum?",
         TextColor3 = CurrentTheme.Text,
-        TextSize = 9,
+        TextSize = 11,
         Font = Enum.Font.GothamBold,
         ZIndex = 102
     })
@@ -903,8 +918,8 @@ function Quantum:CreateWindow(data)
 
     local ConfirmYes = Create("TextButton", {
         Parent = ConfirmBox,
-        Size = UDim2.new(0, 70, 0, 26),
-        Position = UDim2.new(0.5, 4, 1, -26),
+        Size = UDim2.new(0, 90, 0, 32),
+        Position = UDim2.new(0.5, 6, 1, -34),
         BackgroundColor3 = Color3.fromRGB(220, 60, 60),
         Text = "Close",
         TextColor3 = Color3.fromRGB(255, 255, 255),
@@ -916,8 +931,8 @@ function Quantum:CreateWindow(data)
 
     local ConfirmNo = Create("TextButton", {
         Parent = ConfirmBox,
-        Size = UDim2.new(0, 70, 0, 26),
-        Position = UDim2.new(0.5, -68, 1, -26),
+        Size = UDim2.new(0, 90, 0, 32),
+        Position = UDim2.new(0.5, -88, 1, -34),
         BackgroundColor3 = CurrentTheme.Element,
         Text = "Cancel",
         TextColor3 = CurrentTheme.Text,
@@ -930,8 +945,8 @@ function Quantum:CreateWindow(data)
     local Controls = Create("Frame", {
         Name = "Controls",
         Parent = Topbar,
-        Size = UDim2.new(0, 80, 0, Config.TopbarHeight),
-        Position = UDim2.new(1, -82, 0, 0),
+        Size = UDim2.new(0, 100, 0, Config.TopbarHeight),
+        Position = UDim2.new(1, -102, 0, 0),
         BackgroundTransparency = 1,
         ZIndex = 21
     })
@@ -940,7 +955,7 @@ function Quantum:CreateWindow(data)
         local btn = Create("ImageButton", {
             Name = name,
             Parent = Controls,
-            Size = UDim2.new(0, 22, 0, 22),
+            Size = UDim2.new(0, 28, 0, 28),
             Position = pos,
             BackgroundColor3 = CurrentTheme.Element,
             AutoButtonColor = false,
@@ -1016,8 +1031,8 @@ function Quantum:CreateWindow(data)
     -- Search Box in Sidebar
     local SearchFrame = Create("Frame", {
         Parent = Sidebar,
-        Size = UDim2.new(1, -8, 0, 26),
-        Position = UDim2.new(0, 4, 0, 5),
+        Size = UDim2.new(1, -12, 0, 34),
+        Position = UDim2.new(0, 6, 0, 8),
         BackgroundColor3 = CurrentTheme.Element,
         BorderSizePixel = 0,
         ZIndex = 16
@@ -1026,8 +1041,8 @@ function Quantum:CreateWindow(data)
 
     local SearchIcon = Create("ImageLabel", {
         Parent = SearchFrame,
-        Size = UDim2.new(0, 10, 0, 10),
-        Position = UDim2.new(0, 5, 0.5, -8),
+        Size = UDim2.new(0, 14, 0, 14),
+        Position = UDim2.new(0, 8, 0.5, -7),
         BackgroundTransparency = 1,
         Image = GetIcon("Search"),
         ImageColor3 = CurrentTheme.SubText,
@@ -1036,14 +1051,14 @@ function Quantum:CreateWindow(data)
 
     local SearchBox = Create("TextBox", {
         Parent = SearchFrame,
-        Size = UDim2.new(1, -20, 1, 0),
-        Position = UDim2.new(0, 18, 0, 0),
+        Size = UDim2.new(1, -28, 1, 0),
+        Position = UDim2.new(0, 24, 0, 0),
         BackgroundTransparency = 1,
         Text = "",
         PlaceholderText = "Search tabs...",
         TextColor3 = CurrentTheme.Text,
         PlaceholderColor3 = CurrentTheme.SubText,
-        TextSize = 9,
+        TextSize = 12,
         Font = Enum.Font.Gotham,
         ClearTextOnFocus = false,
         ZIndex = 17
@@ -1052,8 +1067,8 @@ function Quantum:CreateWindow(data)
     local TabList = Create("ScrollingFrame", {
         Name = "TabList",
         Parent = Sidebar,
-        Size = UDim2.new(1, -8, 1, -32),
-        Position = UDim2.new(0, 4, 0, 34),
+        Size = UDim2.new(1, -12, 1, -44),
+        Position = UDim2.new(0, 6, 0, 48),
         BackgroundTransparency = 1,
         BorderSizePixel = 0,
         ScrollBarThickness = 2,
@@ -1072,8 +1087,8 @@ function Quantum:CreateWindow(data)
     local Content = Create("Frame", {
         Name = "Content",
         Parent = MainFrame,
-        Size = UDim2.new(1, -Config.SidebarWidth + 4, 1, -Config.TopbarHeight),
-        Position = UDim2.new(0, Config.SidebarWidth - 4, 0, Config.TopbarHeight),
+        Size = UDim2.new(1, -Config.SidebarWidth + 6, 1, -Config.TopbarHeight),
+        Position = UDim2.new(0, Config.SidebarWidth - 6, 0, Config.TopbarHeight),
         BackgroundColor3 = CurrentTheme.Background,
         BorderSizePixel = 0,
         ClipsDescendants = true,
@@ -1094,8 +1109,8 @@ function Quantum:CreateWindow(data)
     local ResizeHandle = Create("ImageButton", {
         Name = "ResizeHandle",
         Parent = MainFrame,
-        Size = UDim2.new(0, 22, 0, 22),
-        Position = UDim2.new(1, -20, 1, -20),
+        Size = UDim2.new(0, 26, 0, 26),
+        Position = UDim2.new(1, -24, 1, -24),
         BackgroundTransparency = 1,
         Image = GetIcon("ChevronLeft"),
         ImageColor3 = CurrentTheme.SubText,
@@ -1225,7 +1240,7 @@ function Quantum:CreateWindow(data)
 
         local TabBtn = Create("TextButton", {
             Parent = TabList,
-            Size = UDim2.new(1, -4, 0, 30),
+            Size = UDim2.new(1, -6, 0, 42),
             BackgroundColor3 = CurrentTheme.Element,
             Text = "",
             AutoButtonColor = false,
@@ -1236,8 +1251,8 @@ function Quantum:CreateWindow(data)
 
         local TabBtnIcon = Create("ImageLabel", {
             Parent = TabBtn,
-            Size = UDim2.new(0, 10, 0, 10),
-            Position = UDim2.new(0, 7, 0.5, -7),
+            Size = UDim2.new(0, 16, 0, 16),
+            Position = UDim2.new(0, 10, 0.5, -8),
             BackgroundTransparency = 1,
             Image = GetIcon(tabIcon),
             ImageColor3 = CurrentTheme.SubText,
@@ -1246,12 +1261,12 @@ function Quantum:CreateWindow(data)
 
         local TabBtnText = Create("TextLabel", {
             Parent = TabBtn,
-            Size = UDim2.new(0, 80, 0, 24),
-            Position = UDim2.new(0, 20, 0, 0),
+            Size = UDim2.new(0, 120, 0, 32),
+            Position = UDim2.new(0, 28, 0, 2),
             BackgroundTransparency = 1,
             Text = tabName,
             TextColor3 = CurrentTheme.SubText,
-            TextSize = 9,
+            TextSize = 12,
             Font = Enum.Font.Gotham,
             TextXAlignment = Enum.TextXAlignment.Left,
             ZIndex = 18
@@ -1259,7 +1274,7 @@ function Quantum:CreateWindow(data)
 
         local TabIndicator = Create("Frame", {
             Parent = TabBtn,
-            Size = UDim2.new(0, 2, 0.5, 0),
+            Size = UDim2.new(0, 3, 0.5, 0),
             Position = UDim2.new(0, 0, 0.25, 0),
             BackgroundColor3 = CurrentTheme.Accent,
             BorderSizePixel = 0,
@@ -1270,8 +1285,8 @@ function Quantum:CreateWindow(data)
 
         local TabContent = Create("ScrollingFrame", {
             Parent = Content,
-            Size = UDim2.new(1, -10, 1, -10),
-            Position = UDim2.new(0, 4, 0, 4),
+            Size = UDim2.new(1, -14, 1, -14),
+            Position = UDim2.new(0, 6, 0, 6),
             BackgroundTransparency = 1,
             BorderSizePixel = 0,
             ScrollBarThickness = 2,
@@ -1357,7 +1372,7 @@ function Quantum:CreateWindow(data)
 
             local SectionFrame = Create("Frame", {
                 Parent = TabContent,
-                Size = UDim2.new(1, 0, 0, 36),
+                Size = UDim2.new(1, 0, 0, 48),
                 BackgroundColor3 = CurrentTheme.Element,
                 BorderSizePixel = 0,
                 ClipsDescendants = true,
@@ -1368,7 +1383,7 @@ function Quantum:CreateWindow(data)
 
             local SectionHeader = Create("TextButton", {
                 Parent = SectionFrame,
-                Size = UDim2.new(1, 0, 0, 36),
+                Size = UDim2.new(1, 0, 0, 48),
                 BackgroundColor3 = CurrentTheme.Element,
                 Text = "",
                 AutoButtonColor = false,
@@ -1430,9 +1445,9 @@ function Quantum:CreateWindow(data)
 
             local function UpdateSize()
                 local itemsHeight = SectionItems.UIListLayout.AbsoluteContentSize.Y
-                targetHeight = 36 + itemsHeight + 8
+                targetHeight = 48 + itemsHeight + 10
                 if isCollapsed then
-                    SectionFrame.Size = UDim2.new(1, 0, 0, 28)
+                    SectionFrame.Size = UDim2.new(1, 0, 0, 48)
                     Arrow.Rotation = 0
                     for _, dd in ipairs(sectionDropdowns) do
                         if dd and dd.Menu and dd.Menu.Parent then
@@ -1491,7 +1506,7 @@ function Quantum:CreateWindow(data)
                 local desc = toggleData.Desc
 
                 local hasDesc = desc and desc ~= ""
-                local frameHeight = hasDesc and 42 or 28
+                local frameHeight = hasDesc and 56 or 40
 
                 local ToggleFrame = Create("Frame", {
                     Parent = SectionItems,
@@ -1546,8 +1561,8 @@ function Quantum:CreateWindow(data)
 
                 local ToggleBtn = Create("Frame", {
                     Parent = ToggleFrame,
-                    Size = UDim2.new(0, 36, 0, 20),
-                    Position = UDim2.new(1, -44, 0.5, -10),
+                    Size = UDim2.new(0, 48, 0, 26),
+                    Position = UDim2.new(1, -56, 0.5, -13),
                     BackgroundColor3 = CurrentTheme.ToggleOff,
                     BorderSizePixel = 0,
                     ZIndex = 19
@@ -1556,8 +1571,8 @@ function Quantum:CreateWindow(data)
 
                 local ToggleCircle = Create("Frame", {
                     Parent = ToggleBtn,
-                    Size = UDim2.new(0, 5, 0, 5),
-                    Position = UDim2.new(0, 3, 0.5, -8),
+                    Size = UDim2.new(0, 16, 0, 16),
+                    Position = UDim2.new(0, 4, 0.5, -8),
                     BackgroundColor3 = CurrentTheme.Text,
                     BorderSizePixel = 0,
                     ZIndex = 20
@@ -1575,17 +1590,17 @@ function Quantum:CreateWindow(data)
                 local state = default
                 if default then
                     ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOn
-                    ToggleCircle.Position = UDim2.new(0, 13, 0.5, -5)
+                    ToggleCircle.Position = UDim2.new(0, 28, 0.5, -8)
                 end
 
                 ToggleClick.MouseButton1Click:Connect(function()
                     state = not state
                     if state then
                         ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOn
-                        ToggleCircle.Position = UDim2.new(0, 23, 0.5, -8)
+                        ToggleCircle.Position = UDim2.new(0, 28, 0.5, -8)
                     else
                         ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOff
-                        ToggleCircle.Position = UDim2.new(0, 3, 0.5, -8)
+                        ToggleCircle.Position = UDim2.new(0, 4, 0.5, -8)
                     end
                     callback(state)
                 end)
@@ -1605,10 +1620,10 @@ function Quantum:CreateWindow(data)
                         state = val
                         if state then
                             ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOn
-                            ToggleCircle.Position = UDim2.new(0, 23, 0.5, -8)
+                            ToggleCircle.Position = UDim2.new(0, 28, 0.5, -8)
                         else
                             ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOff
-                            ToggleCircle.Position = UDim2.new(0, 3, 0.5, -8)
+                            ToggleCircle.Position = UDim2.new(0, 4, 0.5, -8)
                         end
                         callback(state)
                     end,
@@ -1629,7 +1644,7 @@ function Quantum:CreateWindow(data)
                 local desc = sliderData.Desc
 
                 local hasDesc = desc and desc ~= ""
-                local frameHeight = hasDesc and 54 or 38
+                local frameHeight = hasDesc and 70 or 52
 
                 local SliderFrame = Create("Frame", {
                     Parent = SectionItems,
@@ -1774,7 +1789,7 @@ function Quantum:CreateWindow(data)
                         val = math.clamp(val, min, max)
                         val = math.floor(val / increment + 0.5) * increment
                         Fill.Size = UDim2.new((val - min) / (max - min), 0, 1, 0)
-                        Knob.Position = UDim2.new((val - min) / (max - min), -10, 0.5, -10)
+                        Knob.Position = UDim2.new((val - min) / (max - min), -7, 0.5, -7)
                         ValueLabel.Text = tostring(val)
                         callback(val)
                     end,
@@ -1791,7 +1806,7 @@ function Quantum:CreateWindow(data)
                 local desc = buttonData.Desc
 
                 local hasDesc = desc and desc ~= ""
-                local frameHeight = hasDesc and 40 or 26
+                local frameHeight = hasDesc and 56 or 38
 
                 local Btn = Create("TextButton", {
                     Parent = SectionItems,
@@ -1877,7 +1892,7 @@ function Quantum:CreateWindow(data)
                 local desc = dropdownData.Desc
 
                 local hasDesc = desc and desc ~= ""
-                local frameHeight = hasDesc and 40 or 26
+                local frameHeight = hasDesc and 56 or 38
 
                 local DropdownFrame = Create("Frame", {
                     Parent = SectionItems,
@@ -1946,8 +1961,8 @@ function Quantum:CreateWindow(data)
 
                 local Arrow = Create("ImageLabel", {
                     Parent = DropdownBtn,
-                    Size = UDim2.new(0, 10, 0, 10),
-                    Position = UDim2.new(1, -14, 0.5, -4),
+                    Size = UDim2.new(0, 12, 0, 12),
+                    Position = UDim2.new(1, -16, 0.5, -6),
                     BackgroundTransparency = 1,
                     Image = GetIcon("ChevronDown"),
                     ImageColor3 = CurrentTheme.SubText,
@@ -1981,14 +1996,14 @@ function Quantum:CreateWindow(data)
 
                 local SearchBox = Create("TextBox", {
                     Parent = MenuFrame,
-                    Size = UDim2.new(1, -8, 0, 22),
-                    Position = UDim2.new(0, 4, 0, 4),
+                    Size = UDim2.new(1, -10, 0, 28),
+                    Position = UDim2.new(0, 5, 0, 5),
                     BackgroundColor3 = CurrentTheme.Element,
                     Text = "",
                     PlaceholderText = "Search...",
                     TextColor3 = CurrentTheme.Text,
                     PlaceholderColor3 = CurrentTheme.SubText,
-                    TextSize = 9,
+                    TextSize = 11,
                     Font = Enum.Font.Gotham,
                     ClearTextOnFocus = false,
                     ZIndex = 31
@@ -1997,8 +2012,8 @@ function Quantum:CreateWindow(data)
 
                 Create("ImageLabel", {
                     Parent = SearchBox,
-                    Size = UDim2.new(0, 10, 0, 10),
-                    Position = UDim2.new(1, -14, 0.5, -4),
+                    Size = UDim2.new(0, 12, 0, 12),
+                    Position = UDim2.new(1, -16, 0.5, -6),
                     BackgroundTransparency = 1,
                     Image = GetIcon("Search"),
                     ImageColor3 = CurrentTheme.SubText,
@@ -2007,8 +2022,8 @@ function Quantum:CreateWindow(data)
 
                 local OptionsScroll = Create("ScrollingFrame", {
                     Parent = MenuFrame,
-                    Size = UDim2.new(1, -8, 0, 0),
-                    Position = UDim2.new(0, 4, 0, 24),
+                    Size = UDim2.new(1, -10, 0, 0),
+                    Position = UDim2.new(0, 5, 0, 30),
                     BackgroundTransparency = 1,
                     BorderSizePixel = 0,
                     ScrollBarThickness = 2,
@@ -2037,7 +2052,7 @@ function Quantum:CreateWindow(data)
                         if not filterText or filterText == "" or string.find(string.lower(optText), string.lower(filterText), 1, true) then
                             local optBtn = Create("TextButton", {
                                 Parent = OptionsScroll,
-                                Size = UDim2.new(1, 0, 0, 16),
+                                Size = UDim2.new(1, 0, 0, 34),
                                 BackgroundColor3 = CurrentTheme.Element,
                                 Text = "",
                                 TextColor3 = CurrentTheme.Text,
@@ -2050,8 +2065,8 @@ function Quantum:CreateWindow(data)
                             if optIcon then
                                 Create("ImageLabel", {
                                     Parent = optBtn,
-                                    Size = UDim2.new(0, 10, 0, 10),
-                                    Position = UDim2.new(0, 4, 0.5, -8),
+                                    Size = UDim2.new(0, 12, 0, 12),
+                                    Position = UDim2.new(0, 6, 0.5, -6),
                                     BackgroundTransparency = 1,
                                     Image = GetIcon(optIcon),
                                     ImageColor3 = CurrentTheme.SubText,
@@ -2059,12 +2074,12 @@ function Quantum:CreateWindow(data)
                                 })
                                 local txt = Create("TextLabel", {
                                     Parent = optBtn,
-                                    Size = UDim2.new(1, -20, 1, 0),
-                                    Position = UDim2.new(0, 16, 0, 0),
+                                    Size = UDim2.new(1, -24, 1, 0),
+                                    Position = UDim2.new(0, 20, 0, 0),
                                     BackgroundTransparency = 1,
                                     Text = optText,
                                     TextColor3 = CurrentTheme.Text,
-                                    TextSize = 9,
+                                    TextSize = 11,
                                     Font = Enum.Font.Gotham,
                                     TextXAlignment = Enum.TextXAlignment.Left,
                                     ZIndex = 33,
@@ -2101,9 +2116,9 @@ function Quantum:CreateWindow(data)
                         end
                     end
 
-                    local listHeight = math.min(count * 22 + 4, 110)
+                    local listHeight = math.min(count * 28 + 6, 140)
                     OptionsScroll.Size = UDim2.new(1, -10, 0, listHeight)
-                    OptionsScroll.CanvasSize = UDim2.new(0, 0, 0, count * 22 + 4)
+                    OptionsScroll.CanvasSize = UDim2.new(0, 0, 0, count * 28 + 6)
                 end
 
                 BuildOptions("")
@@ -2135,7 +2150,7 @@ function Quantum:CreateWindow(data)
                         ddData.IsOpen = true
                         UpdateMenuPosition()
                         MenuFrame.Visible = true
-                        local menuHeight = math.min(#options * 22 + 30, 160)
+                        local menuHeight = math.min(#options * 28 + 36, 200)
                         MenuFrame.Size = UDim2.new(0, DropdownBtn.AbsoluteSize.X, 0, menuHeight)
                         Arrow.Rotation = 180
                         SearchBox.Text = ""
@@ -2250,7 +2265,7 @@ function Quantum:CreateWindow(data)
                 local desc = dropdownData.Desc
 
                 local hasDesc = desc and desc ~= ""
-                local frameHeight = hasDesc and 40 or 26
+                local frameHeight = hasDesc and 56 or 38
 
                 local DropdownFrame = Create("Frame", {
                     Parent = SectionItems,
@@ -2367,14 +2382,14 @@ function Quantum:CreateWindow(data)
 
                 local SearchBox = Create("TextBox", {
                     Parent = MenuFrame,
-                    Size = UDim2.new(1, -8, 0, 22),
-                    Position = UDim2.new(0, 4, 0, 4),
+                    Size = UDim2.new(1, -10, 0, 28),
+                    Position = UDim2.new(0, 5, 0, 5),
                     BackgroundColor3 = CurrentTheme.Element,
                     Text = "",
                     PlaceholderText = "Search...",
                     TextColor3 = CurrentTheme.Text,
                     PlaceholderColor3 = CurrentTheme.SubText,
-                    TextSize = 9,
+                    TextSize = 11,
                     Font = Enum.Font.Gotham,
                     ClearTextOnFocus = false,
                     ZIndex = 31
@@ -2393,8 +2408,8 @@ function Quantum:CreateWindow(data)
 
                 local OptionsScroll = Create("ScrollingFrame", {
                     Parent = MenuFrame,
-                    Size = UDim2.new(1, -8, 0, 0),
-                    Position = UDim2.new(0, 4, 0, 24),
+                    Size = UDim2.new(1, -10, 0, 0),
+                    Position = UDim2.new(0, 5, 0, 30),
                     BackgroundTransparency = 1,
                     BorderSizePixel = 0,
                     ScrollBarThickness = 2,
@@ -2432,7 +2447,7 @@ function Quantum:CreateWindow(data)
 
                         local row = Create("Frame", {
                             Parent = OptionsScroll,
-                            Size = UDim2.new(1, 0, 0, 22),
+                            Size = UDim2.new(1, 0, 0, 28),
                             BackgroundColor3 = CurrentTheme.Element,
                             ZIndex = 32,
                         })
@@ -2440,8 +2455,8 @@ function Quantum:CreateWindow(data)
 
                         local checkBox = Create("Frame", {
                             Parent = row,
-                            Size = UDim2.new(0, 10, 0, 10),
-                            Position = UDim2.new(0, 5, 0.5, -8),
+                            Size = UDim2.new(0, 14, 0, 14),
+                            Position = UDim2.new(0, 8, 0.5, -7),
                             BackgroundColor3 = CurrentTheme.Background,
                             BorderSizePixel = 0,
                             ZIndex = 33,
@@ -2450,8 +2465,8 @@ function Quantum:CreateWindow(data)
 
                         local checkMark = Create("ImageLabel", {
                             Parent = checkBox,
-                            Size = UDim2.new(0, 10, 0, 10),
-                            Position = UDim2.new(0.5, -3, 0.5, -3),
+                            Size = UDim2.new(0, 12, 0, 12),
+                            Position = UDim2.new(0.5, -6, 0.5, -6),
                             BackgroundTransparency = 1,
                             Image = GetIcon("Check"),
                             ImageColor3 = CurrentTheme.Accent,
@@ -2459,23 +2474,23 @@ function Quantum:CreateWindow(data)
                             Visible = IsSelected(opt),
                         })
 
-                        local textX = 24
+                        local textX = 30
                         if optIcon then
                             Create("ImageLabel", {
                                 Parent = row,
-                                Size = UDim2.new(0, 10, 0, 10),
-                                Position = UDim2.new(0, 18, 0.5, -5),
+                                Size = UDim2.new(0, 12, 0, 12),
+                                Position = UDim2.new(0, 24, 0.5, -6),
                                 BackgroundTransparency = 1,
                                 Image = GetIcon(optIcon),
                                 ImageColor3 = CurrentTheme.SubText,
                                 ZIndex = 33,
                             })
-                            textX = 38
+                            textX = 48
                         end
 
                         local txt = Create("TextLabel", {
                             Parent = row,
-                            Size = UDim2.new(1, -textX - 4, 1, 0),
+                            Size = UDim2.new(1, -textX - 6, 1, 0),
                             Position = UDim2.new(0, textX, 0, 0),
                             BackgroundTransparency = 1,
                             Text = optText,
@@ -2523,9 +2538,9 @@ function Quantum:CreateWindow(data)
                         end
                     end
 
-                    local listHeight = math.min(count * 22 + 4, 110)
+                    local listHeight = math.min(count * 28 + 6, 140)
                     OptionsScroll.Size = UDim2.new(1, -10, 0, listHeight)
-                    OptionsScroll.CanvasSize = UDim2.new(0, 0, 0, count * 22 + 4)
+                    OptionsScroll.CanvasSize = UDim2.new(0, 0, 0, count * 28 + 6)
                 end
 
                 BuildOptions()
@@ -2557,7 +2572,7 @@ function Quantum:CreateWindow(data)
                         ddData.IsOpen = true
                         UpdateMenuPosition()
                         MenuFrame.Visible = true
-                        local menuHeight = math.min(#options * 22 + 30, 160)
+                        local menuHeight = math.min(#options * 28 + 36, 200)
                         MenuFrame.Size = UDim2.new(0, DropdownBtn.AbsoluteSize.X, 0, menuHeight)
                         Arrow.Rotation = 180
                         SearchBox.Text = ""
@@ -2668,7 +2683,7 @@ function Quantum:CreateWindow(data)
                 local desc = inputData.Desc
 
                 local hasDesc = desc and desc ~= ""
-                local frameHeight = hasDesc and 40 or 26
+                local frameHeight = hasDesc and 56 or 38
 
                 local InputFrame = Create("Frame", {
                     Parent = SectionItems,
@@ -2765,7 +2780,7 @@ function Quantum:CreateWindow(data)
                 local desc = bindData.Desc
 
                 local hasDesc = desc and desc ~= ""
-                local frameHeight = hasDesc and 40 or 26
+                local frameHeight = hasDesc and 56 or 38
 
                 local BindFrame = Create("Frame", {
                     Parent = SectionItems,
@@ -2975,7 +2990,7 @@ function Quantum:CreateWindow(data)
                     local width = math.max(ParaFrame.AbsoluteSize.X - 18, 50)
                     if width > 0 then
                         local bounds = TextService:GetTextSize(ContentLabel.Text, ContentLabel.TextSize, ContentLabel.Font, Vector2.new(width, math.huge))
-                        local newHeight = 22 + bounds.Y + 8
+                        local newHeight = 28 + bounds.Y + 10
                         ParaFrame.Size = UDim2.new(1, 0, 0, newHeight)
                     end
                     if self._UpdateSize then
@@ -3024,7 +3039,7 @@ function Quantum:CreateWindow(data)
                 local desc = pickerData.Desc
 
                 local hasDesc = desc and desc ~= ""
-                local frameHeight = hasDesc and 40 or 26
+                local frameHeight = hasDesc and 56 or 38
 
                 local PickerFrame = Create("Frame", {
                     Parent = SectionItems,
@@ -3102,8 +3117,8 @@ function Quantum:CreateWindow(data)
 
                 local RInput = Create("TextBox", {
                     Parent = ColorMenu,
-                    Size = UDim2.new(0, 26, 0, 22),
-                    Position = UDim2.new(0, 4, 0, 4),
+                    Size = UDim2.new(0, 32, 0, 28),
+                    Position = UDim2.new(0, 5, 0, 5),
                     BackgroundColor3 = CurrentTheme.Element,
                     Text = tostring(math.round(default.R * 255)),
                     TextColor3 = CurrentTheme.Text,
@@ -3115,8 +3130,8 @@ function Quantum:CreateWindow(data)
 
                 local GInput = Create("TextBox", {
                     Parent = ColorMenu,
-                    Size = UDim2.new(0, 26, 0, 22),
-                    Position = UDim2.new(0, 32, 0, 4),
+                    Size = UDim2.new(0, 32, 0, 28),
+                    Position = UDim2.new(0, 40, 0, 5),
                     BackgroundColor3 = CurrentTheme.Element,
                     Text = tostring(math.round(default.G * 255)),
                     TextColor3 = CurrentTheme.Text,
@@ -3128,8 +3143,8 @@ function Quantum:CreateWindow(data)
 
                 local BInput = Create("TextBox", {
                     Parent = ColorMenu,
-                    Size = UDim2.new(0, 26, 0, 22),
-                    Position = UDim2.new(0, 60, 0, 4),
+                    Size = UDim2.new(0, 32, 0, 28),
+                    Position = UDim2.new(0, 75, 0, 5),
                     BackgroundColor3 = CurrentTheme.Element,
                     Text = tostring(math.round(default.B * 255)),
                     TextColor3 = CurrentTheme.Text,
@@ -3141,8 +3156,8 @@ function Quantum:CreateWindow(data)
 
                 local ApplyBtn = Create("TextButton", {
                     Parent = ColorMenu,
-                    Size = UDim2.new(1, -8, 0, 22),
-                    Position = UDim2.new(0, 4, 0, 22),
+                    Size = UDim2.new(1, -10, 0, 28),
+                    Position = UDim2.new(0, 5, 0, 28),
                     BackgroundColor3 = CurrentTheme.Accent,
                     Text = "Apply",
                     TextColor3 = CurrentTheme.Text,
