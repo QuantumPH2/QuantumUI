@@ -571,10 +571,10 @@ local function CreateFloatingIcon(customIcon)
     local Backdrop = Create("Frame", {
         Name = "Backdrop",
         Parent = FloatingIconScreen,
-        Size = UDim2.new(0, 56, 0, 56),
-        Position = UDim2.new(0, 16, 0.5, -24),
+        Size = UDim2.new(0, 44, 0, 44),
+        Position = UDim2.new(0, 16, 0.5, -22),
         BackgroundColor3 = Color3.fromRGB(0, 0, 0),
-        BackgroundTransparency = 0.05,
+        BackgroundTransparency = 0,
         BorderSizePixel = 0,
         Active = true,
         ClipsDescendants = true,
@@ -582,14 +582,14 @@ local function CreateFloatingIcon(customIcon)
     })
 
     Create("UICorner", {
-        CornerRadius = UDim.new(0, 14),
+        CornerRadius = UDim.new(0, 12),
         Parent = Backdrop
     })
 
     Create("UIStroke", {
-        Color = Color3.fromRGB(80, 80, 100),
-        Thickness = 1.5,
-        Transparency = 0.2,
+        Color = Color3.fromRGB(0, 0, 0),
+        Thickness = 1,
+        Transparency = 0.4,
         Parent = Backdrop
     })
 
@@ -599,7 +599,7 @@ local function CreateFloatingIcon(customIcon)
         Parent = Backdrop,
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.new(0.5, 0, 0.5, 0),
-        Size = UDim2.new(0, 36, 0, 36),
+        Size = UDim2.new(0, 26, 0, 26),
         BackgroundTransparency = 1,
         Image = iconToUse,
         ImageColor3 = isCustomImage and Color3.fromRGB(255, 255, 255) or CurrentTheme.Text,
@@ -766,15 +766,14 @@ function Quantum:CreateWindow(data)
         ZIndex = 20
     })
 
-    local isCustomWindowIcon = type(windowIcon) == "string" and (windowIcon:sub(1, 13) == "rbxassetid://" or windowIcon:sub(1, 4) == "http")
     local TitleIcon = Create("ImageLabel", {
         Name = "TitleIcon",
         Parent = Topbar,
-        Size = UDim2.new(0, 20, 0, 20),
+        Size = UDim2.new(0, 22, 0, 22),
         Position = UDim2.new(0, 10, 0, 8),
         BackgroundTransparency = 1,
-        Image = GetIcon(windowIcon),
-        ImageColor3 = isCustomWindowIcon and Color3.fromRGB(255, 255, 255) or CurrentTheme.Accent,
+        Image = GetIcon("atom"),
+        ImageColor3 = CurrentTheme.Accent,
         ScaleType = Enum.ScaleType.Fit,
         ZIndex = 21
     })
@@ -786,12 +785,19 @@ function Quantum:CreateWindow(data)
         Position = UDim2.new(0, 34, 0, 6),
         BackgroundTransparency = 1,
         Text = windowName,
-        TextColor3 = CurrentTheme.Accent,
+        TextColor3 = Color3.fromRGB(255, 255, 255),
         TextSize = 14,
         Font = Enum.Font.GothamBold,
         TextXAlignment = Enum.TextXAlignment.Left,
+        TextStrokeTransparency = 0.6,
+        TextStrokeColor3 = CurrentTheme.Accent,
         ZIndex = 21
     })
+
+    local TitleGlowTween = TweenService:Create(Title, TweenInfo.new(1.2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), {
+        TextStrokeTransparency = 0.25
+    })
+    TitleGlowTween:Play()
 
     local Version = Create("TextLabel", {
         Name = "Version",
@@ -1203,8 +1209,7 @@ function Quantum:CreateWindow(data)
         TopbarFix.BackgroundColor3 = theme.Sidebar
         Sidebar.BackgroundColor3 = theme.Sidebar
         Content.BackgroundColor3 = theme.Background
-        Title.TextColor3 = theme.Accent
-        Version.TextColor3 = theme.SubText
+        Title.TextStrokeColor3 = theme.Accent
         TitleIcon.ImageColor3 = theme.Accent
         TabList.ScrollBarImageColor3 = theme.Accent
         ConfirmOverlay.BackgroundColor3 = theme.Overlay
@@ -1426,10 +1431,11 @@ function Quantum:CreateWindow(data)
 
             local SectionItems = Create("Frame", {
                 Parent = SectionFrame,
-                Size = UDim2.new(1, -8, 0, 0),
-                Position = UDim2.new(0, 6, 0, 28),
+                Size = UDim2.new(1, -12, 0, 0),
+                Position = UDim2.new(0, 8, 0, 36),
                 BackgroundTransparency = 1,
                 BorderSizePixel = 0,
+                Visible = not isCollapsed,
                 ZIndex = 17
             })
 
@@ -1448,6 +1454,7 @@ function Quantum:CreateWindow(data)
                 targetHeight = 48 + itemsHeight + 10
                 if isCollapsed then
                     SectionFrame.Size = UDim2.new(1, 0, 0, 48)
+                    SectionItems.Visible = false
                     Arrow.Rotation = 0
                     for _, dd in ipairs(sectionDropdowns) do
                         if dd and dd.Menu and dd.Menu.Parent then
@@ -1463,6 +1470,7 @@ function Quantum:CreateWindow(data)
                     end
                 else
                     SectionFrame.Size = UDim2.new(1, 0, 0, targetHeight)
+                    SectionItems.Visible = true
                     Arrow.Rotation = 180
                 end
                 TabContent.CanvasSize = UDim2.new(0, 0, 0, TabContent.UIListLayout.AbsoluteContentSize.Y + 16)
