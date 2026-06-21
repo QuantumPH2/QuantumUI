@@ -110,161 +110,318 @@ local Config = {
     }
 }
 
-local Icons = {
-    Custom = "rbxassetid://109647740279101",
-    Home = "rbxassetid://7733960981",
-    Settings = "rbxassetid://7734053495",
-    User = "rbxassetid://7743875962",
-    Eye = "rbxassetid://7733774602",
-    EyeOff = "rbxassetid://7733774495",
-    Shield = "rbxassetid://7734056608",
-    ShieldCheck = "rbxassetid://7734056411",
-    Search = "rbxassetid://7734052925",
-    ChevronDown = "rbxassetid://7733717447",
-    ChevronRight = "rbxassetid://7733717755",
-    ChevronUp = "rbxassetid://7733919605",
-    ChevronLeft = "rbxassetid://7733717651",
-    X = "rbxassetid://7743878857",
-    Minus = "rbxassetid://7734000129",
-    Maximize = "rbxassetid://7733992982",
-    Maximize2 = "rbxassetid://7733992901",
-    Minimize = "rbxassetid://7733997941",
-    Minimize2 = "rbxassetid://7733997870",
-    Moon = "rbxassetid://7743870134",
-    Sun = "rbxassetid://7734068495",
-    Palette = "rbxassetid://7734021595",
-    Sliders = "rbxassetid://7734058803",
-    ToggleLeft = "rbxassetid://7734091286",
-    ToggleRight = "rbxassetid://7743873539",
-    Type = "rbxassetid://7743874740",
-    MousePointer = "rbxassetid://7743870392",
-    Layers = "rbxassetid://7743868936",
-    Command = "rbxassetid://7733924046",
-    Star = "rbxassetid://7734068321",
-    Bell = "rbxassetid://7733911828",
-    Folder = "rbxassetid://7733799185",
-    Terminal = "rbxassetid://7743872929",
-    Activity = "rbxassetid://7733655755",
-    Target = "rbxassetid://7743872758",
-    Anchor = "rbxassetid://7733911490",
-    Compass = "rbxassetid://7733924216",
-    Cpu = "rbxassetid://7733765045",
-    Globe = "rbxassetid://7733954760",
-    Hash = "rbxassetid://7733955906",
-    Key = "rbxassetid://7733965118",
-    Lock = "rbxassetid://7733992528",
-    Unlock = "rbxassetid://7743875263",
-    Move = "rbxassetid://7743870731",
-    Power = "rbxassetid://7734042493",
-    RefreshCw = "rbxassetid://7734051052",
-    Trash = "rbxassetid://7743873871",
-    Trash2 = "rbxassetid://7743873772",
-    Wifi = "rbxassetid://7743878148",
-    Wrench = "rbxassetid://7743878358",
-    Check = "rbxassetid://7733715400",
-    AlertCircle = "rbxassetid://7733911490",
-    Info = "rbxassetid://7733960981",
-    AlertTriangle = "rbxassetid://7733911490",
-    ["bot"] = "rbxassetid://7733924046",
-    ["fish"] = "rbxassetid://7733954760",
-    ["droplets"] = "rbxassetid://7733924216",
-    ["map-pin"] = "rbxassetid://7743872758",
-    ["shopping-cart"] = "rbxassetid://7733799185",
-    ["calendar"] = "rbxassetid://7733911828",
-    ["settings"] = "rbxassetid://7734053495",
-    ["repeat"] = "rbxassetid://7734051052",
-    ["scroll"] = "rbxassetid://7743874740",
-    ["check"] = "rbxassetid://7733715400",
-    ["alert-triangle"] = "rbxassetid://7733911490",
-    ["x"] = "rbxassetid://7743878857",
-    ["refresh-cw"] = "rbxassetid://7734051052",
-    ["user-x"] = "rbxassetid://7743875962",
-    ["bar-chart-2"] = "rbxassetid://7734058803",
-    ["smile"] = "rbxassetid://7743875962",
-    ["sword"] = "rbxassetid://7743872758",
-    ["gem"] = "rbxassetid://7734068321",
-    ["sparkles"] = "rbxassetid://7734068321",
-    ["egg"] = "rbxassetid://7733911828",
-    ["heart"] = "rbxassetid://7734068321",
-    ["cloud"] = "rbxassetid://7733954760",
-    ["flame"] = "rbxassetid://7733911490",
-    ["leaf"] = "rbxassetid://7733924216",
-    ["candy"] = "rbxassetid://7733911828",
-    ["rainbow"] = "rbxassetid://7734068321",
-    ["code"] = "rbxassetid://7743872929",
-    ["wand"] = "rbxassetid://7733965118",
-    ["dna"] = "rbxassetid://7733765045",
-    ["clover"] = "rbxassetid://7733924216",
-    ["coins"] = "rbxassetid://7733954760",
-    ["skull"] = "rbxassetid://7733911490",
-    ["zap"] = "rbxassetid://7733765045",
-    ["telescope"] = "rbxassetid://7733924216",
-    ["cloud-lightning"] = "rbxassetid://7733911490",
-    ["trending-up"] = "rbxassetid://7734058803",
-    ["lock"] = "rbxassetid://7733992528",
-    ["bug"] = "rbxassetid://7733924046",
-    ["waves"] = "rbxassetid://7733954760",
-    ["camera"] = "rbxassetid://7733774602",
-    ["box"] = "rbxassetid://7733799185",
-    ["layers"] = "rbxassetid://7743868936",
-    ["clock"] = "rbxassetid://7733911828",
-    ["rotate-ccw"] = "rbxassetid://7734051052",
-    ["moon"] = "rbxassetid://7743870134",
-    ["sun"] = "rbxassetid://7734068495",
-    ["thumbs-up"] = "rbxassetid://7733715400",
-    ["info"] = "rbxassetid://7733960981",
-    ["user"] = "rbxassetid://7743875962",
-    ["star"] = "rbxassetid://7734068321",
-    ["target"] = "rbxassetid://7743872758",
-    ["anchor"] = "rbxassetid://7733911490",
-    ["shield"] = "rbxassetid://7734056608",
-    ["cpu"] = "rbxassetid://7733765045",
-    ["hash"] = "rbxassetid://7733955906",
-    ["key"] = "rbxassetid://7733965118",
-    ["move"] = "rbxassetid://7743870731",
-    ["trash"] = "rbxassetid://7743873871",
-    ["wifi"] = "rbxassetid://7743878148",
-    ["wrench"] = "rbxassetid://7743878358",
-    ["alert-circle"] = "rbxassetid://7733911490",
-    ["shrub"] = "rbxassetid://7733924216",
-    ["droplet"] = "rbxassetid://7733924216",
-    ["plus"] = "rbxassetid://7734042493",
-    ["eye"] = "rbxassetid://7733774602",
-    ["eye-off"] = "rbxassetid://7733774495",
-    ["shield-check"] = "rbxassetid://7734056411",
-    ["toggle-left"] = "rbxassetid://7734091286",
-    ["toggle-right"] = "rbxassetid://7743873539",
-    ["mouse-pointer"] = "rbxassetid://7743870392",
-    ["globe"] = "rbxassetid://7733954760",
-    ["compass"] = "rbxassetid://7733924216",
-    ["activity"] = "rbxassetid://7733655755",
-    ["command"] = "rbxassetid://7733924046",
-    ["terminal"] = "rbxassetid://7743872929",
-    ["folder"] = "rbxassetid://7733799185",
-    ["bell"] = "rbxassetid://7733911828",
-    ["trash-2"] = "rbxassetid://7743873772",
-    ["unlock"] = "rbxassetid://7743875263",
-    ["minimize-2"] = "rbxassetid://7733997870",
-    ["maximize-2"] = "rbxassetid://7733992901",
-    ["chevron-left"] = "rbxassetid://7733717651",
-    ["chevron-right"] = "rbxassetid://7733717755",
-    ["chevron-up"] = "rbxassetid://7733919605",
-    ["chevron-down"] = "rbxassetid://7733717447",
-    ["search"] = "rbxassetid://7734052925",
-    ["minus"] = "rbxassetid://7734000129",
-    ["power"] = "rbxassetid://7734042493",
-    ["atom"] = "rbxassetid://7733765045",
-    ["refreshCw"] = "rbxassetid://7734051052",
-    ["alertTriangle"] = "rbxassetid://7733911490",
-    ["alertCircle"] = "rbxassetid://7733911490",
-    ["barChart2"] = "rbxassetid://7734058803",
-    ["userX"] = "rbxassetid://7743875962",
-    ["mapPin"] = "rbxassetid://7743872758",
-    ["shoppingCart"] = "rbxassetid://7733799185",
-    ["rotateCcw"] = "rbxassetid://7734051052",
-    ["cloudLightning"] = "rbxassetid://7733911490",
-    ["trendingUp"] = "rbxassetid://7734058803",
+
+-- IconModule Integration (from File 2) - Auto-fetching icons from GitHub
+local cloneref = (cloneref or clonereference or function(instance)
+	return instance
+end)
+
+local RunService = cloneref(game:GetService("RunService"))
+local HttpService = cloneref(game:GetService("HttpService"))
+
+local function Get(url)
+	if writefile and game.HttpGet then
+		return game:HttpGet(url)
+	else
+		return HttpService:GetAsync(url)
+	end
+end
+
+local IconModule = {
+	IconsType = "lucide",
+	New = nil,
+	IconThemeTag = nil,
+	Icons = {
+		lucide = loadstring(
+			Get("https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/lucide/dist/Icons.lua")
+		)(),
+		solar = loadstring(
+			Get("https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/solar/dist/Icons.lua")
+		)(),
+		craft = loadstring(
+			Get("https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/craft/dist/Icons.lua")
+		)(),
+		geist = loadstring(
+			Get("https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/geist/dist/Icons.lua")
+		)(),
+		sfsymbols = loadstring(
+			Get("https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/sfsymbols/dist/Icons.lua")
+		)(),
+		gravity = loadstring(
+			Get("https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/gravity/dist/Icons.lua")
+		)(),
+	},
 }
+
+local function parseIconString(iconString)
+	if type(iconString) == "string" then
+		local splitIndex = iconString:find(":")
+		if splitIndex then
+			local iconType = iconString:sub(1, splitIndex - 1)
+			local iconName = iconString:sub(splitIndex + 1)
+			return iconType, iconName
+		end
+	end
+	return nil, iconString
+end
+
+function IconModule.AddIcons(packName, iconsData)
+	if type(packName) ~= "string" or type(iconsData) ~= "table" then
+		error("AddIcons: packName must be string, iconsData must be table")
+		return
+	end
+	if not IconModule.Icons[packName] then
+		IconModule.Icons[packName] = {
+			Icons = {},
+			Spritesheets = {},
+		}
+	end
+	for iconName, iconValue in pairs(iconsData) do
+		if type(iconValue) == "number" or (type(iconValue) == "string" and iconValue:match("^rbxassetid://")) then
+			local imageId = iconValue
+			if type(iconValue) == "number" then
+				imageId = "rbxassetid://" .. tostring(iconValue)
+			end
+			IconModule.Icons[packName].Icons[iconName] = {
+				Image = imageId,
+				ImageRectSize = Vector2.new(0, 0),
+				ImageRectPosition = Vector2.new(0, 0),
+				Parts = nil,
+			}
+			IconModule.Icons[packName].Spritesheets[imageId] = imageId
+		elseif type(iconValue) == "table" then
+			if iconValue.Image and iconValue.ImageRectSize and iconValue.ImageRectPosition then
+				local imageId = iconValue.Image
+				if type(imageId) == "number" then
+					imageId = "rbxassetid://" .. tostring(imageId)
+				end
+				IconModule.Icons[packName].Icons[iconName] = {
+					Image = imageId,
+					ImageRectSize = iconValue.ImageRectSize,
+					ImageRectPosition = iconValue.ImageRectPosition,
+					Parts = iconValue.Parts,
+				}
+				if not IconModule.Icons[packName].Spritesheets[imageId] then
+					IconModule.Icons[packName].Spritesheets[imageId] = imageId
+				end
+			else
+				warn("AddIcons: Invalid spritesheet data format for icon '" .. iconName .. "'")
+			end
+		else
+			warn("AddIcons: Unsupported data type for icon '" .. iconName .. "': " .. type(iconValue))
+		end
+	end
+end
+
+function IconModule.SetIconsType(iconType)
+	IconModule.IconsType = iconType
+end
+
+function IconModule.Init(New, IconThemeTag)
+	IconModule.New = New
+	IconModule.IconThemeTag = IconThemeTag
+	return IconModule
+end
+
+function IconModule.Icon(Icon, Type, DefaultFormat)
+	DefaultFormat = DefaultFormat ~= false
+	local iconType, iconName = parseIconString(Icon)
+	local targetType = iconType or Type or IconModule.IconsType
+	local targetName = iconName
+	local iconSet = IconModule.Icons[targetType]
+	if iconSet and iconSet.Icons and iconSet.Icons[targetName] then
+		return {
+			iconSet.Spritesheets[tostring(iconSet.Icons[targetName].Image)],
+			iconSet.Icons[targetName],
+		}
+	elseif iconSet and iconSet[targetName] and string.find(iconSet[targetName], "rbxassetid://") then
+		return DefaultFormat
+				and {
+					iconSet[targetName],
+					{ ImageRectSize = Vector2.new(0, 0), ImageRectPosition = Vector2.new(0, 0) },
+				}
+			or iconSet[targetName]
+	end
+	return nil
+end
+
+function IconModule.GetIcon(Icon, Type)
+	return IconModule.Icon(Icon, Type, false)
+end
+
+function IconModule.Icon2(Icon, Type, DefaultFormat)
+	return IconModule.Icon(Icon, Type, true)
+end
+
+function IconModule.Image(IconConfig)
+	local Icon = {
+		Icon = IconConfig.Icon or nil,
+		Type = IconConfig.Type,
+		Colors = IconConfig.Colors or { (IconModule.IconThemeTag or Color3.new(1, 1, 1)), Color3.new(1, 1, 1) },
+		Size = IconConfig.Size or UDim2.new(0, 24, 0, 24),
+		IconFrame = nil,
+	}
+	local Colors = {}
+	for _, color in next, Icon.Colors do
+		Colors[_] = {
+			ThemeTag = typeof(color) == "string" and color,
+			Color = typeof(color) == "Color3" and color,
+		}
+	end
+	local IconLabel = IconModule.Icon2(Icon.Icon, Icon.Type)
+	local isrbxassetid = typeof(IconLabel) == "string" and string.find(IconLabel, "rbxassetid://")
+	if IconModule.New then
+		local New = IconModule.New
+		local IconFrame = New("ImageLabel", {
+			Size = Icon.Size,
+			BackgroundTransparency = 1,
+			ImageColor3 = Colors[1].Color or nil,
+			ThemeTag = Colors[1].ThemeTag and {
+				ImageColor3 = Colors[1].ThemeTag,
+			},
+			Image = isrbxassetid and IconLabel or IconLabel[1],
+			ImageRectSize = isrbxassetid and nil or IconLabel[2].ImageRectSize,
+			ImageRectOffset = isrbxassetid and nil or IconLabel[2].ImageRectPosition,
+		})
+		if not isrbxassetid and IconLabel[2].Parts then
+			for _, part in next, IconLabel[2].Parts do
+				local IconPartLabel = IconModule.Icon(part, Icon.Type)
+				local IconPart = New("ImageLabel", {
+					Size = UDim2.new(1, 0, 1, 0),
+					BackgroundTransparency = 1,
+					ImageColor3 = Colors[1 + _].Color or nil,
+					ThemeTag = Colors[1 + _].ThemeTag and {
+						ImageColor3 = Colors[1 + _].ThemeTag,
+					},
+					Image = IconPartLabel[1],
+					ImageRectSize = IconPartLabel[2].ImageRectSize,
+					ImageRectOffset = IconPartLabel[2].ImageRectPosition,
+					Parent = IconFrame,
+				})
+			end
+		end
+		Icon.IconFrame = IconFrame
+	else
+		local IconFrame = Instance.new("ImageLabel")
+		IconFrame.Size = Icon.Size
+		IconFrame.BackgroundTransparency = 1
+		IconFrame.ImageColor3 = Colors[1].Color
+		IconFrame.Image = isrbxassetid and IconLabel or IconLabel[1]
+		IconFrame.ImageRectSize = isrbxassetid and nil or IconLabel[2].ImageRectSize
+		IconFrame.ImageRectOffset = isrbxassetid and nil or IconLabel[2].ImageRectPosition
+		if not isrbxassetid and IconLabel[2].Parts then
+			for _, part in next, IconLabel[2].Parts do
+				local IconPartLabel = IconModule.Icon(part, Icon.Type)
+				local IconPart = Instance.new("ImageLabel")
+				IconPart.Size = UDim2.new(1, 0, 1, 0)
+				IconPart.BackgroundTransparency = 1
+				IconPart.ImageColor3 = Colors[1 + _].Color
+				IconPart.Image = IconPartLabel[1]
+				IconPart.ImageRectSize = IconPartLabel[2].ImageRectSize
+				IconPart.ImageRectOffset = IconPartLabel[2].ImageRectPosition
+				IconPart.Parent = IconFrame
+			end
+		end
+		Icon.IconFrame = IconFrame
+	end
+	return Icon
+end
+
+-- Kebab-case converter for icon names (PascalCase/camelCase -> kebab-case)
+local function ToKebabCase(str)
+	if not str or type(str) ~= "string" then return "" end
+	-- Insert hyphen before uppercase letters that follow lowercase
+	str = str:gsub("(%l)(%u)", "%1-%2")
+	-- Insert hyphen before numbers that follow lowercase
+	str = str:gsub("(%l)(%d)", "%1-%2")
+	-- Insert hyphen before uppercase followed by uppercase+lowercase (e.g. "HTTPRequest" -> "HTTP-Request")
+	str = str:gsub("(%u)(%u%l)", "%1-%2")
+	return str:lower()
+end
+
+-- Fallback icon IDs for critical icons if GitHub fetch fails
+local FallbackIcons = {
+	Custom = "rbxassetid://109647740279101",
+	Info = "rbxassetid://7733960981",
+	Home = "rbxassetid://7733960981",
+	Settings = "rbxassetid://7734053495",
+	User = "rbxassetid://7743875962",
+	Eye = "rbxassetid://7733774602",
+	EyeOff = "rbxassetid://7733774495",
+	Shield = "rbxassetid://7734056608",
+	ShieldCheck = "rbxassetid://7734056411",
+	Search = "rbxassetid://7734052925",
+	ChevronDown = "rbxassetid://7733717447",
+	ChevronRight = "rbxassetid://7733717755",
+	ChevronUp = "rbxassetid://7733919605",
+	ChevronLeft = "rbxassetid://7733717651",
+	X = "rbxassetid://7743878857",
+	Minus = "rbxassetid://7734000129",
+	Maximize = "rbxassetid://7733992982",
+	Maximize2 = "rbxassetid://7733992901",
+	Minimize = "rbxassetid://7733997941",
+	Minimize2 = "rbxassetid://7733997870",
+	Moon = "rbxassetid://7743870134",
+	Sun = "rbxassetid://7734068495",
+	Palette = "rbxassetid://7734021595",
+	Sliders = "rbxassetid://7734058803",
+	ToggleLeft = "rbxassetid://7734091286",
+	ToggleRight = "rbxassetid://7743873539",
+	Type = "rbxassetid://7743874740",
+	MousePointer = "rbxassetid://7743870392",
+	Layers = "rbxassetid://7743868936",
+	Command = "rbxassetid://7733924046",
+	Star = "rbxassetid://7734068321",
+	Bell = "rbxassetid://7733911828",
+	Folder = "rbxassetid://7733799185",
+	Terminal = "rbxassetid://7743872929",
+	Activity = "rbxassetid://7733655755",
+	Target = "rbxassetid://7743872758",
+	Anchor = "rbxassetid://7733911490",
+	Compass = "rbxassetid://7733924216",
+	Cpu = "rbxassetid://7733765045",
+	Globe = "rbxassetid://7733954760",
+	Hash = "rbxassetid://7733955906",
+	Key = "rbxassetid://7733965118",
+	Lock = "rbxassetid://7733992528",
+	Unlock = "rbxassetid://7743875263",
+	Move = "rbxassetid://7743870731",
+	Power = "rbxassetid://7734042493",
+	RefreshCw = "rbxassetid://7734051052",
+	Trash = "rbxassetid://7743873871",
+	Trash2 = "rbxassetid://7743873772",
+	Wifi = "rbxassetid://7743878148",
+	Wrench = "rbxassetid://7743878358",
+	Check = "rbxassetid://7733715400",
+	AlertCircle = "rbxassetid://7733911490",
+	AlertTriangle = "rbxassetid://7733911490",
+	Power = "rbxassetid://7734042493",
+}
+
+local function GetIcon(name)
+	if not name then return FallbackIcons.Info end
+	if type(name) == "string" and (name:sub(1, 13) == "rbxassetid://" or name:sub(1, 4) == "http") then
+		return name
+	end
+
+	-- Try IconModule first (dynamic GitHub icons)
+	local kebabName = ToKebabCase(name)
+	local success, iconData = pcall(function()
+		return IconModule.GetIcon(kebabName, "lucide")
+	end)
+
+	if success and iconData and type(iconData) == "string" then
+		return iconData
+	end
+
+	-- Fallback to hardcoded IDs if GitHub fails or icon not found
+	if FallbackIcons[name] then
+		return FallbackIcons[name]
+	end
+
+	-- Last resort fallback
+	return FallbackIcons.Info
+end
 
 local function Create(className, properties)
     local instance = Instance.new(className)
@@ -557,7 +714,7 @@ local function CreateFloatingIcon(customIcon)
         FloatingIconScreen:Destroy()
     end
 
-    local iconToUse = customIcon or Icons.Custom
+    local iconToUse = customIcon or FallbackIcons.Custom
 
     FloatingIconScreen = Create("ScreenGui", {
         Name = "QuantumFloatingIcon",
