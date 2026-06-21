@@ -6,6 +6,7 @@ local LocalPlayer = Players.LocalPlayer
 local HttpService = game:GetService("HttpService")
 local TextService = game:GetService("TextService")
 local RunService = game:GetService("RunService")
+local ContentProvider = game:GetService("ContentProvider")
 
 local Config = {
     Name = "Quantum",
@@ -110,355 +111,255 @@ local Config = {
     }
 }
 
-local cloneref = (cloneref or clonereference or function(instance)
-	return instance
-end)
+local Icons = {
+    Custom = "rbxassetid://109647740279101",
+    Home = "rbxassetid://7733960981",
+    Settings = "rbxassetid://7734053495",
+    User = "rbxassetid://7743875962",
+    Eye = "rbxassetid://7733774602",
+    EyeOff = "rbxassetid://7733774495",
+    Shield = "rbxassetid://7734056608",
+    ShieldCheck = "rbxassetid://7734056411",
+    Search = "rbxassetid://7734052925",
+    ChevronDown = "rbxassetid://7733717447",
+    ChevronRight = "rbxassetid://7733717755",
+    ChevronUp = "rbxassetid://7733919605",
+    ChevronLeft = "rbxassetid://7733717651",
+    X = "rbxassetid://7743878857",
+    Minus = "rbxassetid://7734000129",
+    Maximize = "rbxassetid://7733992982",
+    Maximize2 = "rbxassetid://7733992901",
+    Minimize = "rbxassetid://7733997941",
+    Minimize2 = "rbxassetid://7733997870",
+    Moon = "rbxassetid://7743870134",
+    Sun = "rbxassetid://7734068495",
+    Palette = "rbxassetid://7734021595",
+    Sliders = "rbxassetid://7734058803",
+    ToggleLeft = "rbxassetid://7734091286",
+    ToggleRight = "rbxassetid://7743873539",
+    Type = "rbxassetid://7743874740",
+    MousePointer = "rbxassetid://7743870392",
+    Layers = "rbxassetid://7743868936",
+    Command = "rbxassetid://7733924046",
+    Star = "rbxassetid://7734068321",
+    Bell = "rbxassetid://7733911828",
+    Folder = "rbxassetid://7733799185",
+    Terminal = "rbxassetid://7743872929",
+    Activity = "rbxassetid://7733655755",
+    Target = "rbxassetid://7743872758",
+    Anchor = "rbxassetid://7733911490",
+    Compass = "rbxassetid://7733924216",
+    Cpu = "rbxassetid://7733765045",
+    Globe = "rbxassetid://7733954760",
+    Hash = "rbxassetid://7733955906",
+    Key = "rbxassetid://7733965118",
+    Lock = "rbxassetid://7733992528",
+    Unlock = "rbxassetid://7743875263",
+    Move = "rbxassetid://7743870731",
+    Power = "rbxassetid://7734042493",
+    RefreshCw = "rbxassetid://7734051052",
+    Trash = "rbxassetid://7743873871",
+    Trash2 = "rbxassetid://7743873772",
+    Wifi = "rbxassetid://7743878148",
+    Wrench = "rbxassetid://7743878358",
+    Check = "rbxassetid://7733715400",
+    AlertCircle = "rbxassetid://7733911490",
+    Info = "rbxassetid://7733960981",
+    AlertTriangle = "rbxassetid://7733911490",
+    ["bot"] = "rbxassetid://7733924046",
+    ["fish"] = "rbxassetid://7733954760",
+    ["droplets"] = "rbxassetid://7733924216",
+    ["map-pin"] = "rbxassetid://7743872758",
+    ["shopping-cart"] = "rbxassetid://7733799185",
+    ["calendar"] = "rbxassetid://7733911828",
+    ["settings"] = "rbxassetid://7734053495",
+    ["repeat"] = "rbxassetid://7734051052",
+    ["scroll"] = "rbxassetid://7743874740",
+    ["check"] = "rbxassetid://7733715400",
+    ["alert-triangle"] = "rbxassetid://7733911490",
+    ["x"] = "rbxassetid://7743878857",
+    ["refresh-cw"] = "rbxassetid://7734051052",
+    ["user-x"] = "rbxassetid://7743875962",
+    ["bar-chart-2"] = "rbxassetid://7734058803",
+    ["smile"] = "rbxassetid://7743875962",
+    ["sword"] = "rbxassetid://7743872758",
+    ["gem"] = "rbxassetid://7734068321",
+    ["sparkles"] = "rbxassetid://7734068321",
+    ["egg"] = "rbxassetid://7733911828",
+    ["heart"] = "rbxassetid://7734068321",
+    ["cloud"] = "rbxassetid://7733954760",
+    ["flame"] = "rbxassetid://7733911490",
+    ["leaf"] = "rbxassetid://7733924216",
+    ["candy"] = "rbxassetid://7733911828",
+    ["rainbow"] = "rbxassetid://7734068321",
+    ["code"] = "rbxassetid://7743872929",
+    ["wand"] = "rbxassetid://7733965118",
+    ["dna"] = "rbxassetid://7733765045",
+    ["clover"] = "rbxassetid://7733924216",
+    ["coins"] = "rbxassetid://7733954760",
+    ["skull"] = "rbxassetid://7733911490",
+    ["zap"] = "rbxassetid://7733765045",
+    ["telescope"] = "rbxassetid://7733924216",
+    ["cloud-lightning"] = "rbxassetid://7733911490",
+    ["trending-up"] = "rbxassetid://7734058803",
+    ["lock"] = "rbxassetid://7733992528",
+    ["bug"] = "rbxassetid://7733924046",
+    ["waves"] = "rbxassetid://7733954760",
+    ["camera"] = "rbxassetid://7733774602",
+    ["box"] = "rbxassetid://7733799185",
+    ["layers"] = "rbxassetid://7743868936",
+    ["clock"] = "rbxassetid://7733911828",
+    ["rotate-ccw"] = "rbxassetid://7734051052",
+    ["moon"] = "rbxassetid://7743870134",
+    ["sun"] = "rbxassetid://7734068495",
+    ["thumbs-up"] = "rbxassetid://7733715400",
+    ["info"] = "rbxassetid://7733960981",
+    ["user"] = "rbxassetid://7743875962",
+    ["star"] = "rbxassetid://7734068321",
+    ["target"] = "rbxassetid://7743872758",
+    ["anchor"] = "rbxassetid://7733911490",
+    ["shield"] = "rbxassetid://7734056608",
+    ["cpu"] = "rbxassetid://7733765045",
+    ["hash"] = "rbxassetid://7733955906",
+    ["key"] = "rbxassetid://7733965118",
+    ["move"] = "rbxassetid://7743870731",
+    ["trash"] = "rbxassetid://7743873871",
+    ["wifi"] = "rbxassetid://7743878148",
+    ["wrench"] = "rbxassetid://7743878358",
+    ["alert-circle"] = "rbxassetid://7733911490",
+    ["shrub"] = "rbxassetid://7733924216",
+    ["droplet"] = "rbxassetid://7733924216",
+    ["plus"] = "rbxassetid://7734042493",
+    ["eye"] = "rbxassetid://7733774602",
+    ["eye-off"] = "rbxassetid://7733774495",
+    ["shield-check"] = "rbxassetid://7734056411",
+    ["toggle-left"] = "rbxassetid://7734091286",
+    ["toggle-right"] = "rbxassetid://7743873539",
+    ["mouse-pointer"] = "rbxassetid://7743870392",
+    ["globe"] = "rbxassetid://7733954760",
+    ["compass"] = "rbxassetid://7733924216",
+    ["activity"] = "rbxassetid://7733655755",
+    ["command"] = "rbxassetid://7733924046",
+    ["terminal"] = "rbxassetid://7743872929",
+    ["folder"] = "rbxassetid://7733799185",
+    ["bell"] = "rbxassetid://7733911828",
+    ["trash-2"] = "rbxassetid://7743873772",
+    ["unlock"] = "rbxassetid://7743875263",
+    ["minimize-2"] = "rbxassetid://7733997870",
+    ["maximize-2"] = "rbxassetid://7733992901",
+    ["chevron-left"] = "rbxassetid://7733717651",
+    ["chevron-right"] = "rbxassetid://7733717755",
+    ["chevron-up"] = "rbxassetid://7733919605",
+    ["chevron-down"] = "rbxassetid://7733717447",
+    ["search"] = "rbxassetid://7734052925",
+    ["minus"] = "rbxassetid://7734000129",
+    ["power"] = "rbxassetid://7734042493",
+    ["atom"] = "rbxassetid://7733765045",
+    ["refreshCw"] = "rbxassetid://7734051052",
+    ["alertTriangle"] = "rbxassetid://7733911490",
+    ["alertCircle"] = "rbxassetid://7733911490",
+    ["barChart2"] = "rbxassetid://7734058803",
+    ["userX"] = "rbxassetid://7743875962",
+    ["mapPin"] = "rbxassetid://7743872758",
+    ["shoppingCart"] = "rbxassetid://7733799185",
+    ["rotateCcw"] = "rbxassetid://7734051052",
+    ["cloudLightning"] = "rbxassetid://7733911490",
+    ["trendingUp"] = "rbxassetid://7734058803",
+}
 
-local CachedIcons = {}
-local IconLoadErrors = {}
+-- ============================================================
+-- SAFE NETWORK & ICON LOADING SYSTEM (Anti-HttpError)
+-- ============================================================
+local SafeNetwork = {}
+local IconCache = {}
+local IconLoadQueue = {}
+local IconLoadInProgress = false
+local FALLBACK_ICON = "rbxassetid://7733960981"
 
-local function SafeGet(url, retries)
-    retries = retries or 3
-    for i = 1, retries do
-        local success, result = pcall(function()
-            if writefile and game.HttpGet then
-                return game:HttpGet(url)
-            else
-                return HttpService:GetAsync(url)
-            end
-        end)
-        if success then
-            return result
-        end
-        if i < retries then
-            task.wait(0.5 * i)
-        end
-    end
+function SafeNetwork.SafeJSONDecode(str)
+    if not str or str == "" then return nil end
+    local success, result = pcall(function() return HttpService:JSONDecode(str) end)
+    if success then return result end
     return nil
 end
 
-local IconModule = {
-	IconsType = "lucide",
-	New = nil,
-	IconThemeTag = nil,
-	Icons = {},
-    _LoadedPacks = {},
-    _LoadQueue = {},
-}
+function SafeNetwork.SafeJSONEncode(data)
+    local success, result = pcall(function() return HttpService:JSONEncode(data) end)
+    if success then return result end
+    return nil
+end
 
-local IconUrls = {
-    lucide = "https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/lucide/dist/Icons.lua",
-    solar = "https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/solar/dist/Icons.lua",
-    craft = "https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/craft/dist/Icons.lua",
-    geist = "https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/geist/dist/Icons.lua",
-    sfsymbols = "https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/sfsymbols/dist/Icons.lua",
-    gravity = "https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/gravity/dist/Icons.lua",
-}
-
-function IconModule.LoadPack(packName)
-    if IconModule._LoadedPacks[packName] then return true end
-    if IconLoadErrors[packName] then return false end
-
-    local url = IconUrls[packName]
-    if not url then return false end
-
-    local content = SafeGet(url, 3)
-    if not content then
-        IconLoadErrors[packName] = true
-        warn("[Quantum] Failed to load icon pack '" .. packName .. "' - using fallbacks")
-        return false
+local function SafeGetIcon(name)
+    if not name then return FALLBACK_ICON end
+    if IconCache[name] then return IconCache[name] end
+    if type(name) == "string" then
+        if name:sub(1, 13) == "rbxassetid://" or name:sub(1, 4) == "http" then
+            local id = name:sub(14):match("^(%d+)")
+            if id then
+                IconCache[name] = name
+                return name
+            end
+            return FALLBACK_ICON
+        end
     end
+    if Icons[name] then
+        IconCache[name] = Icons[name]
+        return Icons[name]
+    end
+    return FALLBACK_ICON
+end
 
-    local success, icons = pcall(function()
-        return loadstring(content)()
-    end)
-
-    if success and type(icons) == "table" then
-        IconModule.Icons[packName] = icons
-        IconModule._LoadedPacks[packName] = true
-        return true
+local function SafeSetImage(imageLabel, iconName, delayMs)
+    if not imageLabel or not imageLabel.Parent then return end
+    delayMs = delayMs or 50
+    local iconId = SafeGetIcon(iconName)
+    if type(iconId) == "string" and (iconId:sub(1, 13) == "rbxassetid://" or iconId:sub(1, 4) == "http") then
+        imageLabel.Image = FALLBACK_ICON
+        table.insert(IconLoadQueue, {Label = imageLabel, Icon = iconId, Time = tick() + (delayMs / 1000)})
+        if not IconLoadInProgress then
+            IconLoadInProgress = true
+            task.spawn(function()
+                while #IconLoadQueue > 0 do
+                    local now = tick()
+                    local i = 1
+                    while i <= #IconLoadQueue do
+                        local item = IconLoadQueue[i]
+                        if now >= item.Time then
+                            if item.Label and item.Label.Parent then
+                                pcall(function() item.Label.Image = item.Icon end)
+                            end
+                            table.remove(IconLoadQueue, i)
+                        else
+                            i = i + 1
+                        end
+                    end
+                    task.wait(0.05)
+                end
+                IconLoadInProgress = false
+            end)
+        end
     else
-        IconLoadErrors[packName] = true
-        warn("[Quantum] Failed to parse icon pack '" .. packName .. "'")
-        return false
+        imageLabel.Image = iconId
     end
 end
 
-task.spawn(function()
-    IconModule.LoadPack("lucide")
-end)
-
-local function parseIconString(iconString)
-	if type(iconString) == "string" then
-		local splitIndex = iconString:find(":")
-		if splitIndex then
-			local iconType = iconString:sub(1, splitIndex - 1)
-			local iconName = iconString:sub(splitIndex + 1)
-			return iconType, iconName
-		end
-	end
-	return nil, iconString
+local function PreloadIconsBatch()
+    task.defer(function()
+        local critical = {"atom","Custom","Home","Settings","User","Search","ChevronDown","X","Check","Info"}
+        local list = {}
+        for _, n in ipairs(critical) do
+            local id = Icons[n]
+            if id and id:sub(1, 13) == "rbxassetid://" then
+                table.insert(list, id)
+            end
+        end
+        if #list > 0 then
+            pcall(function() ContentProvider:PreloadAsync(list) end)
+        end
+    end)
 end
 
-function IconModule.AddIcons(packName, iconsData)
-	if type(packName) ~= "string" or type(iconsData) ~= "table" then
-		error("AddIcons: packName must be string, iconsData must be table")
-		return
-	end
-	if not IconModule.Icons[packName] then
-		IconModule.Icons[packName] = {
-			Icons = {},
-			Spritesheets = {},
-		}
-	end
-	for iconName, iconValue in pairs(iconsData) do
-		if type(iconValue) == "number" or (type(iconValue) == "string" and iconValue:match("^rbxassetid://")) then
-			local imageId = iconValue
-			if type(iconValue) == "number" then
-				imageId = "rbxassetid://" .. tostring(iconValue)
-			end
-			IconModule.Icons[packName].Icons[iconName] = {
-				Image = imageId,
-				ImageRectSize = Vector2.new(0, 0),
-				ImageRectPosition = Vector2.new(0, 0),
-				Parts = nil,
-			}
-			IconModule.Icons[packName].Spritesheets[imageId] = imageId
-		elseif type(iconValue) == "table" then
-			if iconValue.Image and iconValue.ImageRectSize and iconValue.ImageRectPosition then
-				local imageId = iconValue.Image
-				if type(imageId) == "number" then
-					imageId = "rbxassetid://" .. tostring(imageId)
-				end
-				IconModule.Icons[packName].Icons[iconName] = {
-					Image = imageId,
-					ImageRectSize = iconValue.ImageRectSize,
-					ImageRectPosition = iconValue.ImageRectPosition,
-					Parts = iconValue.Parts,
-				}
-				if not IconModule.Icons[packName].Spritesheets[imageId] then
-					IconModule.Icons[packName].Spritesheets[imageId] = imageId
-				end
-			else
-				warn("AddIcons: Invalid spritesheet data format for icon '" .. iconName .. "'")
-			end
-		else
-			warn("AddIcons: Unsupported data type for icon '" .. iconName .. "': " .. type(iconValue))
-		end
-	end
-end
-
-function IconModule.SetIconsType(iconType)
-	IconModule.IconsType = iconType
-end
-
-function IconModule.Init(New, IconThemeTag)
-	IconModule.New = New
-	IconModule.IconThemeTag = IconThemeTag
-	return IconModule
-end
-
-function IconModule.Icon(Icon, Type, DefaultFormat)
-	DefaultFormat = DefaultFormat ~= false
-	local iconType, iconName = parseIconString(Icon)
-	local targetType = iconType or Type or IconModule.IconsType
-	local targetName = iconName
-
-    if not IconModule._LoadedPacks[targetType] then
-        IconModule.LoadPack(targetType)
-    end
-
-	local iconSet = IconModule.Icons[targetType]
-	if iconSet and iconSet.Icons and iconSet.Icons[targetName] then
-		return {
-			iconSet.Spritesheets[tostring(iconSet.Icons[targetName].Image)],
-			iconSet.Icons[targetName],
-		}
-	elseif iconSet and iconSet[targetName] and string.find(iconSet[targetName], "rbxassetid://") then
-		return DefaultFormat
-				and {
-					iconSet[targetName],
-					{ ImageRectSize = Vector2.new(0, 0), ImageRectPosition = Vector2.new(0, 0) },
-				}
-			or iconSet[targetName]
-	end
-	return nil
-end
-
-function IconModule.GetIcon(Icon, Type)
-	return IconModule.Icon(Icon, Type, false)
-end
-
-function IconModule.Icon2(Icon, Type, DefaultFormat)
-	return IconModule.Icon(Icon, Type, true)
-end
-
-function IconModule.Image(IconConfig)
-	local Icon = {
-		Icon = IconConfig.Icon or nil,
-		Type = IconConfig.Type,
-		Colors = IconConfig.Colors or { (IconModule.IconThemeTag or Color3.new(1, 1, 1)), Color3.new(1, 1, 1) },
-		Size = IconConfig.Size or UDim2.new(0, 24, 0, 24),
-		IconFrame = nil,
-	}
-	local Colors = {}
-	for _, color in next, Icon.Colors do
-		Colors[_] = {
-			ThemeTag = typeof(color) == "string" and color,
-			Color = typeof(color) == "Color3" and color,
-		}
-	end
-	local IconLabel = IconModule.Icon2(Icon.Icon, Icon.Type)
-	local isrbxassetid = typeof(IconLabel) == "string" and string.find(IconLabel, "rbxassetid://")
-	if IconModule.New then
-		local New = IconModule.New
-		local IconFrame = New("ImageLabel", {
-			Size = Icon.Size,
-			BackgroundTransparency = 1,
-			ImageColor3 = Colors[1].Color or nil,
-			ThemeTag = Colors[1].ThemeTag and {
-				ImageColor3 = Colors[1].ThemeTag,
-			},
-			Image = isrbxassetid and IconLabel or IconLabel[1],
-			ImageRectSize = isrbxassetid and nil or IconLabel[2].ImageRectSize,
-			ImageRectOffset = isrbxassetid and nil or IconLabel[2].ImageRectPosition,
-		})
-		if not isrbxassetid and IconLabel[2].Parts then
-			for _, part in next, IconLabel[2].Parts do
-				local IconPartLabel = IconModule.Icon(part, Icon.Type)
-				local IconPart = New("ImageLabel", {
-					Size = UDim2.new(1, 0, 1, 0),
-					BackgroundTransparency = 1,
-					ImageColor3 = Colors[1 + _].Color or nil,
-					ThemeTag = Colors[1 + _].ThemeTag and {
-						ImageColor3 = Colors[1 + _].ThemeTag,
-					},
-					Image = IconPartLabel[1],
-					ImageRectSize = IconPartLabel[2].ImageRectSize,
-					ImageRectOffset = IconPartLabel[2].ImageRectPosition,
-					Parent = IconFrame,
-				})
-			end
-		end
-		Icon.IconFrame = IconFrame
-	else
-		local IconFrame = Instance.new("ImageLabel")
-		IconFrame.Size = Icon.Size
-		IconFrame.BackgroundTransparency = 1
-		IconFrame.ImageColor3 = Colors[1].Color
-		IconFrame.Image = isrbxassetid and IconLabel or IconLabel[1]
-		IconFrame.ImageRectSize = isrbxassetid and nil or IconLabel[2].ImageRectSize
-		IconFrame.ImageRectOffset = isrbxassetid and nil or IconLabel[2].ImageRectPosition
-		if not isrbxassetid and IconLabel[2].Parts then
-			for _, part in next, IconLabel[2].Parts do
-				local IconPartLabel = IconModule.Icon(part, Icon.Type)
-				local IconPart = Instance.new("ImageLabel")
-				IconPart.Size = UDim2.new(1, 0, 1, 0)
-				IconPart.BackgroundTransparency = 1
-				IconPart.ImageColor3 = Colors[1 + _].Color
-				IconPart.Image = IconPartLabel[1]
-				IconPart.ImageRectSize = IconPartLabel[2].ImageRectSize
-				IconPart.ImageRectOffset = IconPartLabel[2].ImageRectPosition
-				IconPart.Parent = IconFrame
-			end
-		end
-		Icon.IconFrame = IconFrame
-	end
-	return Icon
-end
-
-local function ToKebabCase(str)
-	if not str or type(str) ~= "string" then return "" end
-	str = str:gsub("(%l)(%u)", "%1-%2")
-	str = str:gsub("(%l)(%d)", "%1-%2")
-	str = str:gsub("(%u)(%u%l)", "%1-%2")
-	return str:lower()
-end
-
-local FallbackIcons = {
-	Custom = "rbxassetid://109647740279101",
-	Info = "rbxassetid://7733960981",
-	Home = "rbxassetid://7733960981",
-	Settings = "rbxassetid://7734053495",
-	User = "rbxassetid://7743875962",
-	Eye = "rbxassetid://7733774602",
-	EyeOff = "rbxassetid://7733774495",
-	Shield = "rbxassetid://7734056608",
-	ShieldCheck = "rbxassetid://7734056411",
-	Search = "rbxassetid://7734052925",
-	ChevronDown = "rbxassetid://7733717447",
-	ChevronRight = "rbxassetid://7733717755",
-	ChevronUp = "rbxassetid://7733919605",
-	ChevronLeft = "rbxassetid://7733717651",
-	X = "rbxassetid://7743878857",
-	Minus = "rbxassetid://7734000129",
-	Maximize = "rbxassetid://7733992982",
-	Maximize2 = "rbxassetid://7733992901",
-	Minimize = "rbxassetid://7733997941",
-	Minimize2 = "rbxassetid://7733997870",
-	Moon = "rbxassetid://7743870134",
-	Sun = "rbxassetid://7734068495",
-	Palette = "rbxassetid://7734021595",
-	Sliders = "rbxassetid://7734058803",
-	ToggleLeft = "rbxassetid://7734091286",
-	ToggleRight = "rbxassetid://7743873539",
-	Type = "rbxassetid://7743874740",
-	MousePointer = "rbxassetid://7743870392",
-	Layers = "rbxassetid://7743868936",
-	Command = "rbxassetid://7733924046",
-	Star = "rbxassetid://7734068321",
-	Bell = "rbxassetid://7733911828",
-	Folder = "rbxassetid://7733799185",
-	Terminal = "rbxassetid://7743872929",
-	Activity = "rbxassetid://7733655755",
-	Target = "rbxassetid://7743872758",
-	Anchor = "rbxassetid://7733911490",
-	Compass = "rbxassetid://7733924216",
-	Cpu = "rbxassetid://7733765045",
-	Globe = "rbxassetid://7733954760",
-	Hash = "rbxassetid://7733955906",
-	Key = "rbxassetid://7733965118",
-	Lock = "rbxassetid://7733992528",
-	Unlock = "rbxassetid://7743875263",
-	Move = "rbxassetid://7743870731",
-	Power = "rbxassetid://7734042493",
-	RefreshCw = "rbxassetid://7734051052",
-	Trash = "rbxassetid://7743873871",
-	Trash2 = "rbxassetid://7743873772",
-	Wifi = "rbxassetid://7743878148",
-	Wrench = "rbxassetid://7743878358",
-	Check = "rbxassetid://7733715400",
-	AlertCircle = "rbxassetid://7733911490",
-	AlertTriangle = "rbxassetid://7733911490",
-}
-
-local function GetIcon(name)
-	if not name then return FallbackIcons.Info end
-	if type(name) == "string" and (name:sub(1, 13) == "rbxassetid://" or name:sub(1, 4) == "http") then
-		return name
-	end
-
-    if CachedIcons[name] then
-        return CachedIcons[name]
-    end
-
-	local kebabName = ToKebabCase(name)
-	local success, iconData = pcall(function()
-		return IconModule.GetIcon(kebabName, "lucide")
-	end)
-
-	if success and iconData and type(iconData) == "string" then
-        CachedIcons[name] = iconData
-		return iconData
-	end
-
-	if FallbackIcons[name] then
-        CachedIcons[name] = FallbackIcons[name]
-		return FallbackIcons[name]
-	end
-
-	return FallbackIcons.Info
-end
+-- ============================================================
 
 local function Create(className, properties)
     local instance = Instance.new(className)
@@ -485,12 +386,7 @@ local function Round(number, precision)
 end
 
 local function GetIcon(name)
-    if not name then return Icons.Info end
-    if Icons[name] then return Icons[name] end
-    if type(name) == "string" and (name:sub(1, 13) == "rbxassetid://" or name:sub(1, 4) == "http") then
-        return name
-    end
-    return Icons.Info
+    return SafeGetIcon(name)
 end
 
 local function NormalizeOption(opt)
@@ -541,6 +437,7 @@ local function RegisterDropdown(menu, arrow, btnRef)
     return data
 end
 
+-- Config Manager
 local ConfigManager = {}
 ConfigManager.__index = ConfigManager
 
@@ -557,29 +454,23 @@ function ConfigManager.new(windowName)
 end
 
 function ConfigManager:Load()
-    if typeof(readfile) == "function" then
-        local ok, content = pcall(readfile, self.Path)
-        if ok and content and content ~= "" then
-            local ok2, data = pcall(function()
-                return HttpService:JSONDecode(content)
-            end)
-            if ok2 and type(data) == "table" then
-                self.Data = data
-                return true
-            end
+    if typeof(readfile) ~= "function" then return false end
+    local ok, content = pcall(readfile, self.Path)
+    if ok and content and content ~= "" then
+        local data = SafeNetwork.SafeJSONDecode(content)
+        if type(data) == "table" then
+            self.Data = data
+            return true
         end
     end
     return false
 end
 
 function ConfigManager:Save()
-    if typeof(writefile) == "function" then
-        local ok, content = pcall(function()
-            return HttpService:JSONEncode(self.Data)
-        end)
-        if ok then
-            pcall(writefile, self.Path, content)
-        end
+    if typeof(writefile) ~= "function" then return end
+    local content = SafeNetwork.SafeJSONEncode(self.Data)
+    if content then
+        pcall(writefile, self.Path, content)
     end
 end
 
@@ -625,55 +516,7 @@ function ConfigManager:BindElement(key, elementType, getValueFunc, setValueFunc)
     end
 end
 
-function ConfigManager:GetConfigList()
-    local list = {}
-    if typeof(listfiles) == "function" then
-        local ok, files = pcall(listfiles, "")
-        if ok and files then
-            local prefix = self.WindowName .. "_Config_"
-            for _, f in ipairs(files) do
-                local name = f:match(prefix .. "([^/\]+)%.json$")
-                if name then table.insert(list, name) end
-            end
-        end
-    end
-    return list
-end
-
-function ConfigManager:DeleteConfig(name)
-    if typeof(delfile) == "function" then
-        pcall(delfile, self.WindowName .. "_Config_" .. name .. ".json")
-    end
-end
-
-function ConfigManager:LoadConfig(name)
-    if typeof(readfile) == "function" then
-        local ok, content = pcall(readfile, self.WindowName .. "_Config_" .. name .. ".json")
-        if ok and content then
-            local ok2, data = pcall(function() return HttpService:JSONDecode(content) end)
-            if ok2 and type(data) == "table" then
-                self.Data = data
-                for key, elem in pairs(self.Elements) do
-                    if elem.Set and self.Data[key] ~= nil then
-                        pcall(function() elem.Set(self.Data[key]) end)
-                    end
-                end
-                return true
-            end
-        end
-    end
-    return false
-end
-
-function ConfigManager:SaveConfig(name)
-    if typeof(writefile) == "function" then
-        local ok, content = pcall(function() return HttpService:JSONEncode(self.Data) end)
-        if ok then
-            pcall(writefile, self.WindowName .. "_Config_" .. name .. ".json", content)
-        end
-    end
-end
-
+-- Notify System (Instant, no animation)
 local NotifyScreen = nil
 local NotifyLayout = nil
 local ActiveNotifications = {}
@@ -727,10 +570,11 @@ function Quantum:Notify(data)
         Size = UDim2.new(0, 18, 0, 18),
         Position = UDim2.new(0, 6, 0, 6),
         BackgroundTransparency = 1,
-        Image = iconId,
+        Image = FALLBACK_ICON,
         ImageColor3 = CurrentTheme.Accent,
         ZIndex = 202,
     })
+    SafeSetImage(IconImg, icon, 100)
 
     local TitleLbl = Create("TextLabel", {
         Parent = notifFrame,
@@ -798,7 +642,7 @@ local function CreateFloatingIcon(customIcon)
         FloatingIconScreen:Destroy()
     end
 
-    local iconToUse = customIcon or FallbackIcons.Custom
+    local iconToUse = customIcon or Icons.Custom
 
     FloatingIconScreen = Create("ScreenGui", {
         Name = "QuantumFloatingIcon",
@@ -808,6 +652,7 @@ local function CreateFloatingIcon(customIcon)
         Enabled = true
     })
 
+    -- Backdrop: dark rounded background, slightly bigger than the icon
     local Backdrop = Create("Frame", {
         Name = "Backdrop",
         Parent = FloatingIconScreen,
@@ -827,40 +672,27 @@ local function CreateFloatingIcon(customIcon)
     })
 
     Create("UIStroke", {
-        Color = Color3.fromRGB(12, 12, 12),
-        Thickness = 1.5,
-        Transparency = 0.1,
+        Color = Color3.fromRGB(0, 0, 0),
+        Thickness = 1,
+        Transparency = 0.4,
         Parent = Backdrop
     })
 
-    local FloatingShadow = Create("ImageLabel", {
-        Name = "Shadow",
-        Parent = Backdrop,
-        AnchorPoint = Vector2.new(0.5, 0.5),
-        Position = UDim2.new(0.5, 0, 0.5, 0),
-        Size = UDim2.new(1, 24, 1, 24),
-        BackgroundTransparency = 1,
-        Image = "rbxassetid://10806158995",
-        ImageColor3 = Color3.fromRGB(0, 0, 0),
-        ImageTransparency = 0.2,
-        ScaleType = Enum.ScaleType.Slice,
-        SliceCenter = Rect.new(50, 50, 50, 50),
-        ZIndex = 999
-    })
-
     local isCustomImage = customIcon ~= nil
+    local iconToUse = isCustomImage and customIcon or SafeGetIcon("Custom")
     local Icon = Create("ImageLabel", {
         Name = "Icon",
         Parent = Backdrop,
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.new(0.5, 0, 0.5, 0),
-        Size = UDim2.new(0, 28, 0, 28),
+        Size = UDim2.new(0, 22, 0, 22),
         BackgroundTransparency = 1,
-        Image = iconToUse,
+        Image = FALLBACK_ICON,
         ImageColor3 = isCustomImage and Color3.fromRGB(255, 255, 255) or CurrentTheme.Text,
         ScaleType = Enum.ScaleType.Fit,
         ZIndex = 1001
     })
+    SafeSetImage(Icon, iconToUse, 200)
 
     local mouseDownOnIcon = false
     local isDragging = false
@@ -956,6 +788,7 @@ function Quantum:CreateWindow(data)
     end
 
     CreateFloatingIcon(floatingIcon)
+    PreloadIconsBatch()
 
     MainWindowScreen = Create("ScreenGui", {
         Name = "QuantumUI",
@@ -1027,11 +860,12 @@ function Quantum:CreateWindow(data)
         Size = UDim2.new(0, 20, 0, 20),
         Position = UDim2.new(0, 10, 0, 8),
         BackgroundTransparency = 1,
-        Image = GetIcon("atom"),
+        Image = FALLBACK_ICON,
         ImageColor3 = CurrentTheme.Accent,
         ScaleType = Enum.ScaleType.Fit,
         ZIndex = 21
     })
+    SafeSetImage(TitleIcon, "atom", 300)
 
     local Title = Create("TextLabel", {
         Name = "Title",
@@ -1094,10 +928,17 @@ function Quantum:CreateWindow(data)
         Size = UDim2.new(1, -4, 1, -4),
         Position = UDim2.new(0, 2, 0, 2),
         BackgroundTransparency = 1,
-        Image = "rbxthumb://type=AvatarHeadShot&id=" .. LocalPlayer.UserId .. "&w=48&h=48",
+        Image = "",
         ZIndex = 23
     })
     Create("UICorner", {CornerRadius = UDim.new(0, 5), Parent = ProfileImg})
+    task.delay(1, function()
+        if ProfileImg and ProfileImg.Parent then
+            pcall(function()
+                ProfileImg.Image = "rbxthumb://type=AvatarHeadShot&id=" .. LocalPlayer.UserId .. "&w=48&h=48"
+            end)
+        end
+    end)
 
     local ProfileName = Create("TextLabel", {
         Name = "ProfileName",
@@ -1206,64 +1047,55 @@ function Quantum:CreateWindow(data)
     local Controls = Create("Frame", {
         Name = "Controls",
         Parent = Topbar,
-        Size = UDim2.new(0, 96, 0, Config.TopbarHeight),
-        Position = UDim2.new(1, -98, 0, 0),
+        Size = UDim2.new(0, 84, 0, Config.TopbarHeight),
+        Position = UDim2.new(1, -86, 0, 0),
         BackgroundTransparency = 1,
         ZIndex = 21
     })
 
-    local ControlRefs = {}
-
-    local function MakeControl(name, icon, pos, callback, isClose)
+    local function MakeControl(name, icon, pos, callback)
         local btn = Create("ImageButton", {
             Name = name,
             Parent = Controls,
-            Size = UDim2.new(0, 26, 0, 26),
+            Size = UDim2.new(0, 22, 0, 22),
             Position = pos,
-            BackgroundTransparency = 1,
             BackgroundColor3 = CurrentTheme.Element,
             AutoButtonColor = false,
             Image = GetIcon(icon),
             ImageColor3 = CurrentTheme.SubText,
             ZIndex = 22
         })
-        Create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = btn})
-
-        local hoverBg = isClose and Color3.fromRGB(220, 60, 60) or CurrentTheme.ElementHover
-        local hoverImg = isClose and Color3.fromRGB(255, 255, 255) or CurrentTheme.Text
-
+        Create("UICorner", {CornerRadius = UDim.new(0, 5), Parent = btn})
         btn.MouseEnter:Connect(function()
-            Tween(btn, {BackgroundTransparency = 0, BackgroundColor3 = hoverBg, ImageColor3 = hoverImg}, 0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+            btn.BackgroundColor3 = CurrentTheme.ElementHover
         end)
         btn.MouseLeave:Connect(function()
-            Tween(btn, {BackgroundTransparency = 1, BackgroundColor3 = CurrentTheme.Element, ImageColor3 = CurrentTheme.SubText}, 0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+            btn.BackgroundColor3 = CurrentTheme.Element
         end)
         btn.MouseButton1Click:Connect(callback)
-
-        ControlRefs[name] = btn
         return btn
     end
 
-    MakeControl("Minimize", "Minus", UDim2.new(0, 4, 0.5, -13), function()
+    MakeControl("Minimize", "Minus", UDim2.new(0, 0, 0.5, -11), function()
         CloseAllDropdowns()
         IsMinimized = true
         MainFrame.Visible = false
-    end, false)
+    end)
 
     local IsMaximized = false
-    MakeControl("Resize", "Maximize2", UDim2.new(0, 34, 0.5, -13), function()
+    MakeControl("Resize", "Maximize2", UDim2.new(0, 25, 0.5, -11), function()
         IsMaximized = not IsMaximized
         if IsMaximized then
             MainFrame.Size = UDim2.new(0, 400, 0, 260)
         else
             MainFrame.Size = UDim2.new(0, 320, 0, 200)
         end
-    end, false)
+    end)
 
-    MakeControl("Close", "X", UDim2.new(0, 64, 0.5, -13), function()
+    MakeControl("Close", "X", UDim2.new(0, 50, 0.5, -11), function()
         CloseAllDropdowns()
         ConfirmOverlay.Visible = true
-    end, true)
+    end)
 
     ConfirmYes.MouseButton1Click:Connect(function()
         CloseAllDropdowns()
@@ -1298,6 +1130,7 @@ function Quantum:CreateWindow(data)
         ZIndex = 15
     })
 
+    -- Search Box in Sidebar
     local SearchFrame = Create("Frame", {
         Parent = Sidebar,
         Size = UDim2.new(1, -10, 0, 30),
@@ -1313,10 +1146,11 @@ function Quantum:CreateWindow(data)
         Size = UDim2.new(0, 12, 0, 12),
         Position = UDim2.new(0, 6, 0.5, -6),
         BackgroundTransparency = 1,
-        Image = GetIcon("Search"),
+        Image = FALLBACK_ICON,
         ImageColor3 = CurrentTheme.SubText,
         ZIndex = 17
     })
+    SafeSetImage(SearchIcon, "Search", 400)
 
     local SearchBox = Create("TextBox", {
         Parent = SearchFrame,
@@ -1488,17 +1322,6 @@ function Quantum:CreateWindow(data)
         SearchIcon.ImageColor3 = theme.SubText
         SearchBox.TextColor3 = theme.Text
         SearchBox.PlaceholderColor3 = theme.SubText
-
-        for name, btn in pairs(ControlRefs) do
-            if btn and btn.Parent then
-                btn.BackgroundColor3 = theme.Element
-                if name == "Close" then
-                    btn.ImageColor3 = theme.SubText
-                else
-                    btn.ImageColor3 = theme.SubText
-                end
-            end
-        end
     end)
 
     local WindowAPI = {}
@@ -1533,10 +1356,11 @@ function Quantum:CreateWindow(data)
             Size = UDim2.new(0, 14, 0, 14),
             Position = UDim2.new(0, 8, 0.5, -7),
             BackgroundTransparency = 1,
-            Image = GetIcon(tabIcon),
+            Image = FALLBACK_ICON,
             ImageColor3 = CurrentTheme.SubText,
             ZIndex = 18
         })
+        SafeSetImage(TabBtnIcon, tabIcon, 500 + (#Tabs * 50))
 
         local TabBtnText = Create("TextLabel", {
             Parent = TabBtn,
@@ -1671,15 +1495,16 @@ function Quantum:CreateWindow(data)
             })
             Create("UICorner", {CornerRadius = UDim.new(0, Config.ElementCorner), Parent = SectionHeader})
 
-            Create("ImageLabel", {
+            local SectionIconImg = Create("ImageLabel", {
                 Parent = SectionHeader,
                 Size = UDim2.new(0, 16, 0, 16),
                 Position = UDim2.new(0, 10, 0.5, -8),
                 BackgroundTransparency = 1,
-                Image = GetIcon(sectionIcon),
+                Image = FALLBACK_ICON,
                 ImageColor3 = CurrentTheme.Accent,
                 ZIndex = 18
             })
+            SafeSetImage(SectionIconImg, sectionIcon, 600)
 
             Create("TextLabel", {
                 Parent = SectionHeader,
@@ -1797,7 +1622,7 @@ function Quantum:CreateWindow(data)
                 local ToggleFrame = Create("Frame", {
                     Parent = SectionItems,
                     Size = UDim2.new(1, 0, 0, frameHeight),
-                    BackgroundColor3 = CurrentTheme.Element,
+                    BackgroundColor3 = CurrentTheme.Background,
                     BorderSizePixel = 0,
                     LayoutOrder = #SectionItems:GetChildren(),
                     ClipsDescendants = true,
@@ -1847,8 +1672,8 @@ function Quantum:CreateWindow(data)
 
                 local ToggleBtn = Create("Frame", {
                     Parent = ToggleFrame,
-                    Size = UDim2.new(0, 40, 0, 22),
-                    Position = UDim2.new(1, -48, 0.5, -11),
+                    Size = UDim2.new(0, 44, 0, 24),
+                    Position = UDim2.new(1, -52, 0.5, -12),
                     BackgroundColor3 = CurrentTheme.ToggleOff,
                     BorderSizePixel = 0,
                     ZIndex = 19
@@ -1857,8 +1682,8 @@ function Quantum:CreateWindow(data)
 
                 local ToggleCircle = Create("Frame", {
                     Parent = ToggleBtn,
-                    Size = UDim2.new(0, 14, 0, 14),
-                    Position = UDim2.new(0, 3, 0.5, -7),
+                    Size = UDim2.new(0, 12, 0, 12),
+                    Position = UDim2.new(0, 3, 0.5, -6),
                     BackgroundColor3 = CurrentTheme.Text,
                     BorderSizePixel = 0,
                     ZIndex = 20
@@ -1876,17 +1701,17 @@ function Quantum:CreateWindow(data)
                 local state = default
                 if default then
                     ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOn
-                    ToggleCircle.Position = UDim2.new(0, 20, 0.5, -7)
+                    ToggleCircle.Position = UDim2.new(0, 25, 0.5, -6)
                 end
 
                 ToggleClick.MouseButton1Click:Connect(function()
                     state = not state
                     if state then
                         ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOn
-                        ToggleCircle.Position = UDim2.new(0, 20, 0.5, -7)
+                        ToggleCircle.Position = UDim2.new(0, 25, 0.5, -6)
                     else
                         ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOff
-                        ToggleCircle.Position = UDim2.new(0, 3, 0.5, -7)
+                        ToggleCircle.Position = UDim2.new(0, 3, 0.5, -6)
                     end
                     callback(state)
                 end)
@@ -1906,10 +1731,10 @@ function Quantum:CreateWindow(data)
                         state = val
                         if state then
                             ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOn
-                            ToggleCircle.Position = UDim2.new(0, 20, 0.5, -7)
+                            ToggleCircle.Position = UDim2.new(0, 25, 0.5, -6)
                         else
                             ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOff
-                            ToggleCircle.Position = UDim2.new(0, 3, 0.5, -7)
+                            ToggleCircle.Position = UDim2.new(0, 3, 0.5, -6)
                         end
                         callback(state)
                     end,
@@ -2233,12 +2058,12 @@ function Quantum:CreateWindow(data)
 
                 local DropdownBtn = Create("TextButton", {
                     Parent = DropdownFrame,
-                    Size = UDim2.new(0, 85, 0, 22),
-                    Position = UDim2.new(1, -92, 0, hasDesc and 8 or 3),
+                    Size = UDim2.new(0, 140, 0, 24),
+                    Position = UDim2.new(1, -148, 0, hasDesc and 8 or 2),
                     BackgroundColor3 = CurrentTheme.Element,
                     Text = "",
                     TextColor3 = CurrentTheme.SubText,
-                    TextSize = 9,
+                    TextSize = 10,
                     Font = Enum.Font.Gotham,
                     TextTruncate = Enum.TextTruncate.AtEnd,
                     ZIndex = 19
@@ -2266,7 +2091,7 @@ function Quantum:CreateWindow(data)
 
                 local MenuFrame = Create("Frame", {
                     Parent = MainWindowScreen,
-                    Size = UDim2.new(0, 85, 0, 0),
+                    Size = UDim2.new(0, 140, 0, 0),
                     Position = UDim2.new(0, 0, 0, 0),
                     BackgroundColor3 = CurrentTheme.Background,
                     BorderSizePixel = 0,
@@ -2282,14 +2107,14 @@ function Quantum:CreateWindow(data)
 
                 local SearchBox = Create("TextBox", {
                     Parent = MenuFrame,
-                    Size = UDim2.new(1, -8, 0, 24),
+                    Size = UDim2.new(1, -8, 0, 26),
                     Position = UDim2.new(0, 4, 0, 4),
                     BackgroundColor3 = CurrentTheme.Element,
                     Text = "",
                     PlaceholderText = "Search...",
                     TextColor3 = CurrentTheme.Text,
                     PlaceholderColor3 = CurrentTheme.SubText,
-                    TextSize = 11,
+                    TextSize = 12,
                     Font = Enum.Font.Gotham,
                     ClearTextOnFocus = false,
                     ZIndex = 31
@@ -2338,11 +2163,11 @@ function Quantum:CreateWindow(data)
                         if not filterText or filterText == "" or string.find(string.lower(optText), string.lower(filterText), 1, true) then
                             local optBtn = Create("TextButton", {
                                 Parent = OptionsScroll,
-                                Size = UDim2.new(1, 0, 0, 34),
+                                Size = UDim2.new(1, 0, 0, 28),
                                 BackgroundColor3 = CurrentTheme.Element,
                                 Text = "",
                                 TextColor3 = CurrentTheme.Text,
-                                TextSize = 9,
+                                TextSize = 12,
                                 Font = Enum.Font.Gotham,
                                 ZIndex = 32
                             })
@@ -2365,7 +2190,7 @@ function Quantum:CreateWindow(data)
                                     BackgroundTransparency = 1,
                                     Text = optText,
                                     TextColor3 = CurrentTheme.Text,
-                                    TextSize = 11,
+                                    TextSize = 12,
                                     Font = Enum.Font.Gotham,
                                     TextXAlignment = Enum.TextXAlignment.Left,
                                     ZIndex = 33,
@@ -2402,9 +2227,9 @@ function Quantum:CreateWindow(data)
                         end
                     end
 
-                    local listHeight = math.min(count * 24 + 4, 120)
+                    local listHeight = math.min(count * 28 + 4, 160)
                     OptionsScroll.Size = UDim2.new(1, -10, 0, listHeight)
-                    OptionsScroll.CanvasSize = UDim2.new(0, 0, 0, count * 24 + 4)
+                    OptionsScroll.CanvasSize = UDim2.new(0, 0, 0, count * 28 + 4)
                 end
 
                 BuildOptions("")
@@ -2436,11 +2261,12 @@ function Quantum:CreateWindow(data)
                         ddData.IsOpen = true
                         UpdateMenuPosition()
                         MenuFrame.Visible = true
-                        local menuHeight = math.min(#options * 24 + 32, 180)
+                        local menuHeight = math.min(#options * 28 + 36, 220)
                         MenuFrame.Size = UDim2.new(0, DropdownBtn.AbsoluteSize.X, 0, menuHeight)
                         Arrow.Rotation = 180
                         SearchBox.Text = ""
                         BuildOptions("")
+                        -- Start heartbeat to track button position while scrolling
                         ddData.HeartbeatConn = RunService.Heartbeat:Connect(function()
                             if ddData.IsOpen and DropdownBtn and DropdownBtn.Parent then
                                 UpdateMenuPosition()
@@ -2454,6 +2280,7 @@ function Quantum:CreateWindow(data)
                     end
                 end)
 
+                -- Close dropdown when scrolling the content area
                 TabContent:GetPropertyChangedSignal("CanvasPosition"):Connect(function()
                     if ddData.IsOpen then
                         ddData.IsOpen = false
@@ -2604,12 +2431,12 @@ function Quantum:CreateWindow(data)
 
                 local DropdownBtn = Create("TextButton", {
                     Parent = DropdownFrame,
-                    Size = UDim2.new(0, 85, 0, 22),
-                    Position = UDim2.new(1, -92, 0, hasDesc and 8 or 3),
+                    Size = UDim2.new(0, 140, 0, 24),
+                    Position = UDim2.new(1, -148, 0, hasDesc and 8 or 2),
                     BackgroundColor3 = CurrentTheme.Element,
                     Text = "",
                     TextColor3 = CurrentTheme.SubText,
-                    TextSize = 9,
+                    TextSize = 10,
                     Font = Enum.Font.Gotham,
                     TextTruncate = Enum.TextTruncate.AtEnd,
                     ZIndex = 19
@@ -2650,7 +2477,7 @@ function Quantum:CreateWindow(data)
 
                 local MenuFrame = Create("Frame", {
                     Parent = MainWindowScreen,
-                    Size = UDim2.new(0, 85, 0, 0),
+                    Size = UDim2.new(0, 140, 0, 0),
                     Position = UDim2.new(0, 0, 0, 0),
                     BackgroundColor3 = CurrentTheme.Background,
                     BorderSizePixel = 0,
@@ -2666,14 +2493,14 @@ function Quantum:CreateWindow(data)
 
                 local SearchBox = Create("TextBox", {
                     Parent = MenuFrame,
-                    Size = UDim2.new(1, -8, 0, 24),
+                    Size = UDim2.new(1, -8, 0, 26),
                     Position = UDim2.new(0, 4, 0, 4),
                     BackgroundColor3 = CurrentTheme.Element,
                     Text = "",
                     PlaceholderText = "Search...",
                     TextColor3 = CurrentTheme.Text,
                     PlaceholderColor3 = CurrentTheme.SubText,
-                    TextSize = 11,
+                    TextSize = 12,
                     Font = Enum.Font.Gotham,
                     ClearTextOnFocus = false,
                     ZIndex = 31
@@ -2822,9 +2649,9 @@ function Quantum:CreateWindow(data)
                         end
                     end
 
-                    local listHeight = math.min(count * 24 + 4, 120)
+                    local listHeight = math.min(count * 28 + 4, 160)
                     OptionsScroll.Size = UDim2.new(1, -10, 0, listHeight)
-                    OptionsScroll.CanvasSize = UDim2.new(0, 0, 0, count * 24 + 4)
+                    OptionsScroll.CanvasSize = UDim2.new(0, 0, 0, count * 28 + 4)
                 end
 
                 BuildOptions()
@@ -2856,11 +2683,12 @@ function Quantum:CreateWindow(data)
                         ddData.IsOpen = true
                         UpdateMenuPosition()
                         MenuFrame.Visible = true
-                        local menuHeight = math.min(#options * 24 + 32, 180)
+                        local menuHeight = math.min(#options * 28 + 36, 220)
                         MenuFrame.Size = UDim2.new(0, DropdownBtn.AbsoluteSize.X, 0, menuHeight)
                         Arrow.Rotation = 180
                         SearchBox.Text = ""
                         BuildOptions()
+                        -- Start heartbeat to track button position while scrolling
                         ddData.HeartbeatConn = RunService.Heartbeat:Connect(function()
                             if ddData.IsOpen and DropdownBtn and DropdownBtn.Parent then
                                 UpdateMenuPosition()
@@ -2874,6 +2702,7 @@ function Quantum:CreateWindow(data)
                     end
                 end)
 
+                -- Close dropdown when scrolling the content area
                 TabContent:GetPropertyChangedSignal("CanvasPosition"):Connect(function()
                     if ddData.IsOpen then
                         ddData.IsOpen = false
@@ -3288,6 +3117,7 @@ function Quantum:CreateWindow(data)
                     end
                 end)
 
+                -- Ensure size is correct after layout
                 task.spawn(function()
                     for i = 1, 5 do
                         task.wait(0.1)
@@ -3306,25 +3136,8 @@ function Quantum:CreateWindow(data)
                     SetTitle = function(t) TitleLabel.Text = t end,
                     SetContent = function(c) ContentLabel.Text = c end,
                     SetDesc = function(c) ContentLabel.Text = c end,
-                    SetText = function(c) ContentLabel.Text = c end,
-                    Update = function(c) ContentLabel.Text = c end,
                     GetContent = function() return ContentLabel.Text end,
                 }
-                setmetatable(API, {
-                    __index = function(self, key)
-                        if key == "Text" or key == "Content" or key == "Desc" then
-                            return ContentLabel.Text
-                        end
-                        return nil
-                    end,
-                    __newindex = function(self, key, value)
-                        if key == "Text" or key == "Content" or key == "Desc" then
-                            ContentLabel.Text = value
-                            return
-                        end
-                        rawset(self, key, value)
-                    end
-                })
                 return API
             end
 
@@ -3546,7 +3359,7 @@ function Quantum:CreateWindow(data)
                 })
                 Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = Dot})
 
-                Create("ImageLabel", {
+                local IconImg = Create("ImageLabel", {
                     Parent = StatusFrame,
                     Size = UDim2.new(0, 10, 0, 10),
                     Position = UDim2.new(0, 16, 0.5, -5),
@@ -3574,12 +3387,30 @@ function Quantum:CreateWindow(data)
                     StatusLabel.TextColor3 = theme.Text
                 end)
 
-                return {Set = function(t) StatusLabel.Text = t end, Get = function() return StatusLabel.Text end}
+                local StatusAPI = {}
+                function StatusAPI:Set(data)
+                    if type(data) == "string" then
+                        StatusLabel.Text = data
+                    elseif type(data) == "table" then
+                        if data.Text then StatusLabel.Text = data.Text end
+                        if data.Color then
+                            Dot.BackgroundColor3 = data.Color
+                            IconImg.ImageColor3 = data.Color
+                        end
+                        if data.Icon then IconImg.Image = GetIcon(data.Icon) end
+                    end
+                end
+                function StatusAPI:SetText(t) StatusLabel.Text = t end
+                function StatusAPI:SetColor(c) Dot.BackgroundColor3 = c; IconImg.ImageColor3 = c end
+                function StatusAPI:SetIcon(i) IconImg.Image = GetIcon(i) end
+                function StatusAPI:Get() return StatusLabel.Text end
+                return StatusAPI
             end
 
             return SectionAPI
         end
 
+        -- TabAPI convenience methods (WindUI-style compatibility)
         function TabAPI:Section(data)
             local sec = self:CreateSection(data)
             self._CurrentSection = sec
@@ -3649,6 +3480,7 @@ function Quantum:CreateWindow(data)
         return TabAPI
     end
 
+    -- Search functionality
     SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
         local text = SearchBox.Text:lower()
         for _, tab in ipairs(TabButtons) do
