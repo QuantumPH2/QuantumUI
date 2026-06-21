@@ -110,48 +110,88 @@ local Config = {
     }
 }
 
-
--- IconModule Integration (from File 2) - Auto-fetching icons from GitHub
+-- ============================================================
+-- FIXED IconModule: Lazy-loading with error handling & caching
+-- ============================================================
 local cloneref = (cloneref or clonereference or function(instance)
 	return instance
 end)
 
-local RunService = cloneref(game:GetService("RunService"))
-local HttpService = cloneref(game:GetService("HttpService"))
+local CachedIcons = {}
+local IconLoadErrors = {}
 
-local function Get(url)
-	if writefile and game.HttpGet then
-		return game:HttpGet(url)
-	else
-		return HttpService:GetAsync(url)
-	end
+local function SafeGet(url, retries)
+    retries = retries or 3
+    for i = 1, retries do
+        local success, result = pcall(function()
+            if writefile and game.HttpGet then
+                return game:HttpGet(url)
+            else
+                return HttpService:GetAsync(url)
+            end
+        end)
+        if success then
+            return result
+        end
+        if i < retries then
+            task.wait(0.5 * i)
+        end
+    end
+    return nil
 end
 
 local IconModule = {
 	IconsType = "lucide",
 	New = nil,
 	IconThemeTag = nil,
-	Icons = {
-		lucide = loadstring(
-			Get("https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/lucide/dist/Icons.lua")
-		)(),
-		solar = loadstring(
-			Get("https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/solar/dist/Icons.lua")
-		)(),
-		craft = loadstring(
-			Get("https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/craft/dist/Icons.lua")
-		)(),
-		geist = loadstring(
-			Get("https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/geist/dist/Icons.lua")
-		)(),
-		sfsymbols = loadstring(
-			Get("https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/sfsymbols/dist/Icons.lua")
-		)(),
-		gravity = loadstring(
-			Get("https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/gravity/dist/Icons.lua")
-		)(),
-	},
+	Icons = {},
+    _LoadedPacks = {},
+    _LoadQueue = {},
 }
+
+local IconUrls = {
+    lucide = "https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/lucide/dist/Icons.lua",
+    solar = "https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/solar/dist/Icons.lua",
+    craft = "https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/craft/dist/Icons.lua",
+    geist = "https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/geist/dist/Icons.lua",
+    sfsymbols = "https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/sfsymbols/dist/Icons.lua",
+    gravity = "https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/gravity/dist/Icons.lua",
+}
+
+-- LAZY LOAD: Only fetch icons when actually requested
+function IconModule.LoadPack(packName)
+    if IconModule._LoadedPacks[packName] then return true end
+    if IconLoadErrors[packName] then return false end
+
+    local url = IconUrls[packName]
+    if not url then return false end
+
+    local content = SafeGet(url, 3)
+    if not content then
+        IconLoadErrors[packName] = true
+        warn("[Quantum] Failed to load icon pack '" .. packName .. "' - using fallbacks")
+        return false
+    end
+
+    local success, icons = pcall(function()
+        return loadstring(content)()
+    end)
+
+    if success and type(icons) == "table" then
+        IconModule.Icons[packName] = icons
+        IconModule._LoadedPacks[packName] = true
+        return true
+    else
+        IconLoadErrors[packName] = true
+        warn("[Quantum] Failed to parse icon pack '" .. packName .. "'")
+        return false
+    end
+end
+
+-- Pre-load lucide in background (most commonly used)
+task.spawn(function()
+    IconModule.LoadPack("lucide")
+end)
 
 local function parseIconString(iconString)
 	if type(iconString) == "string" then
@@ -228,6 +268,12 @@ function IconModule.Icon(Icon, Type, DefaultFormat)
 	local iconType, iconName = parseIconString(Icon)
 	local targetType = iconType or Type or IconModule.IconsType
 	local targetName = iconName
+
+    -- LAZY LOAD: Try to load the pack if not loaded
+    if not IconModule._LoadedPacks[targetType] then
+        IconModule.LoadPack(targetType)
+    end
+
 	local iconSet = IconModule.Icons[targetType]
 	if iconSet and iconSet.Icons and iconSet.Icons[targetName] then
 		return {
@@ -330,11 +376,8 @@ end
 -- Kebab-case converter for icon names (PascalCase/camelCase -> kebab-case)
 local function ToKebabCase(str)
 	if not str or type(str) ~= "string" then return "" end
-	-- Insert hyphen before uppercase letters that follow lowercase
 	str = str:gsub("(%l)(%u)", "%1-%2")
-	-- Insert hyphen before numbers that follow lowercase
 	str = str:gsub("(%l)(%d)", "%1-%2")
-	-- Insert hyphen before uppercase followed by uppercase+lowercase (e.g. "HTTPRequest" -> "HTTP-Request")
 	str = str:gsub("(%u)(%u%l)", "%1-%2")
 	return str:lower()
 end
@@ -395,14 +438,19 @@ local FallbackIcons = {
 	Check = "rbxassetid://7733715400",
 	AlertCircle = "rbxassetid://7733911490",
 	AlertTriangle = "rbxassetid://7733911490",
-	Power = "rbxassetid://7734042493",
 }
 
+-- FIXED GetIcon: Removed duplicate, added caching and better error handling
 local function GetIcon(name)
 	if not name then return FallbackIcons.Info end
 	if type(name) == "string" and (name:sub(1, 13) == "rbxassetid://" or name:sub(1, 4) == "http") then
 		return name
 	end
+
+    -- Check cache first
+    if CachedIcons[name] then
+        return CachedIcons[name]
+    end
 
 	-- Try IconModule first (dynamic GitHub icons)
 	local kebabName = ToKebabCase(name)
@@ -411,11 +459,13 @@ local function GetIcon(name)
 	end)
 
 	if success and iconData and type(iconData) == "string" then
+        CachedIcons[name] = iconData
 		return iconData
 	end
 
 	-- Fallback to hardcoded IDs if GitHub fails or icon not found
 	if FallbackIcons[name] then
+        CachedIcons[name] = FallbackIcons[name]
 		return FallbackIcons[name]
 	end
 
