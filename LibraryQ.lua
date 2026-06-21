@@ -111,255 +111,334 @@ local Config = {
     }
 }
 
-local Icons = {
-    Custom = "rbxassetid://109647740279101",
-    Home = "rbxassetid://7733960981",
-    Settings = "rbxassetid://7734053495",
-    User = "rbxassetid://7743875962",
-    Eye = "rbxassetid://7733774602",
-    EyeOff = "rbxassetid://7733774495",
-    Shield = "rbxassetid://7734056608",
-    ShieldCheck = "rbxassetid://7734056411",
-    Search = "rbxassetid://7734052925",
-    ChevronDown = "rbxassetid://7733717447",
-    ChevronRight = "rbxassetid://7733717755",
-    ChevronUp = "rbxassetid://7733919605",
-    ChevronLeft = "rbxassetid://7733717651",
-    X = "rbxassetid://7743878857",
-    Minus = "rbxassetid://7734000129",
-    Maximize = "rbxassetid://7733992982",
-    Maximize2 = "rbxassetid://7733992901",
-    Minimize = "rbxassetid://7733997941",
-    Minimize2 = "rbxassetid://7733997870",
-    Moon = "rbxassetid://7743870134",
-    Sun = "rbxassetid://7734068495",
-    Palette = "rbxassetid://7734021595",
-    Sliders = "rbxassetid://7734058803",
-    ToggleLeft = "rbxassetid://7734091286",
-    ToggleRight = "rbxassetid://7743873539",
-    Type = "rbxassetid://7743874740",
-    MousePointer = "rbxassetid://7743870392",
-    Layers = "rbxassetid://7743868936",
-    Command = "rbxassetid://7733924046",
-    Star = "rbxassetid://7734068321",
-    Bell = "rbxassetid://7733911828",
-    Folder = "rbxassetid://7733799185",
-    Terminal = "rbxassetid://7743872929",
-    Activity = "rbxassetid://7733655755",
-    Target = "rbxassetid://7743872758",
-    Anchor = "rbxassetid://7733911490",
-    Compass = "rbxassetid://7733924216",
-    Cpu = "rbxassetid://7733765045",
-    Globe = "rbxassetid://7733954760",
-    Hash = "rbxassetid://7733955906",
-    Key = "rbxassetid://7733965118",
-    Lock = "rbxassetid://7733992528",
-    Unlock = "rbxassetid://7743875263",
-    Move = "rbxassetid://7743870731",
-    Power = "rbxassetid://7734042493",
-    RefreshCw = "rbxassetid://7734051052",
-    Trash = "rbxassetid://7743873871",
-    Trash2 = "rbxassetid://7743873772",
-    Wifi = "rbxassetid://7743878148",
-    Wrench = "rbxassetid://7743878358",
-    Check = "rbxassetid://7733715400",
-    AlertCircle = "rbxassetid://7733911490",
-    Info = "rbxassetid://7733960981",
-    AlertTriangle = "rbxassetid://7733911490",
-    ["bot"] = "rbxassetid://7733924046",
-    ["fish"] = "rbxassetid://7733954760",
-    ["droplets"] = "rbxassetid://7733924216",
-    ["map-pin"] = "rbxassetid://7743872758",
-    ["shopping-cart"] = "rbxassetid://7733799185",
-    ["calendar"] = "rbxassetid://7733911828",
-    ["settings"] = "rbxassetid://7734053495",
-    ["repeat"] = "rbxassetid://7734051052",
-    ["scroll"] = "rbxassetid://7743874740",
-    ["check"] = "rbxassetid://7733715400",
-    ["alert-triangle"] = "rbxassetid://7733911490",
-    ["x"] = "rbxassetid://7743878857",
-    ["refresh-cw"] = "rbxassetid://7734051052",
-    ["user-x"] = "rbxassetid://7743875962",
-    ["bar-chart-2"] = "rbxassetid://7734058803",
-    ["smile"] = "rbxassetid://7743875962",
-    ["sword"] = "rbxassetid://7743872758",
-    ["gem"] = "rbxassetid://7734068321",
-    ["sparkles"] = "rbxassetid://7734068321",
-    ["egg"] = "rbxassetid://7733911828",
-    ["heart"] = "rbxassetid://7734068321",
-    ["cloud"] = "rbxassetid://7733954760",
-    ["flame"] = "rbxassetid://7733911490",
-    ["leaf"] = "rbxassetid://7733924216",
-    ["candy"] = "rbxassetid://7733911828",
-    ["rainbow"] = "rbxassetid://7734068321",
-    ["code"] = "rbxassetid://7743872929",
-    ["wand"] = "rbxassetid://7733965118",
-    ["dna"] = "rbxassetid://7733765045",
-    ["clover"] = "rbxassetid://7733924216",
-    ["coins"] = "rbxassetid://7733954760",
-    ["skull"] = "rbxassetid://7733911490",
-    ["zap"] = "rbxassetid://7733765045",
-    ["telescope"] = "rbxassetid://7733924216",
-    ["cloud-lightning"] = "rbxassetid://7733911490",
-    ["trending-up"] = "rbxassetid://7734058803",
-    ["lock"] = "rbxassetid://7733992528",
-    ["bug"] = "rbxassetid://7733924046",
-    ["waves"] = "rbxassetid://7733954760",
-    ["camera"] = "rbxassetid://7733774602",
-    ["box"] = "rbxassetid://7733799185",
-    ["layers"] = "rbxassetid://7743868936",
-    ["clock"] = "rbxassetid://7733911828",
-    ["rotate-ccw"] = "rbxassetid://7734051052",
-    ["moon"] = "rbxassetid://7743870134",
-    ["sun"] = "rbxassetid://7734068495",
-    ["thumbs-up"] = "rbxassetid://7733715400",
-    ["info"] = "rbxassetid://7733960981",
-    ["user"] = "rbxassetid://7743875962",
-    ["star"] = "rbxassetid://7734068321",
-    ["target"] = "rbxassetid://7743872758",
-    ["anchor"] = "rbxassetid://7733911490",
-    ["shield"] = "rbxassetid://7734056608",
-    ["cpu"] = "rbxassetid://7733765045",
-    ["hash"] = "rbxassetid://7733955906",
-    ["key"] = "rbxassetid://7733965118",
-    ["move"] = "rbxassetid://7743870731",
-    ["trash"] = "rbxassetid://7743873871",
-    ["wifi"] = "rbxassetid://7743878148",
-    ["wrench"] = "rbxassetid://7743878358",
-    ["alert-circle"] = "rbxassetid://7733911490",
-    ["shrub"] = "rbxassetid://7733924216",
-    ["droplet"] = "rbxassetid://7733924216",
-    ["plus"] = "rbxassetid://7734042493",
-    ["eye"] = "rbxassetid://7733774602",
-    ["eye-off"] = "rbxassetid://7733774495",
-    ["shield-check"] = "rbxassetid://7734056411",
-    ["toggle-left"] = "rbxassetid://7734091286",
-    ["toggle-right"] = "rbxassetid://7743873539",
-    ["mouse-pointer"] = "rbxassetid://7743870392",
-    ["globe"] = "rbxassetid://7733954760",
-    ["compass"] = "rbxassetid://7733924216",
-    ["activity"] = "rbxassetid://7733655755",
-    ["command"] = "rbxassetid://7733924046",
-    ["terminal"] = "rbxassetid://7743872929",
-    ["folder"] = "rbxassetid://7733799185",
-    ["bell"] = "rbxassetid://7733911828",
-    ["trash-2"] = "rbxassetid://7743873772",
-    ["unlock"] = "rbxassetid://7743875263",
-    ["minimize-2"] = "rbxassetid://7733997870",
-    ["maximize-2"] = "rbxassetid://7733992901",
-    ["chevron-left"] = "rbxassetid://7733717651",
-    ["chevron-right"] = "rbxassetid://7733717755",
-    ["chevron-up"] = "rbxassetid://7733919605",
-    ["chevron-down"] = "rbxassetid://7733717447",
-    ["search"] = "rbxassetid://7734052925",
-    ["minus"] = "rbxassetid://7734000129",
-    ["power"] = "rbxassetid://7734042493",
-    ["atom"] = "rbxassetid://7733765045",
-    ["refreshCw"] = "rbxassetid://7734051052",
-    ["alertTriangle"] = "rbxassetid://7733911490",
-    ["alertCircle"] = "rbxassetid://7733911490",
-    ["barChart2"] = "rbxassetid://7734058803",
-    ["userX"] = "rbxassetid://7743875962",
-    ["mapPin"] = "rbxassetid://7743872758",
-    ["shoppingCart"] = "rbxassetid://7733799185",
-    ["rotateCcw"] = "rbxassetid://7734051052",
-    ["cloudLightning"] = "rbxassetid://7733911490",
-    ["trendingUp"] = "rbxassetid://7734058803",
+
+local IconModule = {
+	IconsType = "lucide",
+	New = nil,
+	IconThemeTag = nil,
+	Icons = {},
 }
 
--- ============================================================
--- SAFE NETWORK & ICON LOADING SYSTEM (Anti-HttpError)
--- ============================================================
-local SafeNetwork = {}
+IconModule.Icons.lucide = {
+	["home"] = "rbxassetid://7733960981",
+	["settings"] = "rbxassetid://7734053495",
+	["user"] = "rbxassetid://7743875962",
+	["eye"] = "rbxassetid://7733774602",
+	["eye-off"] = "rbxassetid://7733774495",
+	["shield"] = "rbxassetid://7734056608",
+	["shield-check"] = "rbxassetid://7734056411",
+	["search"] = "rbxassetid://7734052925",
+	["chevron-down"] = "rbxassetid://7733717447",
+	["chevron-right"] = "rbxassetid://7733717755",
+	["chevron-up"] = "rbxassetid://7733919605",
+	["chevron-left"] = "rbxassetid://7733717651",
+	["x"] = "rbxassetid://7743878857",
+	["minus"] = "rbxassetid://7734000129",
+	["maximize"] = "rbxassetid://7733992982",
+	["maximize-2"] = "rbxassetid://7733992901",
+	["minimize"] = "rbxassetid://7733997941",
+	["minimize-2"] = "rbxassetid://7733997870",
+	["moon"] = "rbxassetid://7743870134",
+	["sun"] = "rbxassetid://7734068495",
+	["palette"] = "rbxassetid://7734021595",
+	["sliders"] = "rbxassetid://7734058803",
+	["toggle-left"] = "rbxassetid://7734091286",
+	["toggle-right"] = "rbxassetid://7743873539",
+	["type"] = "rbxassetid://7743874740",
+	["mouse-pointer"] = "rbxassetid://7743870392",
+	["layers"] = "rbxassetid://7743868936",
+	["command"] = "rbxassetid://7733924046",
+	["star"] = "rbxassetid://7734068321",
+	["bell"] = "rbxassetid://7733911828",
+	["folder"] = "rbxassetid://7733799185",
+	["terminal"] = "rbxassetid://7743872929",
+	["activity"] = "rbxassetid://7733655755",
+	["target"] = "rbxassetid://7743872758",
+	["anchor"] = "rbxassetid://7733911490",
+	["compass"] = "rbxassetid://7733924216",
+	["cpu"] = "rbxassetid://7733765045",
+	["globe"] = "rbxassetid://7733954760",
+	["hash"] = "rbxassetid://7733955906",
+	["key"] = "rbxassetid://7733965118",
+	["lock"] = "rbxassetid://7733992528",
+	["unlock"] = "rbxassetid://7743875263",
+	["move"] = "rbxassetid://7743870731",
+	["power"] = "rbxassetid://7734042493",
+	["refresh-cw"] = "rbxassetid://7734051052",
+	["trash"] = "rbxassetid://7743873871",
+	["trash-2"] = "rbxassetid://7743873772",
+	["wifi"] = "rbxassetid://7743878148",
+	["wrench"] = "rbxassetid://7743878358",
+	["check"] = "rbxassetid://7733715400",
+	["alert-circle"] = "rbxassetid://7733911490",
+	["info"] = "rbxassetid://7733960981",
+	["alert-triangle"] = "rbxassetid://7733911490",
+	["bot"] = "rbxassetid://7733924046",
+	["fish"] = "rbxassetid://7733954760",
+	["droplets"] = "rbxassetid://7733924216",
+	["map-pin"] = "rbxassetid://7743872758",
+	["shopping-cart"] = "rbxassetid://7733799185",
+	["calendar"] = "rbxassetid://7733911828",
+	["repeat"] = "rbxassetid://7734051052",
+	["scroll"] = "rbxassetid://7743874740",
+	["bar-chart-2"] = "rbxassetid://7734058803",
+	["smile"] = "rbxassetid://7743875962",
+	["sword"] = "rbxassetid://7743872758",
+	["gem"] = "rbxassetid://7734068321",
+	["sparkles"] = "rbxassetid://7734068321",
+	["egg"] = "rbxassetid://7733911828",
+	["heart"] = "rbxassetid://7734068321",
+	["cloud"] = "rbxassetid://7733954760",
+	["flame"] = "rbxassetid://7733911490",
+	["leaf"] = "rbxassetid://7733924216",
+	["candy"] = "rbxassetid://7733911828",
+	["rainbow"] = "rbxassetid://7734068321",
+	["code"] = "rbxassetid://7743872929",
+	["wand"] = "rbxassetid://7733965118",
+	["dna"] = "rbxassetid://7733765045",
+	["clover"] = "rbxassetid://7733924216",
+	["coins"] = "rbxassetid://7733954760",
+	["skull"] = "rbxassetid://7733911490",
+	["zap"] = "rbxassetid://7733765045",
+	["telescope"] = "rbxassetid://7733924216",
+	["cloud-lightning"] = "rbxassetid://7733911490",
+	["trending-up"] = "rbxassetid://7734058803",
+	["bug"] = "rbxassetid://7733924046",
+	["waves"] = "rbxassetid://7733954760",
+	["camera"] = "rbxassetid://7733774602",
+	["box"] = "rbxassetid://7733799185",
+	["clock"] = "rbxassetid://7733911828",
+	["rotate-ccw"] = "rbxassetid://7734051052",
+	["thumbs-up"] = "rbxassetid://7733715400",
+	["atom"] = "rbxassetid://7733765045",
+	["shrub"] = "rbxassetid://7733924216",
+	["droplet"] = "rbxassetid://7733924216",
+	["plus"] = "rbxassetid://7734042493",
+}
+
+local function parseIconString(iconString)
+	if type(iconString) == "string" then
+		local splitIndex = iconString:find(":")
+		if splitIndex then
+			local iconType = iconString:sub(1, splitIndex - 1)
+			local iconName = iconString:sub(splitIndex + 1)
+			return iconType, iconName
+		end
+	end
+	return nil, iconString
+end
+
+function IconModule.SetIconsType(iconType)
+	IconModule.IconsType = iconType
+end
+
+function IconModule.Init(New, IconThemeTag)
+	IconModule.New = New
+	IconModule.IconThemeTag = IconThemeTag
+	return IconModule
+end
+
+function IconModule.GetIcon(Icon, Type)
+	local iconType, iconName = parseIconString(Icon)
+	local targetType = iconType or Type or IconModule.IconsType
+	local targetName = iconName
+	local iconSet = IconModule.Icons[targetType]
+	if iconSet and iconSet[targetName] then
+		return iconSet[targetName]
+	end
+	return nil
+end
+
+function IconModule.Icon2(Icon, Type)
+	local result = IconModule.GetIcon(Icon, Type)
+	if result then
+		return {result, {ImageRectSize = Vector2.new(0, 0), ImageRectPosition = Vector2.new(0, 0)}}
+	end
+	return nil
+end
+
+function IconModule.Image(IconConfig)
+	local Icon = {
+		Icon = IconConfig.Icon or nil,
+		Type = IconConfig.Type,
+		Colors = IconConfig.Colors or {Color3.new(1, 1, 1), Color3.new(1, 1, 1)},
+		Size = IconConfig.Size or UDim2.new(0, 24, 0, 24),
+		IconFrame = nil,
+	}
+	local Colors = {}
+	for _, color in next, Icon.Colors do
+		Colors[_] = {
+			ThemeTag = typeof(color) == "string" and color,
+			Color = typeof(color) == "Color3" and color,
+		}
+	end
+	local IconLabel = IconModule.Icon2(Icon.Icon, Icon.Type)
+	local isrbxassetid = typeof(IconLabel) == "string" and string.find(IconLabel, "rbxassetid://")
+	if IconModule.New then
+		local New = IconModule.New
+		local IconFrame = New("ImageLabel", {
+			Size = Icon.Size,
+			BackgroundTransparency = 1,
+			ImageColor3 = Colors[1].Color or nil,
+			ThemeTag = Colors[1].ThemeTag and {ImageColor3 = Colors[1].ThemeTag},
+			Image = isrbxassetid and IconLabel or IconLabel[1],
+			ImageRectSize = isrbxassetid and nil or IconLabel[2].ImageRectSize,
+			ImageRectOffset = isrbxassetid and nil or IconLabel[2].ImageRectPosition,
+		})
+		Icon.IconFrame = IconFrame
+	else
+		local IconFrame = Instance.new("ImageLabel")
+		IconFrame.Size = Icon.Size
+		IconFrame.BackgroundTransparency = 1
+		IconFrame.ImageColor3 = Colors[1].Color
+		IconFrame.Image = isrbxassetid and IconLabel or IconLabel[1]
+		IconFrame.ImageRectSize = isrbxassetid and nil or IconLabel[2].ImageRectSize
+		IconFrame.ImageRectOffset = isrbxassetid and nil or IconLabel[2].ImageRectPosition
+		Icon.IconFrame = IconFrame
+	end
+	return Icon
+end
+
+return IconModule
+
+
+
+
 local IconCache = {}
 local IconLoadQueue = {}
 local IconLoadInProgress = false
 local FALLBACK_ICON = "rbxassetid://7733960981"
+local FailedIcons = {}
 
-function SafeNetwork.SafeJSONDecode(str)
-    if not str or str == "" then return nil end
-    local success, result = pcall(function() return HttpService:JSONDecode(str) end)
-    if success then return result end
-    return nil
+local function SafeJSONDecode(str)
+	if not str or str == "" then return nil end
+	local success, result = pcall(function() return HttpService:JSONDecode(str) end)
+	if success then return result end
+	return nil
 end
 
-function SafeNetwork.SafeJSONEncode(data)
-    local success, result = pcall(function() return HttpService:JSONEncode(data) end)
-    if success then return result end
-    return nil
+local function SafeJSONEncode(data)
+	local success, result = pcall(function() return HttpService:JSONEncode(data) end)
+	if success then return result end
+	return nil
 end
 
 local function SafeGetIcon(name)
-    if not name then return FALLBACK_ICON end
-    if IconCache[name] then return IconCache[name] end
-    if type(name) == "string" then
-        if name:sub(1, 13) == "rbxassetid://" or name:sub(1, 4) == "http" then
-            local id = name:sub(14):match("^(%d+)")
-            if id then
-                IconCache[name] = name
-                return name
-            end
-            return FALLBACK_ICON
-        end
-    end
-    if Icons[name] then
-        IconCache[name] = Icons[name]
-        return Icons[name]
-    end
-    return FALLBACK_ICON
+	if not name then return FALLBACK_ICON end
+	if IconCache[name] then return IconCache[name] end
+	if FailedIcons[name] then return FALLBACK_ICON end
+	local iconResult = IconModule.GetIcon(name)
+	if iconResult then
+		IconCache[name] = iconResult
+		return iconResult
+	end
+	if type(name) == "string" then
+		if name:sub(1, 13) == "rbxassetid://" or name:sub(1, 4) == "http" then
+			local id = name:sub(14):match("^(%d+)")
+			if id then
+				IconCache[name] = name
+				return name
+			end
+			return FALLBACK_ICON
+		end
+	end
+	return FALLBACK_ICON
 end
 
 local function SafeSetImage(imageLabel, iconName, delayMs)
-    if not imageLabel or not imageLabel.Parent then return end
-    delayMs = delayMs or 50
-    local iconId = SafeGetIcon(iconName)
-    if type(iconId) == "string" and (iconId:sub(1, 13) == "rbxassetid://" or iconId:sub(1, 4) == "http") then
-        imageLabel.Image = FALLBACK_ICON
-        table.insert(IconLoadQueue, {Label = imageLabel, Icon = iconId, Time = tick() + (delayMs / 1000)})
-        if not IconLoadInProgress then
-            IconLoadInProgress = true
-            task.spawn(function()
-                while #IconLoadQueue > 0 do
-                    local now = tick()
-                    local i = 1
-                    while i <= #IconLoadQueue do
-                        local item = IconLoadQueue[i]
-                        if now >= item.Time then
-                            if item.Label and item.Label.Parent then
-                                pcall(function() item.Label.Image = item.Icon end)
-                            end
-                            table.remove(IconLoadQueue, i)
-                        else
-                            i = i + 1
-                        end
-                    end
-                    task.wait(0.05)
-                end
-                IconLoadInProgress = false
-            end)
-        end
-    else
-        imageLabel.Image = iconId
-    end
+	if not imageLabel or not imageLabel.Parent then return end
+	delayMs = delayMs or 50
+	local iconId = SafeGetIcon(iconName)
+	if FailedIcons[iconId] then
+		imageLabel.Image = FALLBACK_ICON
+		return
+	end
+	if type(iconId) == "string" and (iconId:sub(1, 13) == "rbxassetid://" or iconId:sub(1, 4) == "http") then
+		imageLabel.Image = FALLBACK_ICON
+		table.insert(IconLoadQueue, {
+			Label = imageLabel,
+			Icon = iconId,
+			Time = tick() + (delayMs / 1000),
+			Attempts = 0
+		})
+		if not IconLoadInProgress then
+			IconLoadInProgress = true
+			task.spawn(function()
+				while #IconLoadQueue > 0 do
+					local now = tick()
+					local i = 1
+					while i <= #IconLoadQueue do
+						local item = IconLoadQueue[i]
+						if now >= item.Time then
+							if item.Label and item.Label.Parent then
+								local success = pcall(function()
+									item.Label.Image = item.Icon
+								end)
+								if not success then
+									item.Attempts = item.Attempts + 1
+									if item.Attempts < 3 then
+										item.Time = now + (1 * item.Attempts)
+										i = i + 1
+									else
+										FailedIcons[item.Icon] = true
+									end
+								else
+									table.remove(IconLoadQueue, i)
+								end
+							else
+								table.remove(IconLoadQueue, i)
+							end
+						else
+							i = i + 1
+						end
+					end
+					task.wait(0.05)
+				end
+				IconLoadInProgress = false
+			end)
+		end
+	else
+		imageLabel.Image = iconId
+	end
 end
 
 local function PreloadIconsBatch()
-    task.defer(function()
-        local critical = {"atom","Custom","Home","Settings","User","Search","ChevronDown","X","Check","Info"}
-        local list = {}
-        for _, n in ipairs(critical) do
-            local id = Icons[n]
-            if id and id:sub(1, 13) == "rbxassetid://" then
-                table.insert(list, id)
-            end
-        end
-        if #list > 0 then
-            pcall(function() ContentProvider:PreloadAsync(list) end)
-        end
-    end)
+	task.defer(function()
+		local critical = {"atom","home","settings","user","search","chevron-down","x","check","info","minus","maximize-2"}
+		local list = {}
+		for _, n in ipairs(critical) do
+			local id = SafeGetIcon(n)
+			if id and id:sub(1, 13) == "rbxassetid://" then
+				table.insert(list, id)
+			end
+		end
+		if #list > 0 then
+			for _, assetId in ipairs(list) do
+				pcall(function()
+					ContentProvider:PreloadAsync({assetId})
+				end)
+				task.wait(0.1)
+			end
+		end
+	end)
 end
 
--- ============================================================
+local _origWarn = warn
+local _netPatterns = {"HttpError:","DnsResolve","ConnectFail","Request failed","Unable to download","Failed to load"}
+local _errorCache = {}
+function warn(...)
+	local msg = tostring(...)
+	for _, p in ipairs(_netPatterns) do
+		if msg:find(p, 1, true) then
+			if not _errorCache[msg] then
+				_errorCache[msg] = true
+				_origWarn("[Network Error Suppressed] " .. msg:sub(1, 60))
+			end
+			return
+		end
+	end
+	_origWarn(...)
+end
 
 local function Create(className, properties)
     local instance = Instance.new(className)
@@ -386,7 +465,12 @@ local function Round(number, precision)
 end
 
 local function GetIcon(name)
-    return SafeGetIcon(name)
+    if not name then return FALLBACK_ICON end
+    if Icons[name] then return Icons[name] end
+    if type(name) == "string" and (name:sub(1, 13) == "rbxassetid://" or name:sub(1, 4) == "http") then
+        return name
+    end
+    return FALLBACK_ICON
 end
 
 local function NormalizeOption(opt)
@@ -454,23 +538,29 @@ function ConfigManager.new(windowName)
 end
 
 function ConfigManager:Load()
-    if typeof(readfile) ~= "function" then return false end
-    local ok, content = pcall(readfile, self.Path)
-    if ok and content and content ~= "" then
-        local data = SafeNetwork.SafeJSONDecode(content)
-        if type(data) == "table" then
-            self.Data = data
-            return true
+    if typeof(readfile) == "function" then
+        local ok, content = pcall(readfile, self.Path)
+        if ok and content and content ~= "" then
+            local ok2, data = pcall(function()
+                return HttpService:JSONDecode(content)
+            end)
+            if ok2 and type(data) == "table" then
+                self.Data = data
+                return true
+            end
         end
     end
     return false
 end
 
 function ConfigManager:Save()
-    if typeof(writefile) ~= "function" then return end
-    local content = SafeNetwork.SafeJSONEncode(self.Data)
-    if content then
-        pcall(writefile, self.Path, content)
+    if typeof(writefile) == "function" then
+        local ok, content = pcall(function()
+            return HttpService:JSONEncode(self.Data)
+        end)
+        if ok then
+            pcall(writefile, self.Path, content)
+        end
     end
 end
 
@@ -551,7 +641,7 @@ function Quantum:Notify(data)
     local content = data.Content or ""
     local duration = data.Duration or 3
     local icon = data.Icon or "Info"
-    local iconId = GetIcon(icon)
+    local iconId = SafeGetIcon(icon)
 
     InitNotify()
 
@@ -570,11 +660,10 @@ function Quantum:Notify(data)
         Size = UDim2.new(0, 18, 0, 18),
         Position = UDim2.new(0, 6, 0, 6),
         BackgroundTransparency = 1,
-        Image = FALLBACK_ICON,
+        Image = iconId,
         ImageColor3 = CurrentTheme.Accent,
         ZIndex = 202,
     })
-    SafeSetImage(IconImg, icon, 100)
 
     local TitleLbl = Create("TextLabel", {
         Parent = notifFrame,
@@ -642,7 +731,7 @@ local function CreateFloatingIcon(customIcon)
         FloatingIconScreen:Destroy()
     end
 
-    local iconToUse = customIcon or Icons.Custom
+    local iconToUse = customIcon or SafeGetIcon("Custom")
 
     FloatingIconScreen = Create("ScreenGui", {
         Name = "QuantumFloatingIcon",
@@ -679,7 +768,6 @@ local function CreateFloatingIcon(customIcon)
     })
 
     local isCustomImage = customIcon ~= nil
-    local iconToUse = isCustomImage and customIcon or SafeGetIcon("Custom")
     local Icon = Create("ImageLabel", {
         Name = "Icon",
         Parent = Backdrop,
@@ -687,12 +775,11 @@ local function CreateFloatingIcon(customIcon)
         Position = UDim2.new(0.5, 0, 0.5, 0),
         Size = UDim2.new(0, 22, 0, 22),
         BackgroundTransparency = 1,
-        Image = FALLBACK_ICON,
+        Image = iconToUse,
         ImageColor3 = isCustomImage and Color3.fromRGB(255, 255, 255) or CurrentTheme.Text,
         ScaleType = Enum.ScaleType.Fit,
         ZIndex = 1001
     })
-    SafeSetImage(Icon, iconToUse, 200)
 
     local mouseDownOnIcon = false
     local isDragging = false
@@ -861,11 +948,11 @@ function Quantum:CreateWindow(data)
         Position = UDim2.new(0, 10, 0, 8),
         BackgroundTransparency = 1,
         Image = FALLBACK_ICON,
+				SafeSetImage(IconImg, "atom", 50)
         ImageColor3 = CurrentTheme.Accent,
         ScaleType = Enum.ScaleType.Fit,
         ZIndex = 21
     })
-    SafeSetImage(TitleIcon, "atom", 300)
 
     local Title = Create("TextLabel", {
         Name = "Title",
@@ -928,17 +1015,10 @@ function Quantum:CreateWindow(data)
         Size = UDim2.new(1, -4, 1, -4),
         Position = UDim2.new(0, 2, 0, 2),
         BackgroundTransparency = 1,
-        Image = "",
+        Image = "rbxthumb://type=AvatarHeadShot&id=" .. LocalPlayer.UserId .. "&w=48&h=48",
         ZIndex = 23
     })
     Create("UICorner", {CornerRadius = UDim.new(0, 5), Parent = ProfileImg})
-    task.delay(1, function()
-        if ProfileImg and ProfileImg.Parent then
-            pcall(function()
-                ProfileImg.Image = "rbxthumb://type=AvatarHeadShot&id=" .. LocalPlayer.UserId .. "&w=48&h=48"
-            end)
-        end
-    end)
 
     local ProfileName = Create("TextLabel", {
         Name = "ProfileName",
@@ -1061,7 +1141,7 @@ function Quantum:CreateWindow(data)
             Position = pos,
             BackgroundColor3 = CurrentTheme.Element,
             AutoButtonColor = false,
-            Image = GetIcon(icon),
+            Image = FALLBACK_ICON,
             ImageColor3 = CurrentTheme.SubText,
             ZIndex = 22
         })
@@ -1147,10 +1227,10 @@ function Quantum:CreateWindow(data)
         Position = UDim2.new(0, 6, 0.5, -6),
         BackgroundTransparency = 1,
         Image = FALLBACK_ICON,
+				SafeSetImage(IconImg, "Search", 50)
         ImageColor3 = CurrentTheme.SubText,
         ZIndex = 17
     })
-    SafeSetImage(SearchIcon, "Search", 400)
 
     local SearchBox = Create("TextBox", {
         Parent = SearchFrame,
@@ -1215,7 +1295,8 @@ function Quantum:CreateWindow(data)
         Size = UDim2.new(0, 20, 0, 20),
         Position = UDim2.new(1, -18, 1, -18),
         BackgroundTransparency = 1,
-        Image = GetIcon("ChevronLeft"),
+        Image = FALLBACK_ICON,
+				SafeSetImage(IconImg, "ChevronLeft", 50)
         ImageColor3 = CurrentTheme.SubText,
         ImageTransparency = 0.4,
         Rotation = -45,
@@ -1360,7 +1441,6 @@ function Quantum:CreateWindow(data)
             ImageColor3 = CurrentTheme.SubText,
             ZIndex = 18
         })
-        SafeSetImage(TabBtnIcon, tabIcon, 500 + (#Tabs * 50))
 
         local TabBtnText = Create("TextLabel", {
             Parent = TabBtn,
@@ -1495,7 +1575,7 @@ function Quantum:CreateWindow(data)
             })
             Create("UICorner", {CornerRadius = UDim.new(0, Config.ElementCorner), Parent = SectionHeader})
 
-            local SectionIconImg = Create("ImageLabel", {
+            Create("ImageLabel", {
                 Parent = SectionHeader,
                 Size = UDim2.new(0, 16, 0, 16),
                 Position = UDim2.new(0, 10, 0.5, -8),
@@ -1504,7 +1584,6 @@ function Quantum:CreateWindow(data)
                 ImageColor3 = CurrentTheme.Accent,
                 ZIndex = 18
             })
-            SafeSetImage(SectionIconImg, sectionIcon, 600)
 
             Create("TextLabel", {
                 Parent = SectionHeader,
@@ -1524,7 +1603,8 @@ function Quantum:CreateWindow(data)
                 Size = UDim2.new(0, 12, 0, 12),
                 Position = UDim2.new(1, -28, 0.5, -6),
                 BackgroundTransparency = 1,
-                Image = GetIcon("ChevronDown"),
+                Image = FALLBACK_ICON,
+				SafeSetImage(IconImg, "ChevronDown", 50)
                 ImageColor3 = CurrentTheme.SubText,
                 ZIndex = 18
             })
@@ -1635,7 +1715,7 @@ function Quantum:CreateWindow(data)
                     Size = UDim2.new(0, 10, 0, 10),
                     Position = UDim2.new(0, 7, 0, hasDesc and 5 or 7),
                     BackgroundTransparency = 1,
-                    Image = GetIcon(toggleIcon),
+                    Image = FALLBACK_ICON,
                     ImageColor3 = CurrentTheme.SubText,
                     ZIndex = 19
                 })
@@ -1773,7 +1853,7 @@ function Quantum:CreateWindow(data)
                     Size = UDim2.new(0, 10, 0, 10),
                     Position = UDim2.new(0, 7, 0, hasDesc and 5 or 5),
                     BackgroundTransparency = 1,
-                    Image = GetIcon(sliderIcon),
+                    Image = FALLBACK_ICON,
                     ImageColor3 = CurrentTheme.SubText,
                     ZIndex = 19
                 })
@@ -1936,7 +2016,7 @@ function Quantum:CreateWindow(data)
                     Size = UDim2.new(0, 10, 0, 10),
                     Position = UDim2.new(0, 7, 0, hasDesc and 5 or 5),
                     BackgroundTransparency = 1,
-                    Image = GetIcon(buttonIcon),
+                    Image = FALLBACK_ICON,
                     ImageColor3 = CurrentTheme.Text,
                     ZIndex = 19
                 })
@@ -2021,7 +2101,7 @@ function Quantum:CreateWindow(data)
                     Size = UDim2.new(0, 10, 0, 10),
                     Position = UDim2.new(0, 7, 0, hasDesc and 5 or 5),
                     BackgroundTransparency = 1,
-                    Image = GetIcon(dropdownIcon),
+                    Image = FALLBACK_ICON,
                     ImageColor3 = CurrentTheme.SubText,
                     ZIndex = 19
                 })
@@ -2075,7 +2155,8 @@ function Quantum:CreateWindow(data)
                     Size = UDim2.new(0, 12, 0, 12),
                     Position = UDim2.new(1, -16, 0.5, -6),
                     BackgroundTransparency = 1,
-                    Image = GetIcon("ChevronDown"),
+                    Image = FALLBACK_ICON,
+				SafeSetImage(IconImg, "ChevronDown", 50)
                     ImageColor3 = CurrentTheme.SubText,
                     ZIndex = 20
                 })
@@ -2126,7 +2207,8 @@ function Quantum:CreateWindow(data)
                     Size = UDim2.new(0, 12, 0, 12),
                     Position = UDim2.new(1, -16, 0.5, -6),
                     BackgroundTransparency = 1,
-                    Image = GetIcon("Search"),
+                    Image = FALLBACK_ICON,
+				SafeSetImage(IconImg, "Search", 50)
                     ImageColor3 = CurrentTheme.SubText,
                     ZIndex = 32
                 })
@@ -2179,7 +2261,7 @@ function Quantum:CreateWindow(data)
                                     Size = UDim2.new(0, 10, 0, 10),
                                     Position = UDim2.new(0, 5, 0.5, -5),
                                     BackgroundTransparency = 1,
-                                    Image = GetIcon(optIcon),
+                                    Image = FALLBACK_ICON,
                                     ImageColor3 = CurrentTheme.SubText,
                                     ZIndex = 33,
                                 })
@@ -2394,7 +2476,7 @@ function Quantum:CreateWindow(data)
                     Size = UDim2.new(0, 10, 0, 10),
                     Position = UDim2.new(0, 7, 0, hasDesc and 5 or 5),
                     BackgroundTransparency = 1,
-                    Image = GetIcon(dropdownIcon),
+                    Image = FALLBACK_ICON,
                     ImageColor3 = CurrentTheme.SubText,
                     ZIndex = 19
                 })
@@ -2448,7 +2530,8 @@ function Quantum:CreateWindow(data)
                     Size = UDim2.new(0, 10, 0, 10),
                     Position = UDim2.new(1, -14, 0.5, -4),
                     BackgroundTransparency = 1,
-                    Image = GetIcon("ChevronDown"),
+                    Image = FALLBACK_ICON,
+				SafeSetImage(IconImg, "ChevronDown", 50)
                     ImageColor3 = CurrentTheme.SubText,
                     ZIndex = 20
                 })
@@ -2512,7 +2595,8 @@ function Quantum:CreateWindow(data)
                     Size = UDim2.new(0, 10, 0, 10),
                     Position = UDim2.new(1, -14, 0.5, -4),
                     BackgroundTransparency = 1,
-                    Image = GetIcon("Search"),
+                    Image = FALLBACK_ICON,
+				SafeSetImage(IconImg, "Search", 50)
                     ImageColor3 = CurrentTheme.SubText,
                     ZIndex = 32
                 })
@@ -2579,7 +2663,8 @@ function Quantum:CreateWindow(data)
                             Size = UDim2.new(0, 10, 0, 10),
                             Position = UDim2.new(0.5, -5, 0.5, -5),
                             BackgroundTransparency = 1,
-                            Image = GetIcon("Check"),
+                            Image = FALLBACK_ICON,
+				SafeSetImage(IconImg, "Check", 50)
                             ImageColor3 = CurrentTheme.Accent,
                             ZIndex = 34,
                             Visible = IsSelected(opt),
@@ -2592,7 +2677,8 @@ function Quantum:CreateWindow(data)
                                 Size = UDim2.new(0, 10, 0, 10),
                                 Position = UDim2.new(0, 20, 0.5, -5),
                                 BackgroundTransparency = 1,
-                                Image = GetIcon(optIcon),
+                                Image = FALLBACK_ICON,
+                                SafeSetImage(textX, optIcon, 50)
                                 ImageColor3 = CurrentTheme.SubText,
                                 ZIndex = 33,
                             })
@@ -2812,7 +2898,7 @@ function Quantum:CreateWindow(data)
                     Size = UDim2.new(0, 10, 0, 10),
                     Position = UDim2.new(0, 7, 0, hasDesc and 5 or 5),
                     BackgroundTransparency = 1,
-                    Image = GetIcon(inputIcon),
+                    Image = FALLBACK_ICON,
                     ImageColor3 = CurrentTheme.SubText,
                     ZIndex = 19
                 })
@@ -2909,7 +2995,7 @@ function Quantum:CreateWindow(data)
                     Size = UDim2.new(0, 10, 0, 10),
                     Position = UDim2.new(0, 7, 0, hasDesc and 5 or 5),
                     BackgroundTransparency = 1,
-                    Image = GetIcon(bindIcon),
+                    Image = FALLBACK_ICON,
                     ImageColor3 = CurrentTheme.SubText,
                     ZIndex = 19
                 })
@@ -3009,7 +3095,7 @@ function Quantum:CreateWindow(data)
                     Size = UDim2.new(0, 10, 0, 10),
                     Position = UDim2.new(0, 7, 0.5, -8),
                     BackgroundTransparency = 1,
-                    Image = GetIcon(labelIcon),
+                    Image = FALLBACK_ICON,
                     ImageColor3 = CurrentTheme.SubText,
                     ZIndex = 19
                 })
@@ -3059,7 +3145,7 @@ function Quantum:CreateWindow(data)
                     Size = UDim2.new(0, 10, 0, 10),
                     Position = UDim2.new(0, 7, 0, 8),
                     BackgroundTransparency = 1,
-                    Image = GetIcon(icon),
+                    Image = FALLBACK_ICON,
                     ImageColor3 = CurrentTheme.Accent,
                     ZIndex = 19
                 })
@@ -3167,7 +3253,7 @@ function Quantum:CreateWindow(data)
                     Size = UDim2.new(0, 10, 0, 10),
                     Position = UDim2.new(0, 7, 0, hasDesc and 5 or 5),
                     BackgroundTransparency = 1,
-                    Image = GetIcon(pickerIcon),
+                    Image = FALLBACK_ICON,
                     ImageColor3 = CurrentTheme.SubText,
                     ZIndex = 19
                 })
@@ -3364,7 +3450,7 @@ function Quantum:CreateWindow(data)
                     Size = UDim2.new(0, 10, 0, 10),
                     Position = UDim2.new(0, 16, 0.5, -5),
                     BackgroundTransparency = 1,
-                    Image = GetIcon(statusIcon),
+                    Image = FALLBACK_ICON,
                     ImageColor3 = statusColor,
                     ZIndex = 19
                 })
@@ -3397,12 +3483,12 @@ function Quantum:CreateWindow(data)
                             Dot.BackgroundColor3 = data.Color
                             IconImg.ImageColor3 = data.Color
                         end
-                        if data.Icon then IconImg.Image = GetIcon(data.Icon) end
+                        SafeSetImage(IconImg, data.Icon, 50)
                     end
                 end
                 function StatusAPI:SetText(t) StatusLabel.Text = t end
                 function StatusAPI:SetColor(c) Dot.BackgroundColor3 = c; IconImg.ImageColor3 = c end
-                function StatusAPI:SetIcon(i) IconImg.Image = GetIcon(i) end
+                SafeSetImage(IconImg, i, 50)
                 function StatusAPI:Get() return StatusLabel.Text end
                 return StatusAPI
             end
