@@ -589,6 +589,56 @@ function ConfigManager:BindElement(key, elementType, getValueFunc, setValueFunc)
     end
 end
 
+function ConfigManager:GetConfigList()
+    local list = {}
+    if typeof(listfiles) == "function" then
+        local ok, files = pcall(listfiles, "")
+        if ok and files then
+            local prefix = self.WindowName .. "_Config_"
+            for _, f in ipairs(files) do
+                local name = f:match(prefix .. "([^/\]+)%.json$")
+                if name then table.insert(list, name) end
+            end
+        end
+    end
+    return list
+end
+
+function ConfigManager:DeleteConfig(name)
+    if typeof(delfile) == "function" then
+        pcall(delfile, self.WindowName .. "_Config_" .. name .. ".json")
+    end
+end
+
+function ConfigManager:LoadConfig(name)
+    if typeof(readfile) == "function" then
+        local ok, content = pcall(readfile, self.WindowName .. "_Config_" .. name .. ".json")
+        if ok and content then
+            local ok2, data = pcall(function() return HttpService:JSONDecode(content) end)
+            if ok2 and type(data) == "table" then
+                self.Data = data
+                -- Re-apply to bound elements
+                for key, elem in pairs(self.Elements) do
+                    if elem.Set and self.Data[key] ~= nil then
+                        pcall(function() elem.Set(self.Data[key]) end)
+                    end
+                end
+                return true
+            end
+        end
+    end
+    return false
+end
+
+function ConfigManager:SaveConfig(name)
+    if typeof(writefile) == "function" then
+        local ok, content = pcall(function() return HttpService:JSONEncode(self.Data) end)
+        if ok then
+            pcall(writefile, self.WindowName .. "_Config_" .. name .. ".json", content)
+        end
+    end
+end
+
 -- Notify System (Instant, no animation)
 local NotifyScreen = nil
 local NotifyLayout = nil
@@ -1680,7 +1730,7 @@ function Quantum:CreateWindow(data)
                 local ToggleFrame = Create("Frame", {
                     Parent = SectionItems,
                     Size = UDim2.new(1, 0, 0, frameHeight),
-                    BackgroundColor3 = CurrentTheme.Background,
+                    BackgroundColor3 = CurrentTheme.Element, -- blend with parent, no white box
                     BorderSizePixel = 0,
                     LayoutOrder = #SectionItems:GetChildren(),
                     ClipsDescendants = true,
@@ -1730,8 +1780,8 @@ function Quantum:CreateWindow(data)
 
                 local ToggleBtn = Create("Frame", {
                     Parent = ToggleFrame,
-                    Size = UDim2.new(0, 48, 0, 26),
-                    Position = UDim2.new(1, -56, 0.5, -13),
+                    Size = UDim2.new(0, 40, 0, 22), -- smaller toggle
+                    Position = UDim2.new(1, -48, 0.5, -11),
                     BackgroundColor3 = CurrentTheme.ToggleOff,
                     BorderSizePixel = 0,
                     ZIndex = 19
@@ -1740,8 +1790,8 @@ function Quantum:CreateWindow(data)
 
                 local ToggleCircle = Create("Frame", {
                     Parent = ToggleBtn,
-                    Size = UDim2.new(0, 16, 0, 16),
-                    Position = UDim2.new(0, 4, 0.5, -8),
+                    Size = UDim2.new(0, 14, 0, 14), -- smaller circle
+                    Position = UDim2.new(0, 3, 0.5, -7),
                     BackgroundColor3 = CurrentTheme.Text,
                     BorderSizePixel = 0,
                     ZIndex = 20
@@ -1759,14 +1809,14 @@ function Quantum:CreateWindow(data)
                 local state = default
                 if default then
                     ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOn
-                    ToggleCircle.Position = UDim2.new(0, 24, 0.5, -7)
+                    ToggleCircle.Position = UDim2.new(0, 20, 0.5, -7)
                 end
 
                 ToggleClick.MouseButton1Click:Connect(function()
                     state = not state
                     if state then
                         ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOn
-                        ToggleCircle.Position = UDim2.new(0, 24, 0.5, -7)
+                        ToggleCircle.Position = UDim2.new(0, 20, 0.5, -7)
                     else
                         ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOff
                         ToggleCircle.Position = UDim2.new(0, 3, 0.5, -7)
@@ -1789,7 +1839,7 @@ function Quantum:CreateWindow(data)
                         state = val
                         if state then
                             ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOn
-                            ToggleCircle.Position = UDim2.new(0, 24, 0.5, -7)
+                            ToggleCircle.Position = UDim2.new(0, 20, 0.5, -7)
                         else
                             ToggleBtn.BackgroundColor3 = CurrentTheme.ToggleOff
                             ToggleCircle.Position = UDim2.new(0, 3, 0.5, -7)
@@ -3194,8 +3244,26 @@ function Quantum:CreateWindow(data)
                     SetTitle = function(t) TitleLabel.Text = t end,
                     SetContent = function(c) ContentLabel.Text = c end,
                     SetDesc = function(c) ContentLabel.Text = c end,
+                    SetText = function(c) ContentLabel.Text = c end,
+                    Update = function(c) ContentLabel.Text = c end,
                     GetContent = function() return ContentLabel.Text end,
                 }
+                -- Proxy text properties for direct assignment compatibility
+                setmetatable(API, {
+                    __index = function(self, key)
+                        if key == "Text" or key == "Content" or key == "Desc" then
+                            return ContentLabel.Text
+                        end
+                        return nil
+                    end,
+                    __newindex = function(self, key, value)
+                        if key == "Text" or key == "Content" or key == "Desc" then
+                            ContentLabel.Text = value
+                            return
+                        end
+                        rawset(self, key, value)
+                    end
+                })
                 return API
             end
 
