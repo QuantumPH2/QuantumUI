@@ -110,9 +110,6 @@ local Config = {
     }
 }
 
--- ============================================================
--- FIXED IconModule: Lazy-loading with error handling & caching
--- ============================================================
 local cloneref = (cloneref or clonereference or function(instance)
 	return instance
 end)
@@ -158,7 +155,6 @@ local IconUrls = {
     gravity = "https://raw.githubusercontent.com/Footagesus/Icons/refs/heads/main/gravity/dist/Icons.lua",
 }
 
--- LAZY LOAD: Only fetch icons when actually requested
 function IconModule.LoadPack(packName)
     if IconModule._LoadedPacks[packName] then return true end
     if IconLoadErrors[packName] then return false end
@@ -188,7 +184,6 @@ function IconModule.LoadPack(packName)
     end
 end
 
--- Pre-load lucide in background (most commonly used)
 task.spawn(function()
     IconModule.LoadPack("lucide")
 end)
@@ -269,7 +264,6 @@ function IconModule.Icon(Icon, Type, DefaultFormat)
 	local targetType = iconType or Type or IconModule.IconsType
 	local targetName = iconName
 
-    -- LAZY LOAD: Try to load the pack if not loaded
     if not IconModule._LoadedPacks[targetType] then
         IconModule.LoadPack(targetType)
     end
@@ -373,7 +367,6 @@ function IconModule.Image(IconConfig)
 	return Icon
 end
 
--- Kebab-case converter for icon names (PascalCase/camelCase -> kebab-case)
 local function ToKebabCase(str)
 	if not str or type(str) ~= "string" then return "" end
 	str = str:gsub("(%l)(%u)", "%1-%2")
@@ -382,7 +375,6 @@ local function ToKebabCase(str)
 	return str:lower()
 end
 
--- Fallback icon IDs for critical icons if GitHub fetch fails
 local FallbackIcons = {
 	Custom = "rbxassetid://109647740279101",
 	Info = "rbxassetid://7733960981",
@@ -440,19 +432,16 @@ local FallbackIcons = {
 	AlertTriangle = "rbxassetid://7733911490",
 }
 
--- FIXED GetIcon: Removed duplicate, added caching and better error handling
 local function GetIcon(name)
 	if not name then return FallbackIcons.Info end
 	if type(name) == "string" and (name:sub(1, 13) == "rbxassetid://" or name:sub(1, 4) == "http") then
 		return name
 	end
 
-    -- Check cache first
     if CachedIcons[name] then
         return CachedIcons[name]
     end
 
-	-- Try IconModule first (dynamic GitHub icons)
 	local kebabName = ToKebabCase(name)
 	local success, iconData = pcall(function()
 		return IconModule.GetIcon(kebabName, "lucide")
@@ -463,13 +452,11 @@ local function GetIcon(name)
 		return iconData
 	end
 
-	-- Fallback to hardcoded IDs if GitHub fails or icon not found
 	if FallbackIcons[name] then
         CachedIcons[name] = FallbackIcons[name]
 		return FallbackIcons[name]
 	end
 
-	-- Last resort fallback
 	return FallbackIcons.Info
 end
 
@@ -554,7 +541,6 @@ local function RegisterDropdown(menu, arrow, btnRef)
     return data
 end
 
--- Config Manager
 local ConfigManager = {}
 ConfigManager.__index = ConfigManager
 
@@ -667,7 +653,6 @@ function ConfigManager:LoadConfig(name)
             local ok2, data = pcall(function() return HttpService:JSONDecode(content) end)
             if ok2 and type(data) == "table" then
                 self.Data = data
-                -- Re-apply to bound elements
                 for key, elem in pairs(self.Elements) do
                     if elem.Set and self.Data[key] ~= nil then
                         pcall(function() elem.Set(self.Data[key]) end)
@@ -689,7 +674,6 @@ function ConfigManager:SaveConfig(name)
     end
 end
 
--- Notify System (Instant, no animation)
 local NotifyScreen = nil
 local NotifyLayout = nil
 local ActiveNotifications = {}
@@ -824,7 +808,6 @@ local function CreateFloatingIcon(customIcon)
         Enabled = true
     })
 
-    -- Backdrop: dark rounded background, slightly bigger than the icon
     local Backdrop = Create("Frame", {
         Name = "Backdrop",
         Parent = FloatingIconScreen,
@@ -844,10 +827,25 @@ local function CreateFloatingIcon(customIcon)
     })
 
     Create("UIStroke", {
-        Color = Color3.fromRGB(0, 0, 0),
-        Thickness = 1,
-        Transparency = 0.4,
+        Color = Color3.fromRGB(12, 12, 12),
+        Thickness = 1.5,
+        Transparency = 0.1,
         Parent = Backdrop
+    })
+
+    local FloatingShadow = Create("ImageLabel", {
+        Name = "Shadow",
+        Parent = Backdrop,
+        AnchorPoint = Vector2.new(0.5, 0.5),
+        Position = UDim2.new(0.5, 0, 0.5, 0),
+        Size = UDim2.new(1, 24, 1, 24),
+        BackgroundTransparency = 1,
+        Image = "rbxassetid://10806158995",
+        ImageColor3 = Color3.fromRGB(0, 0, 0),
+        ImageTransparency = 0.2,
+        ScaleType = Enum.ScaleType.Slice,
+        SliceCenter = Rect.new(50, 50, 50, 50),
+        ZIndex = 999
     })
 
     local isCustomImage = customIcon ~= nil
@@ -856,7 +854,7 @@ local function CreateFloatingIcon(customIcon)
         Parent = Backdrop,
         AnchorPoint = Vector2.new(0.5, 0.5),
         Position = UDim2.new(0.5, 0, 0.5, 0),
-        Size = UDim2.new(0, 22, 0, 22),
+        Size = UDim2.new(0, 28, 0, 28),
         BackgroundTransparency = 1,
         Image = iconToUse,
         ImageColor3 = isCustomImage and Color3.fromRGB(255, 255, 255) or CurrentTheme.Text,
@@ -1208,55 +1206,64 @@ function Quantum:CreateWindow(data)
     local Controls = Create("Frame", {
         Name = "Controls",
         Parent = Topbar,
-        Size = UDim2.new(0, 84, 0, Config.TopbarHeight),
-        Position = UDim2.new(1, -86, 0, 0),
+        Size = UDim2.new(0, 96, 0, Config.TopbarHeight),
+        Position = UDim2.new(1, -98, 0, 0),
         BackgroundTransparency = 1,
         ZIndex = 21
     })
 
-    local function MakeControl(name, icon, pos, callback)
+    local ControlRefs = {}
+
+    local function MakeControl(name, icon, pos, callback, isClose)
         local btn = Create("ImageButton", {
             Name = name,
             Parent = Controls,
-            Size = UDim2.new(0, 22, 0, 22),
+            Size = UDim2.new(0, 26, 0, 26),
             Position = pos,
+            BackgroundTransparency = 1,
             BackgroundColor3 = CurrentTheme.Element,
             AutoButtonColor = false,
             Image = GetIcon(icon),
             ImageColor3 = CurrentTheme.SubText,
             ZIndex = 22
         })
-        Create("UICorner", {CornerRadius = UDim.new(0, 5), Parent = btn})
+        Create("UICorner", {CornerRadius = UDim.new(0, 6), Parent = btn})
+
+        local hoverBg = isClose and Color3.fromRGB(220, 60, 60) or CurrentTheme.ElementHover
+        local hoverImg = isClose and Color3.fromRGB(255, 255, 255) or CurrentTheme.Text
+
         btn.MouseEnter:Connect(function()
-            btn.BackgroundColor3 = CurrentTheme.ElementHover
+            Tween(btn, {BackgroundTransparency = 0, BackgroundColor3 = hoverBg, ImageColor3 = hoverImg}, 0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
         end)
         btn.MouseLeave:Connect(function()
-            btn.BackgroundColor3 = CurrentTheme.Element
+            Tween(btn, {BackgroundTransparency = 1, BackgroundColor3 = CurrentTheme.Element, ImageColor3 = CurrentTheme.SubText}, 0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
         end)
         btn.MouseButton1Click:Connect(callback)
+
+        ControlRefs[name] = btn
         return btn
     end
 
-    MakeControl("Minimize", "Minus", UDim2.new(0, 0, 0.5, -11), function()
+    MakeControl("Minimize", "Minus", UDim2.new(0, 4, 0.5, -13), function()
         CloseAllDropdowns()
         IsMinimized = true
         MainFrame.Visible = false
-    end)
+    end, false)
 
     local IsMaximized = false
-    MakeControl("Resize", "Maximize2", UDim2.new(0, 25, 0.5, -11), function()
+    MakeControl("Resize", "Maximize2", UDim2.new(0, 34, 0.5, -13), function()
         IsMaximized = not IsMaximized
         if IsMaximized then
             MainFrame.Size = UDim2.new(0, 400, 0, 260)
         else
             MainFrame.Size = UDim2.new(0, 320, 0, 200)
         end
-    end)
+    end, false)
 
-    MakeControl("Close", "X", UDim2.new(0, 50, 0.5, -11), function()
+    MakeControl("Close", "X", UDim2.new(0, 64, 0.5, -13), function()
         CloseAllDropdowns()
         ConfirmOverlay.Visible = true
-    end)
+    end, true)
 
     ConfirmYes.MouseButton1Click:Connect(function()
         CloseAllDropdowns()
@@ -1291,7 +1298,6 @@ function Quantum:CreateWindow(data)
         ZIndex = 15
     })
 
-    -- Search Box in Sidebar
     local SearchFrame = Create("Frame", {
         Parent = Sidebar,
         Size = UDim2.new(1, -10, 0, 30),
@@ -1482,6 +1488,17 @@ function Quantum:CreateWindow(data)
         SearchIcon.ImageColor3 = theme.SubText
         SearchBox.TextColor3 = theme.Text
         SearchBox.PlaceholderColor3 = theme.SubText
+
+        for name, btn in pairs(ControlRefs) do
+            if btn and btn.Parent then
+                btn.BackgroundColor3 = theme.Element
+                if name == "Close" then
+                    btn.ImageColor3 = theme.SubText
+                else
+                    btn.ImageColor3 = theme.SubText
+                end
+            end
+        end
     end)
 
     local WindowAPI = {}
@@ -1780,7 +1797,7 @@ function Quantum:CreateWindow(data)
                 local ToggleFrame = Create("Frame", {
                     Parent = SectionItems,
                     Size = UDim2.new(1, 0, 0, frameHeight),
-                    BackgroundColor3 = CurrentTheme.Element, -- blend with parent, no white box
+                    BackgroundColor3 = CurrentTheme.Element,
                     BorderSizePixel = 0,
                     LayoutOrder = #SectionItems:GetChildren(),
                     ClipsDescendants = true,
@@ -1830,7 +1847,7 @@ function Quantum:CreateWindow(data)
 
                 local ToggleBtn = Create("Frame", {
                     Parent = ToggleFrame,
-                    Size = UDim2.new(0, 40, 0, 22), -- smaller toggle
+                    Size = UDim2.new(0, 40, 0, 22),
                     Position = UDim2.new(1, -48, 0.5, -11),
                     BackgroundColor3 = CurrentTheme.ToggleOff,
                     BorderSizePixel = 0,
@@ -1840,7 +1857,7 @@ function Quantum:CreateWindow(data)
 
                 local ToggleCircle = Create("Frame", {
                     Parent = ToggleBtn,
-                    Size = UDim2.new(0, 14, 0, 14), -- smaller circle
+                    Size = UDim2.new(0, 14, 0, 14),
                     Position = UDim2.new(0, 3, 0.5, -7),
                     BackgroundColor3 = CurrentTheme.Text,
                     BorderSizePixel = 0,
@@ -2424,7 +2441,6 @@ function Quantum:CreateWindow(data)
                         Arrow.Rotation = 180
                         SearchBox.Text = ""
                         BuildOptions("")
-                        -- Start heartbeat to track button position while scrolling
                         ddData.HeartbeatConn = RunService.Heartbeat:Connect(function()
                             if ddData.IsOpen and DropdownBtn and DropdownBtn.Parent then
                                 UpdateMenuPosition()
@@ -2438,7 +2454,6 @@ function Quantum:CreateWindow(data)
                     end
                 end)
 
-                -- Close dropdown when scrolling the content area
                 TabContent:GetPropertyChangedSignal("CanvasPosition"):Connect(function()
                     if ddData.IsOpen then
                         ddData.IsOpen = false
@@ -2846,7 +2861,6 @@ function Quantum:CreateWindow(data)
                         Arrow.Rotation = 180
                         SearchBox.Text = ""
                         BuildOptions()
-                        -- Start heartbeat to track button position while scrolling
                         ddData.HeartbeatConn = RunService.Heartbeat:Connect(function()
                             if ddData.IsOpen and DropdownBtn and DropdownBtn.Parent then
                                 UpdateMenuPosition()
@@ -2860,7 +2874,6 @@ function Quantum:CreateWindow(data)
                     end
                 end)
 
-                -- Close dropdown when scrolling the content area
                 TabContent:GetPropertyChangedSignal("CanvasPosition"):Connect(function()
                     if ddData.IsOpen then
                         ddData.IsOpen = false
@@ -3275,7 +3288,6 @@ function Quantum:CreateWindow(data)
                     end
                 end)
 
-                -- Ensure size is correct after layout
                 task.spawn(function()
                     for i = 1, 5 do
                         task.wait(0.1)
@@ -3298,7 +3310,6 @@ function Quantum:CreateWindow(data)
                     Update = function(c) ContentLabel.Text = c end,
                     GetContent = function() return ContentLabel.Text end,
                 }
-                -- Proxy text properties for direct assignment compatibility
                 setmetatable(API, {
                     __index = function(self, key)
                         if key == "Text" or key == "Content" or key == "Desc" then
@@ -3569,7 +3580,6 @@ function Quantum:CreateWindow(data)
             return SectionAPI
         end
 
-        -- TabAPI convenience methods (WindUI-style compatibility)
         function TabAPI:Section(data)
             local sec = self:CreateSection(data)
             self._CurrentSection = sec
@@ -3639,7 +3649,6 @@ function Quantum:CreateWindow(data)
         return TabAPI
     end
 
-    -- Search functionality
     SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
         local text = SearchBox.Text:lower()
         for _, tab in ipairs(TabButtons) do
